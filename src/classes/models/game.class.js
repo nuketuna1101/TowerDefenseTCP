@@ -14,6 +14,7 @@ class Game {
     this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
+  // addUser를 하면서 gameId를 부여 세션 참가
   addUser(user) {
     if (this.users.length >= MAX_PLAYERS) {
       throw new Error('Game session is full');
@@ -60,15 +61,15 @@ class Game {
     });
   }
 
-  getAllLocation() {
-    const maxLatency = this.getMaxLatency();
+  // getAllLocation() {
+  //   const maxLatency = this.getMaxLatency();
 
-    const locationData = this.users.map((user) => {
-      const { x, y } = user.calculatePosition(maxLatency);
-      return { id: user.id, x, y };
-    });
-    return createLocationPacket(locationData);
-  }
+  //   const locationData = this.users.map((user) => {
+  //     const { x, y } = user.calculatePosition(maxLatency);
+  //     return { id: user.id, x, y };
+  //   });
+  //   return createLocationPacket(locationData);
+  // }
 }
 
 export default Game;
