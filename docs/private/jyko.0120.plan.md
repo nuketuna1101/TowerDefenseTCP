@@ -17,6 +17,22 @@ Tower 관련 담당
 
 <br>
 
+### 사용하는 packetType
+
+```js
+const PacketType = {
+    /* 중략 */
+    // 타워 구입 및 배치
+    TOWER_PURCHASE_REQUEST: 8,
+    TOWER_PURCHASE_RESPONSE: 9,
+    ADD_ENEMY_TOWER_NOTIFICATION: 10,
+    // 전투 액션
+    TOWER_ATTACK_REQUEST: 14,
+    ENEMY_TOWER_ATTACK_NOTIFICATION: 15,
+    /* 중략 */
+};
+```
+
 ---
 
 **모든 구현은 기본적으로 client단 skeleton code 기반해야 한다.**
