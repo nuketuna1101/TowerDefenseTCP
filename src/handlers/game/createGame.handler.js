@@ -7,7 +7,7 @@ import { getUserById } from '../../session/user.session.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 
-const createGameHandler = ({ socket, userId, payload }) => {
+const createGameHandler = ({ socket, userId, payload, additionalUsers = [] }) => {
   try {
     const gameId = uuidv4();
     const gameSession = addGameSession(gameId);
@@ -17,6 +17,13 @@ const createGameHandler = ({ socket, userId, payload }) => {
       throw new CustomError(ErrorCodes.USER_NOT_FOUND, '유저를 찾을 수 없습니다.');
     }
     gameSession.addUser(user);
+
+    additionalUsers.forEach((additionalUserId) => {
+      const additionalUser = getUserById(additionalUserId);
+      if(additionalUser) {
+        gameSession.addUser(additionalUser);
+      }
+    });
 
     const createGameResponse = createResponse(
       HANDLER_IDS.CREATE_GAME,
