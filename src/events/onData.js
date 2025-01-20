@@ -2,11 +2,13 @@ import { config } from '../config/config.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 import { getHandlerById } from '../handlers/index.js';
+import { getGameByUser } from '../session/game.session.js';
 import { getUserById, getUserBySocket } from '../session/user.session.js';
 import { handleError } from '../utils/error/errorHandler.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
 import { getProtoMessages } from '../init/loadProtos.js';
+import { CLIENT_VERSION } from '../constants/env.js';
 
 export const onData = (socket) => async (data) => {
   // 기존 버퍼에 새로 수신된 데이터를 추가
@@ -36,6 +38,7 @@ export const onData = (socket) => async (data) => {
               const Ping = protoMessages.common.Ping;
               const pingMessage = Ping.decode(packet);
               const user = getUserBySocket(socket);
+              const game = getGameByUser(user);
               if (!user) {
                 throw new CustomError(ErrorCodes.USER_NOT_FOUND, '유저를 찾을 수 없습니다.');
               }
@@ -43,15 +46,22 @@ export const onData = (socket) => async (data) => {
             }
             break;
           case PACKET_TYPE.NORMAL:
-            const { handlerId, sequence, payload, userId } = packetParser(packet);
-
+            const { packetType, versionLength, version, sequence, payloadLength, payload } = packetParser(packet);
+            
             const user = getUserById(userId);
             // 유저가 접속해 있는 상황에서 시퀀스 검증
             if (user && user.sequence !== sequence) {
               throw new CustomError(ErrorCodes.INVALID_SEQUENCE, '잘못된 호출 값입니다. ');
             }
 
-            const handler = getHandlerById(handlerId);
+            //버전 확인 
+            if (version == CLIENT_VERSION) {
+              throw new CustomError(ErrorCodes.CLIENT_VERSION_MISMATCH, '잘못된 호출 값입니다. ');
+            }
+            //버전 길이, 패이로드 길이 확인?
+
+            CLIENT_VERSION
+            const handler = getHandlerById(packetType);
             await handler({
               socket,
               userId,
