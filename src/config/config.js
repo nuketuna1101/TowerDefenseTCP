@@ -1,5 +1,5 @@
 import { PORT, HOST, CLIENT_VERSION } from '../constants/env.js';
-import { PACKET_TYPE_LENGTH, TOTAL_LENGTH, VERSION_LENGTH, VERSION_LENGTH_LENGTH } from '../constants/header.js';
+import { PACKET_TYPE_LENGTH, TOTAL_LENGTH, SEQUENCE_LENGTH, VERSION_LENGTH_LENGTH, PAYLOAD_LENGTH_LENGTH } from '../constants/header.js';
 import {
   DB1_NAME,
   DB1_USER,

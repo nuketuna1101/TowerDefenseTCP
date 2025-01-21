@@ -6,7 +6,7 @@ import pools from '../db/database.js';
 
 const initServer = async () => {
   try {
-    await loadGameAssets();
+    //await loadGameAssets();
     await loadProtos();
     await testAllConnections(pools);
     // 다음 작업

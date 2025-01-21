@@ -75,7 +75,9 @@ export const onData = (socket) => async (data) => {
         const handler = getHandlerById(packetType);
         await handler({
           socket,
+          userId: user.id,
           payload,
+          user,
         });
       } catch (error) {
         handleError(socket, error);

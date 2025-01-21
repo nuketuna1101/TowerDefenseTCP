@@ -18,6 +18,22 @@ const makeNotification = (message, type) => {
   return Buffer.concat([packetLength, packetType, message]);
 };
 
+export const createS2CStateSyncNotificationPacket = (user) => {
+  const protoMessages = getProtoMessages();
+  const userStateData = protoMessages.gameNotification.S2CStateSyncNotification;
+
+  const payload = { userGold: user.gold,
+    baseHp: user.baseHp,
+    monsterLevel: user.monsterLevel,
+    score: user.score,
+    towers: user.tower,
+    monsters: user.monster,
+   };
+  const message = userStateData.create(payload);
+  const userStateDataPacket = userStateData.encode(message).finish();
+  return makeNotification(userStateDataPacket, PACKET_TYPE.STATE_SYNC_NOTIFICATION);
+};
+
 export const createLocationPacket = (users) => {
   const protoMessages = getProtoMessages();
   const Location = protoMessages.gameNotification.LocationUpdate;

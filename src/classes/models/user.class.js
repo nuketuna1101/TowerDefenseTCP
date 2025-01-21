@@ -1,5 +1,6 @@
 import { createPingPacket } from '../../utils/notification/game.notification.js';
 import { userInit } from '../../constants/userConstants.js';
+import { getHandlerById } from '../../handlers/index.js';
 class User {
   constructor(id, socket) {
     this.id = id;
@@ -62,6 +63,14 @@ class User {
   addGold(gold) {
     this.gold += gold;
     //싱크?
+    
+    const handler = getHandlerById(7);
+    handler({
+      socket: this.socket,
+      userId: user.id,
+      payload:{},
+      user: this,
+    });
 
     return this.gold;
   }
@@ -72,6 +81,14 @@ class User {
     }
     this.gold -= gold;
     //싱크?
+
+    const handler = getHandlerById(7);
+    handler({
+      socket: this.socket,
+      userId: this.id,
+      payload:{},
+      user: this,
+    });
 
     return this.gold;
   }
