@@ -22,8 +22,12 @@ import { distance } from '../utils/mathHelper.js';
 import { testLog } from './../utils/testLogger.js';
 
 class Tower {
-    constructor(id, socket) {
+    constructor(userId, towerTypeId, x, y) {
+        // 식별자 id
         this.id = id;
+        // 입력값 기반 초기화
+        this.userId = userId;
+        this.towerTypeId = towerTypeId;
         this.x = x;
         this.y = y;
         // 초기화 수치 일단 하드코딩 => 추후 리팩토링
