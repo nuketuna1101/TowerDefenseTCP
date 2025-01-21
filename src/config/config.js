@@ -1,5 +1,5 @@
 import { PORT, HOST, CLIENT_VERSION } from '../constants/env.js';
-import { PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../constants/header.js';
+import { PACKET_TYPE_LENGTH, TOTAL_LENGTH, VERSION_LENGTH, VERSION_LENGTH_LENGTH } from '../constants/header.js';
 import {
   DB1_NAME,
   DB1_USER,
@@ -23,7 +23,10 @@ export const config = {
   },
   packet: {
     totalLength: TOTAL_LENGTH,
-    typeLength: PACKET_TYPE_LENGTH,
+    packetTypeLength: PACKET_TYPE_LENGTH,
+    versionLengthLength: VERSION_LENGTH_LENGTH,
+    sequenceLength: SEQUENCE_LENGTH,
+    payloadLengthLength: PAYLOAD_LENGTH_LENGTH,
   },
   databases: {
     GAME_DB: {

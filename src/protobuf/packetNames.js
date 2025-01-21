@@ -17,5 +17,6 @@ export const packetNames = {
   gameNotification: {
     LocationUpdate: 'gameNotification.LocationUpdate',
     Start: 'gameNotification.Start',
+    S2CStateSyncNotification: 'gameNotification.S2CStateSyncNotification',
   },
 };

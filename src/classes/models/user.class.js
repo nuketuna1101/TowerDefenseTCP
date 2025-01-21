@@ -7,6 +7,7 @@ class User {
     this.sequence = 0;
     this.gold = userInit.gold;
     this.baseHp = userInit.baseHp;
+    this.monsterLevel = userInit.monsterLevel;
     this.score = userInit.score;
     this.monster = [];
     this.tower = [];
@@ -15,6 +16,14 @@ class User {
 
   getNextSequence() {
     return ++this.sequence;
+  }
+
+  getMonsterLevel() {
+    return ++this.monsterLevel;
+  }
+
+  nextMonsterLevel() {
+    return ++this.monsterLevel;
   }
 
   ping() {

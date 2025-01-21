@@ -1,5 +1,9 @@
-export const TOTAL_LENGTH = 4; // 전체 길이를 나타내는 4바이트
+export const TOTAL_LENGTH = 11; // 전체 길이를 나타내는 11바이트 (버전 길이가 클라이언트에서 보내기 때문에 더 길다.(사용안함함))
+
 export const PACKET_TYPE_LENGTH = 2; // 패킷타입을 나타내는 2바이트 
+export const VERSION_LENGTH_LENGTH = 1;
+export const SEQUENCE_LENGTH = 4;
+export const PAYLOAD_LENGTH_LENGTH = 4;
 
 export const PACKET_TYPE = {
   // 회원가입 및 로그인
