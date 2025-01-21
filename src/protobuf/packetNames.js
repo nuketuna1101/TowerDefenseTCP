@@ -18,4 +18,7 @@ export const packetNames = {
     LocationUpdate: 'gameNotification.LocationUpdate',
     Start: 'gameNotification.Start',
   },
+  matchMakeNotification: {
+    MatchMake: 'matchMakeNotification.S2CMatchStartNotification',
+  },
 };

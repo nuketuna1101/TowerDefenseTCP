@@ -11,11 +11,14 @@ const initialHandler = async ({ socket, userId, payload }) => {
     let user = await findUserByDeviceID(deviceId);
 
     if (!user) {
+      // 새로운 사용자 생성
       user = await createUser(deviceId);
     } else {
+      // 기존 사용자 로그인 정보 업데이트
       await updateUserLogin(user.id);
     }
 
+    // 세션에 사용자 추가
     addUser(user.id, socket);
 
     // 유저 정보 응답 생성

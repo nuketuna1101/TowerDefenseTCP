@@ -26,12 +26,6 @@ class Game {
     
     this.users.push(user);
     this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
-
-    if (this.users.length === MAX_PLAYERS) {
-      setTimeout(() => {
-        this.startGame();
-      }, 3000);
-    }
   }
 
   getUser(userId) {

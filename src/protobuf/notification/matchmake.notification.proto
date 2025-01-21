@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package matchMakeNotification;
+
+message S2CMatchStartNotification {
+    InitialGameState initialGameState = 1; 
+    GameState playerData = 2; 
+    GameState opponentData = 3;
+}

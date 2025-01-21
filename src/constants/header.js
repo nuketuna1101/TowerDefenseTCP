@@ -6,4 +6,5 @@ export const PACKET_TYPE = {
   NORMAL: 1,
   GAME_START: 2,
   LOCATION: 3,
+  MATCH_MAKE: 6,
 };

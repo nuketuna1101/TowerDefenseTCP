@@ -47,3 +47,11 @@ export const createPingPacket = (timestamp) => {
   const pingPacket = ping.encode(message).finish();
   return makeNotification(pingPacket, PACKET_TYPE.PING);
 };
+
+// 서버에서 클라로 전송해야 할 매칭완료 notification 
+// 매개변수로는 아마 게임시작, 매칭 시작한 유저, 매칭 잡힌 상대방 유저
+export const craeteS2CMatchStartNotificationPacket = () => {
+  const protoMessages = getProtoMessages();
+  const MatchMake = protoMessages.matchMakeNotification.MatchMake;
+
+}
