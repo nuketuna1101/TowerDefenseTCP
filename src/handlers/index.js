@@ -5,6 +5,7 @@ import { ErrorCodes } from '../utils/error/errorCodes.js';
 import createGameHandler from './game/createGame.handler.js';
 import joinGameHandler from './game/joinGame.handler.js';
 import updateLocationHandler from './game/updateLocation.handler.js';
+import matchRequestHandler from './game/matchRequestHandler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -22,6 +23,10 @@ const handlers = {
   [HANDLER_IDS.UPDATE_LOCATION]: {
     handler: updateLocationHandler,
     protoType: 'game.LocationUpdatePayload',
+  },
+  [HANDLER_IDS.MATCH_MAKE]: {
+    handler: matchRequestHandler,
+    protoType: 'matchMakeNotification.S2CMatchStartNotification',
   },
   // 다른 핸들러들을 추가
 };
