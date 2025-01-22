@@ -54,4 +54,9 @@ export const craeteS2CMatchStartNotificationPacket = () => {
   const protoMessages = getProtoMessages();
   const MatchMake = protoMessages.matchMakeNotification.MatchMake;
 
+  // 아래 페이로드에 무엇을 담아서 보내야 하나
+  const payload = {};
+  const message = MatchMake.craete(payload);
+  const MatchMakePacket = MatchMake.encode(message).finish();
+  return makeNotification(MatchMakePacket, PACKET_TYPE.MATCH_MAKE);
 }
