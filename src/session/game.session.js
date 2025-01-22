@@ -2,8 +2,11 @@ import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
 
 export const addGameSession = (id) => {
+  // 새로운 게임 세션 생성
   const session = new Game(id);
+  // 전역 세션 배열에 추가
   gameSessions.push(session);
+  // 생성된 세션 반환
   return session;
 };
 
