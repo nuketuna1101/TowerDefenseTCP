@@ -36,20 +36,47 @@ export const loadProtos = async () => {
   try {
     const root = new protobuf.Root();
 
-    // 비동기 병렬 처리로 프로토 파일 로드
-    await Promise.all(protoFiles.map((file) => root.load(file)));
+    const protoFiles = getAllProtoFiles(protoDir);
+    console.log('Found proto files:', protoFiles);
 
-    // packetNames 에 정의된 패킷들을 등록
+    for (const file of protoFiles) {
+      console.log('Loading proto file:', file);
+      await root.load(file);
+    }
+
+    // 로드된 타입들 출력
+    console.log('Loaded types in root:',
+      Object.keys(root.nested || {}).map(ns => ({
+        namespace: ns,
+        types: root.nested[ns] ? Object.keys(root.nested[ns].nested || {}) : []
+      }))
+    );
+
+    // packetNames에 정의된 패킷들을 등록
     for (const [namespace, types] of Object.entries(packetNames)) {
       protoMessages[namespace] = {};
       for (const [type, typeName] of Object.entries(types)) {
-        protoMessages[namespace][type] = root.lookupType(typeName);
+        try {
+          console.log(`Looking up type: ${typeName}`);
+          const resolvedType = root.lookupType(typeName);
+          console.log(`Successfully resolved type: ${typeName}`);
+          protoMessages[namespace][type] = resolvedType;
+        } catch (error) {
+          console.error(`Failed to load type ${typeName}:`, error);
+          throw error;
+        }
       }
     }
 
-    console.log('Protobuf 파일이 로드되었습니다.');
+    console.log('Final protoMessages object:',
+      Object.keys(protoMessages).reduce((acc, ns) => {
+        acc[ns] = Object.keys(protoMessages[ns]);
+        return acc;
+      }, {})
+    );
   } catch (error) {
-    console.error('Protobuf 파일 로드 중 오류가 발생했습니다:', error);
+    console.error('Error loading protos:', error);
+    throw error;
   }
 };
 
