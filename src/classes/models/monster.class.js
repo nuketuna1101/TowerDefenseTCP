@@ -12,15 +12,16 @@ class Monster {
     this.atkPerLv = atkPerLv;
     this.alive = true;
   }
+// packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
 
 
   getMonster(id) {
     //이게 필요한가?
   }
 
-  attackBase(userId) {
+  attackBase(userId,damage) {
     //base의 체력을 깎는 함수
-    const baseHp = changeBaseHp(this.atk);
+    const baseHp = changeBaseHp(damage);
 
     const user = getUserById(userId);
     if (!user) {
@@ -35,8 +36,6 @@ class Monster {
       baseHp: baseHp
     };
 
-    //뭘 써야하는가 그것이 문제다
-    this.monsterDead();
     this.removeMonster();
 
     return packet;
@@ -46,7 +45,7 @@ class Monster {
     this.alive = false;
     removeMonster(id);
 
-    //S2CEnemyMonsterDeathNotification
+    //S2CEnemyMonsterDeathNotification or C2SMonsterDeathNotification
     const packet = {
       monsterId: this.id,
     };
@@ -63,7 +62,6 @@ class Monster {
   }
 }
 
-// packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
 export function spawnMonster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv) {
   const monster = new Monster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv);
 
