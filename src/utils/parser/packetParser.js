@@ -2,6 +2,7 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 import { getProtoTypeNameByHandlerId } from '../../handlers/index.js';
 import CustomError from '../error/customError.js';
 import { ErrorCodes } from '../error/errorCodes.js';
+import { config } from '../../config/config.js';
 
 export const packetParser = (handlerId, rawPayload) => {
   const protoMessages = getProtoMessages();
@@ -34,19 +35,35 @@ export const packetParser = (handlerId, rawPayload) => {
 
   return payload;
 };
-// 클라이언트로 전달할 패킷으로 인코딩
-export const payloadParser = (packetType, rawPayload) => {
-    // 패킷 길이 정보를 포함한 버퍼 생성
-    const packetLength = Buffer.alloc(config.packet.totalLength);
-    packetLength.writeUInt32BE(
-      message.length + config.packet.totalLength + config.packet.typeLength,
-      0,
-    );
+// 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
+export const payloadParser = (packetType, user, Payload) => {
+
+  // 버전 문자열 준비
+  const version = config.client.version;
+  const versionBuffer = Buffer.from(version, 'utf8');
   
-    // 패킷 타입 정보를 포함한 버퍼 생성
-    const packetType = Buffer.alloc(config.packet.typeLength);
-    packetType.writeUInt8(type, 0);
+  // 1. 패킷 타입 정보를 포함한 버퍼 생성 (2바이트)
+  const packetTypeBuffer = Buffer.alloc(config.packet.packetTypeLength);
+  packetTypeBuffer.writeUInt8(packetType, 0);
+  
+  // 2. 버전 길이 (1바이트)
+  const versionLengthBuffer = Buffer.alloc(config.packet.versionLengthLength);
+  versionLengthBuffer.writeUInt8(versionBytes.length, 0);
+
+  // 3. 버전 문자열
+  //버전 길이를 위해 위로 올림
+
+  // 4. 시퀀스 (4바이트, little endian)
+  const sequenceBuffer = Buffer.alloc(config.packet.sequenceLength);
+  sequenceBuffer.writeInt32LE(user.sequence);
+
+  // 5. 페이로드 길이 (4바이트, little endian)
+  const payloadLengthBuffer = Buffer.alloc(config.packet.payloadLengthLength);
+  payloadLengthBuffer.writeInt32LE(Payload.length);
+
+  // 6. 페이로드
+  // 패러미터터
   
     // 길이 정보와 메시지를 함께 전송
-    return Buffer.concat([packetLength, packetType, message]);
+    return Buffer.concat([packetTypeBuffer, versionLengthBuffer, versionBuffer, sequenceBuffer, payloadLengthBuffer, Payload]);
 };

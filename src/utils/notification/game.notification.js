@@ -31,7 +31,7 @@ export const createS2CStateSyncNotificationPacket = (user) => {
    };
   const message = userStateData.create(payload);
   const userStateDataPacket = userStateData.encode(message).finish();
-  return makeNotification(userStateDataPacket, PACKET_TYPE.STATE_SYNC_NOTIFICATION);
+  return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
 };
 
 export const createLocationPacket = (users) => {
