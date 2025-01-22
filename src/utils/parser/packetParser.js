@@ -31,6 +31,7 @@ export const packetParser = (handlerId, rawPayload) => {
       ErrorCodes.INVALID_PACKET,
       '지원하지 않는 패킷 타입입니다.'
     );
+  }
   return payload;
 };
 // 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
@@ -39,11 +40,11 @@ export const payloadParser = (packetType, user, Payload) => {
   // 버전 문자열 준비
   const version = config.client.version;
   const versionBuffer = Buffer.from(version, 'utf8');
-  
+
   // 1. 패킷 타입 정보를 포함한 버퍼 생성 (2바이트)
   const packetTypeBuffer = Buffer.alloc(config.packet.packetTypeLength);
   packetTypeBuffer.writeUInt8(packetType, 0);
-  
+
   // 2. 버전 길이 (1바이트)
   const versionLengthBuffer = Buffer.alloc(config.packet.versionLengthLength);
   versionLengthBuffer.writeUInt8(versionBytes.length, 0);
@@ -61,7 +62,7 @@ export const payloadParser = (packetType, user, Payload) => {
 
   // 6. 페이로드
   // 패러미터터
-  
-    // 길이 정보와 메시지를 함께 전송
-    return Buffer.concat([packetTypeBuffer, versionLengthBuffer, versionBuffer, sequenceBuffer, payloadLengthBuffer, Payload]);
+
+  // 길이 정보와 메시지를 함께 전송
+  return Buffer.concat([packetTypeBuffer, versionLengthBuffer, versionBuffer, sequenceBuffer, payloadLengthBuffer, Payload]);
 };

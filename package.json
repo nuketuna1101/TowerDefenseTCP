@@ -12,6 +12,7 @@
   "description": "",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "chalk": "^5.4.1",
     "dotenv": "^16.0.1",
     "lodash": "^4.17.21",

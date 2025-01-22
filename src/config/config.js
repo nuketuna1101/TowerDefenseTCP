@@ -1,4 +1,3 @@
-import { PORT, HOST, CLIENT_VERSION } from '../constants/env.js';
 import { PACKET_TYPE_LENGTH, TOTAL_LENGTH, SEQUENCE_LENGTH, VERSION_LENGTH_LENGTH, PAYLOAD_LENGTH_LENGTH } from '../constants/header.js';
 import {
   PORT,
@@ -15,7 +14,6 @@ import {
   DB2_HOST,
   DB2_PORT
 } from '../constants/env.js';
-import { PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../constants/header.js';
 
 
 export const config = {
