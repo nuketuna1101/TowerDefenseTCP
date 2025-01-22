@@ -1,3 +1,4 @@
+//game.class.js
 import IntervalManager from '../managers/interval.manager.js';
 import {
   createLocationPacket,

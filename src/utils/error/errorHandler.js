@@ -1,35 +1,32 @@
+// errorHandler.js
 import { createResponse } from '../response/createResponse.js';
+import { HANDLER_IDS } from '../../constants/handlerIds.js';
 
 export const handleError = (socket, error) => {
-  console.log("=== 에러 응답 생성 시작 ===");
-  let responseCode;
-  let message;
-  let failCode;
+  console.log('=== 에러 발생 ===');
+  console.log('에러 내용:', error);
 
-  if (error.code) {
-    responseCode = error.code;
-    message = error.message;
-    failCode = error.code;
-    console.error(`에러 코드: ${error.code}, 메시지: ${error.message}`);
-  } else {
-    responseCode = 10000; // 일반 에러 코드
-    message = error.message;
-    failCode = 1; // UNKNOWN_ERROR
-    console.error(`일반 에러: ${error.message}`);
+  let handlerId = HANDLER_IDS.REGISTER;  // 기본값을 REGISTER로 설정
+
+  // 요청 타입에 따라 핸들러 ID 설정
+  if (error.requestType === 'login') {
+    handlerId = HANDLER_IDS.LOGIN;
   }
 
   const errorResponse = createResponse(
-    -1, // 에러 응답용 핸들러 ID
-    responseCode,
+    handlerId,
+    error.code || 1,
     {
       success: false,
-      message: message,
-      failCode: failCode
+      message: error.message || '알 수 없는 오류가 발생했습니다.',
+      failCode: error.code || 1
     },
     null
   );
 
-  console.log("클라이언트로 전송할 에러 응답:", errorResponse);
-  socket.write(errorResponse);
-  console.log("=== 에러 응답 전송 완료 ===");
+  try {
+    socket.write(errorResponse);
+  } catch (writeError) {
+    console.error('에러 응답 전송 실패:', writeError);
+  }
 };

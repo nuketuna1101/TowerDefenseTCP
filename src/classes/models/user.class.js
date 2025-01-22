@@ -1,3 +1,4 @@
+//user.class.js
 import { createPingPacket } from '../../utils/notification/game.notification.js';
 
 class User {

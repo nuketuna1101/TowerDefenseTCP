@@ -1,67 +1,110 @@
-import { config } from '../config/config.js';
-import { PACKET_TYPE } from '../constants/header.js';
+// onData.js
 import { packetParser } from '../utils/parser/packetParser.js';
 import { getHandlerById } from '../handlers/index.js';
-import { getUserById, getUserBySocket } from '../session/user.session.js';
 import { handleError } from '../utils/error/errorHandler.js';
-import CustomError from '../utils/error/customError.js';
-import { ErrorCodes } from '../utils/error/errorCodes.js';
-import { getProtoMessages } from '../init/loadProtos.js';
-import { HANDLER_IDS } from '../constants/handlerIds.js';
+
+function hexDump(buffer, offset, length) {
+  const bytes = [];
+  for (let i = 0; i < length; i++) {
+    bytes.push(buffer[offset + i].toString(16).padStart(2, '0'));
+  }
+  return bytes.join(' ');
+}
+
+// 4바이트를 빅엔디안 정수로 읽는 함수
+function readInt32BE(buffer, offset) {
+  return (buffer[offset] << 24) |
+    (buffer[offset + 1] << 16) |
+    (buffer[offset + 2] << 8) |
+    buffer[offset + 3];
+}
 
 export const onData = (socket) => async (data) => {
   try {
-    socket.buffer = Buffer.concat([socket.buffer, data]);
-    console.log("=== 새로운 패킷 수신 ===");
-    console.log("수신된 데이터:", data);
+    console.log("=== 새로운 데이터 수신 ===");
+    console.log("Raw 데이터 길이:", data.length);
+    console.log("Raw 데이터 (hex):", hexDump(data, 0, Math.min(data.length, 32)));
 
-    const headerSize = 12; // 2(size) + 6(version) + 4(handlerid)
-    while (socket.buffer.length >= headerSize) {
-      // 첫 2바이트는 패킷 타입
-      const packetType = socket.buffer.readUInt16BE(0);
-      // 그 다음 6바이트는 버전 (예: "1.0.0")
-      const version = socket.buffer.toString('utf8', 2, 8);
-      // 그 다음 4바이트는 핸들러 ID
-      const handlerId = socket.buffer.readUInt32BE(8);
-      // 마지막 4바이트는 페이로드 길이
-      const payloadLength = socket.buffer.readUInt32BE(12);
+    // 버퍼에 새 데이터 추가
+    socket.buffer = Buffer.concat([socket.buffer || Buffer.alloc(0), data]);
 
-      console.log("=== 패킷 정보 ===");
-      console.log("패킷 타입:", packetType);
-      console.log("클라이언트 버전:", version);
-      console.log("핸들러 ID:", handlerId);
-      console.log("페이로드 길이:", payloadLength);
+    while (socket.buffer.length >= 11) { // 최소 헤더 크기
+      console.log("\n=== 새 패킷 파싱 시작 ===");
+      console.log("버퍼 시작 부분 (hex):", hexDump(socket.buffer, 0, 16));
 
-      const totalLength = headerSize + 4 + payloadLength; // header + length field + payload
+      // 1. 타입 (2바이트)
+      // [00 01]을 1로 읽기 위해 두 번째 바이트 사용
+      const type = socket.buffer[1];
+      console.log(`패킷 타입: ${type} (bytes: ${hexDump(socket.buffer, 0, 2)})`);
 
-      if (socket.buffer.length >= totalLength) {
-        const payload = socket.buffer.slice(16, totalLength);
-        console.log("페이로드:", payload);
+      // 2. 버전 길이 (1바이트)
+      const versionLength = socket.buffer[2];
+      console.log(`버전 길이: ${versionLength} (byte: ${hexDump(socket.buffer, 2, 1)})`);
 
-        try {
-          const { handlerId, sequence, payload: parsedPayload, userId } = packetParser(payload);
-          console.log("파싱된 페이로드:", { handlerId, sequence, payload: parsedPayload, userId });
+      const headerSize = 3 + versionLength;
+      if (socket.buffer.length < headerSize + 8) {
+        console.log("헤더 완성 대기 중...");
+        break;
+      }
 
-          const handler = getHandlerById(handlerId);
+      // 3. 버전 문자열
+      const version = socket.buffer.slice(3, headerSize).toString('utf8');
+      console.log(`버전: ${version} (bytes: ${hexDump(socket.buffer, 3, versionLength)})`);
+
+      // 4. 시퀀스 (4바이트)
+      const sequenceOffset = headerSize;
+      const sequence = readInt32BE(socket.buffer, sequenceOffset);
+      console.log(`시퀀스: ${sequence} (bytes: ${hexDump(socket.buffer, sequenceOffset, 4)})`);
+
+      // 5. 페이로드 길이 (4바이트)
+      const lengthOffset = headerSize + 4;
+      const payloadLength = readInt32BE(socket.buffer, lengthOffset);
+      console.log(`페이로드 길이: ${payloadLength} (bytes: ${hexDump(socket.buffer, lengthOffset, 4)})`);
+
+      const totalLength = headerSize + 8 + payloadLength;
+      console.log("예상되는 전체 패킷 길이:", totalLength);
+
+      if (socket.buffer.length < totalLength) {
+        console.log("전체 패킷 대기 중...");
+        break;
+      }
+
+      // 페이로드 추출
+      const payload = socket.buffer.slice(headerSize + 8, totalLength);
+      console.log("페이로드 추출됨, 길이:", payload.length);
+      console.log("페이로드 (hex):", hexDump(payload, 0, Math.min(payload.length, 32)));
+
+      try {
+        const parsedPacket = await packetParser({
+          type,
+          version,
+          sequence,
+          payload
+        });
+        console.log("파싱된 패킷:", parsedPacket);
+
+        if (parsedPacket && parsedPacket.handlerId) {
+          const handler = getHandlerById(parsedPacket.handlerId);
           if (handler) {
             await handler({
               socket,
-              userId,
-              payload: parsedPayload,
+              userId: parsedPacket.userId,
+              payload: parsedPacket.payload,
             });
           }
-        } catch (error) {
-          console.error("패킷 처리 중 오류:", error);
-          handleError(socket, error);
         }
-
-        socket.buffer = socket.buffer.slice(totalLength);
-      } else {
-        break; // 더 많은 데이터를 기다림
+      } catch (error) {
+        console.error("패킷 처리 중 오류:", error);
+        handleError(socket, { ...error, requestType: 'register' });
       }
+
+      // 처리된 데이터 제거
+      socket.buffer = socket.buffer.slice(totalLength);
+      console.log("남은 버퍼 크기:", socket.buffer.length);
     }
   } catch (error) {
-    console.error("onData 처리 중 오류:", error);
-    handleError(socket, error);
+    console.error("데이터 수신 처리 중 오류:", error);
+    console.error(error.stack);
+    handleError(socket, { ...error, requestType: 'register' });
   }
 };

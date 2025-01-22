@@ -1,3 +1,4 @@
+//user.db.js
 import { v4 as uuidv4 } from 'uuid';
 import pools from '../database.js';
 import { SQL_QUERIES } from './user.queries.js';

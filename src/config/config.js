@@ -1,3 +1,4 @@
+//config.js
 import {
   PORT,
   HOST,
@@ -22,14 +23,14 @@ export const config = {
     host: HOST,
   },
   client: {
-    version: CLIENT_VERSION,
+    version: '1.0.0',  // 클라이언트 버전과 일치
   },
   packet: {
-    totalLength: 4,         // 패킷 길이 정보 (4바이트)
-    typeLength: 1,          // 패킷 타입 정보 (1바이트)
-    versionLength: 8,       // 버전 정보 길이 (8바이트)
-    handlerIdLength: 4,     // 핸들러 ID 길이 (4바이트)
-    sequenceLength: 4,      // 시퀀스 길이 (4바이트)
+    headerSize: 11,    // 2(type) + 1(version length) + 4(sequence) + 4(payload length)
+    typeLength: 2,     // 패킷 타입 정보 (2바이트)
+    versionLength: 1,  // 버전 길이 정보 (1바이트)
+    sequenceLength: 4, // 시퀀스 번호 길이 (4바이트)
+    payloadLength: 4,  // 페이로드 길이 정보 (4바이트)
   },
   databases: {
     GAME_DB: {
@@ -40,12 +41,11 @@ export const config = {
       port: parseInt(DB1_PORT) || 3306,
     },
     USER_DB: {
-      name: DB2_NAME || 'user_db',
-      user: DB2_USER || 'root',
-      password: DB2_PASSWORD || '1234',
-      host: DB2_HOST || 'localhost',
-      port: parseInt(DB2_PORT) || 3306,
+      name: DB2_NAME,
+      user: DB2_USER,
+      password: DB2_PASSWORD,
+      host: DB2_HOST,
+      port: parseInt(DB2_PORT),
     }
   }
 };
-

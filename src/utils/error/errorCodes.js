@@ -1,3 +1,4 @@
+//errorCodes.js
 export const ErrorCodes = {
   CLIENT_VERSION_MISMATCH: 10001,
   UNKNOWN_HANDLER_ID: 10002,

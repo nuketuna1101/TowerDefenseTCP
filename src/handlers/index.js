@@ -1,3 +1,4 @@
+//index.js
 import { HANDLER_IDS } from '../constants/handlerIds.js';
 import initialHandler from './user/initial.handler.js';
 import CustomError from '../utils/error/customError.js';
