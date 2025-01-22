@@ -11,12 +11,11 @@ import { getProtoMessages } from '../init/loadProtos.js';
 import { CLIENT_VERSION } from '../constants/env.js';
 import { HANDLER_IDS } from '../constants/handlerIds.js';
 
-
 export const onData = (socket) => async (data) => {
   try {
     socket.buffer = Buffer.concat([socket.buffer, data]);
-    console.log("=== 새로운 패킷 수신 ===");
-    console.log("수신된 데이터:", data);
+    console.log('=== 새로운 패킷 수신 ===');
+    console.log('수신된 데이터:', data);
 
     // 패킷의 버전 길이까지의의 헤더 길이 (패킷 길이 정보 + 버전 길이이 정보)
     const leastHeaderLength = config.packet.packetTypeLength + config.packet.versionLengthLength;
@@ -89,7 +88,7 @@ export const onData = (socket) => async (data) => {
       }
     }
   } catch (error) {
-    console.error("onData 처리 중 오류:", error);
+    console.error('onData 처리 중 오류:', error);
     handleError(socket, error);
   }
 };
