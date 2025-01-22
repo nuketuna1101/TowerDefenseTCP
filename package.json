@@ -1,0 +1,27 @@
+{
+  "name": "towerdefensetcp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "dotenv": "^16.0.1",
+    "lodash": "^4.17.21",
+    "long": "^5.2.3",
+    "mysql2": "^3.9.7",
+    "protobufjs": "^6.11.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "^2.3.2"
+  }
+}
