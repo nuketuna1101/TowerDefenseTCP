@@ -3,6 +3,7 @@ import { getProtoTypeNameByHandlerId } from '../../handlers/index.js';
 import CustomError from '../error/customError.js';
 import { ErrorCodes } from '../error/errorCodes.js';
 import { config } from '../../config/config.js';
+import { testLog } from '../testLogger.js';
 
 export const packetParser = (handlerId, rawPayload) => {
   const protoMessages = getProtoMessages();
@@ -15,9 +16,16 @@ export const packetParser = (handlerId, rawPayload) => {
 
   const [namespace, typeName] = protoTypeName.split('.');
   const PayloadType = protoMessages[namespace][typeName];
+
+
+
   let payload;
   try {
     payload = PayloadType.decode(rawPayload);
+    testLog(0, `Namespace: ${protoMessages['test']['C2SRegisterRequest']} \n 
+      protoTypeName: ${protoTypeName} / handlerId: ${handlerId} / namespace: ${namespace} / typeName: ${typeName} / \n
+       PayloadType: ${PayloadType} /  ${JSON.stringify(PayloadType)} / rawPayload: ${rawPayload} \n
+       payload: ${payload}`, 'yellow');
   } catch (error) {
     throw new CustomError(ErrorCodes.PACKET_STRUCTURE_MISMATCH, '패킷 구조가 일치하지 않습니다.');
   }
@@ -26,6 +34,7 @@ export const packetParser = (handlerId, rawPayload) => {
   const expectedFields = Object.keys(PayloadType.fields);
   const actualFields = Object.keys(payload);
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
+  testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
     throw new CustomError(
       ErrorCodes.INVALID_PACKET,

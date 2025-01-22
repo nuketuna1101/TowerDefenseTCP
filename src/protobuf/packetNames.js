@@ -18,10 +18,10 @@ export const packetNames = {
   },
   test: {
     GamePacket: 'test.GamePacket',            // GamePacket 추가
-    RegisterRequest: 'test.C2SRegisterRequest',
-    RegisterResponse: 'test.S2CRegisterResponse',
-    LoginRequest: 'test.C2SLoginRequest',
-    LoginResponse: 'test.S2CLoginResponse'
+    C2SRegisterRequest: 'test.C2SRegisterRequest',
+    S2CRegisterResponse: 'test.S2CRegisterResponse',
+    C2SLoginRequest: 'test.C2SLoginRequest',
+    S2CLoginResponse: 'test.S2CLoginResponse'
   },
   response: {
     Response: 'response.Response'

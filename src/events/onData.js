@@ -10,6 +10,7 @@ import { ErrorCodes } from '../utils/error/errorCodes.js';
 import { getProtoMessages } from '../init/loadProtos.js';
 import { CLIENT_VERSION } from '../constants/env.js';
 import { HANDLER_IDS } from '../constants/handlerIds.js';
+import { testLog } from '../utils/testLogger.js';
 
 export const onData = (socket) => async (data) => {
   try {
@@ -35,7 +36,7 @@ export const onData = (socket) => async (data) => {
       let readHeadBuffer = 0;
 
       //패킷타입정보 수신(2바이트)
-      const packetType = socket.buffer.readUInt16(readHeadBuffer);
+      const packetType = socket.buffer.readUInt16BE(readHeadBuffer);
       readHeadBuffer += config.packet.packetTypeLength + config.packet.versionLengthLength;
 
       //버전 수신
@@ -58,6 +59,8 @@ export const onData = (socket) => async (data) => {
       readHeadBuffer += config.packet.payloadLengthLength;
 
       //패이로드
+      testLog(0, `[onData] packetType: ${packetType} / versionLength: ${versionLength} / \n
+        version: ${version} / sequence: ${sequence} / payloadLength: ${payloadLength} /   `, 'green');
 
       // 3. 패킷 전체 길이 확인 후 데이터 수신
       if (socket.buffer.length >= payloadLength + readHeadBuffer) {
@@ -74,6 +77,7 @@ export const onData = (socket) => async (data) => {
 
           const game = getGameByUser(user);
 
+          testLog(0, `from ondata  packet: ${packet} `);
           const payload = packetParser(packetType, packet);
           const handler = getHandlerById(packetType);
           await handler({
