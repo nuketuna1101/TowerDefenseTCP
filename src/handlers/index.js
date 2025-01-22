@@ -5,6 +5,7 @@ import { ErrorCodes } from '../utils/error/errorCodes.js';
 import createGameHandler from './game/createGame.handler.js';
 import joinGameHandler from './game/joinGame.handler.js';
 import updateLocationHandler from './game/updateLocation.handler.js';
+import matchRequestHandler from './game/matchRequestHandler.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import stateSyncNotificationhandler  from './game/stateSyncNotification.handler.js';
 import registerHandler from './user/register.handler.js';
@@ -35,7 +36,10 @@ const handlers = {
     handler: updateLocationHandler,
     protoType: 'game.LocationUpdatePayload',
   },
-
+  [HANDLER_IDS.MATCH_MAKE]: {
+    handler: matchRequestHandler,
+    protoType: 'matchMakeNotification.S2CMatchStartNotification',
+  },
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationhandler,
     protoType: 'gameNotification.S2CStateSyncNotification',
