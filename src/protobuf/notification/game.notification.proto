@@ -18,3 +18,12 @@ message Start {
   string gameId = 1;
   int64 timestamp = 2;
 }
+
+message S2CStateSyncNotification {
+  int32 userGold = 1;
+  int32 baseHp = 2;
+  int32 monsterLevel = 3;
+  int32 score = 4;
+  repeated TowerData towers = 5;
+  repeated MonsterData monsters = 6;
+}

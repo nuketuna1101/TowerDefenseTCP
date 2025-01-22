@@ -4,7 +4,6 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 export const createResponse = (handlerId, responseCode, data = null, userId) => {
   console.log("=== 응답 생성 시작 ===");
   const protoMessages = getProtoMessages();
-
   // GamePacket 생성
   const GamePacket = protoMessages.test.GamePacket;
   let responseData;
@@ -76,3 +75,4 @@ export const createResponse = (handlerId, responseCode, data = null, userId) => 
 
   return finalBuffer;
 };
+

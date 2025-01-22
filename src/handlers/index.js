@@ -5,6 +5,8 @@ import { ErrorCodes } from '../utils/error/errorCodes.js';
 import createGameHandler from './game/createGame.handler.js';
 import joinGameHandler from './game/joinGame.handler.js';
 import updateLocationHandler from './game/updateLocation.handler.js';
+import { PACKET_TYPE } from '../constants/header.js';
+import stateSyncNotificationhandler  from './game/stateSyncNotification.handler.js';
 import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
 
@@ -33,6 +35,12 @@ const handlers = {
     handler: updateLocationHandler,
     protoType: 'game.LocationUpdatePayload',
   },
+
+  [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
+    handler: stateSyncNotificationhandler,
+    protoType: 'gameNotification.S2CStateSyncNotification',
+  },
+  // 다른 핸들러들을 추가
 };
 
 export const getHandlerById = (handlerId) => {

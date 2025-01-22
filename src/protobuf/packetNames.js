@@ -13,7 +13,8 @@ export const packetNames = {
   },
   gameNotification: {
     LocationUpdate: 'gameNotification.LocationUpdate',
-    Start: 'gameNotification.Start'
+    Start: 'gameNotification.Start',
+    S2CStateSyncNotification: 'gameNotification.S2CStateSyncNotification',
   },
   test: {
     GamePacket: 'test.GamePacket',            // GamePacket 추가
