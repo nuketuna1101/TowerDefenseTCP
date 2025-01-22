@@ -35,6 +35,43 @@ const PacketType = {
 
 ---
 
+```proto3
+syntax = "proto3";
+
+message TowerData {
+    int32 towerId = 1;
+    float x = 2;
+    float y = 3;
+}
+
+message C2STowerPurchaseRequest {
+    float x = 1;
+    float y = 2;
+}
+
+message S2CTowerPurchaseResponse {
+    int32 towerId = 1;
+}
+
+message S2CAddEnemyTowerNotification {
+    int32 towerId = 1;
+    float x = 2;
+    float y = 3;
+}
+
+message C2STowerAttackRequest {
+    int32 towerId = 1;
+    int32 monsterId = 2;
+}
+
+message S2CEnemyTowerAttackNotification {
+    int32 towerId = 1;
+    int32 monsterId = 2;
+}
+```
+
+---
+
 **모든 구현은 기본적으로 client단 skeleton code 기반해야 한다.**
 
 Client Side Codes

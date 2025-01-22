@@ -35,6 +35,9 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         // user 금액이 충분한지 validation
         // if ()            throw new CustomError(ErrorCodes.);
         // 배치될 위치 유효한지 validation
+        const isCoordinateValid = isCoordinateValid(x, y);
+        if (!isCoordinateValid)
+            throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
 
         // 데이터 단 타워 추가
         TowerManager.instance.addTower(userId, towerId);
