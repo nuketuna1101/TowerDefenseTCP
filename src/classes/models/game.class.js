@@ -4,7 +4,7 @@ import {
   gameStartNotification,
 } from '../../utils/notification/game.notification.js';
 
-const MAX_PLAYERS = 2;
+export const MAX_PLAYERS = 2;
 
 class Game {
   constructor(id) {
@@ -14,19 +14,18 @@ class Game {
     this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
-  // addUser를 하면서 gameId를 부여 세션 참가
+  // 내가 사용할 패킷
+  // C2SMatchRequest {}
+  // S2CMatchStartNotification { InitialGameState initialGameState = 1; GameState playerData = 2; GameState opponentData = 3;}
+
+  // addUser를 할때 MatchMake를 사용해야 할듯?
   addUser(user) {
     if (this.users.length >= MAX_PLAYERS) {
       throw new Error('Game session is full');
     }
+    
     this.users.push(user);
-
     this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
-    if (this.users.length === MAX_PLAYERS) {
-      setTimeout(() => {
-        this.startGame();
-      }, 3000);
-    }
   }
 
   getUser(userId) {

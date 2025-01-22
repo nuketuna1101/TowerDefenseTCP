@@ -25,5 +25,8 @@ export const packetNames = {
   },
   response: {
     Response: 'response.Response'
-  }
+  },
+  matchMakeNotification: {
+    MatchMake: 'matchMakeNotification.S2CMatchStartNotification',
+  },
 };
