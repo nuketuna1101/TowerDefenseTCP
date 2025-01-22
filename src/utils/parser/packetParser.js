@@ -52,7 +52,7 @@ export const payloadParser = (packetType, user, Payload) => {
 
   // 1. 패킷 타입 정보를 포함한 버퍼 생성 (2바이트)
   const packetTypeBuffer = Buffer.alloc(config.packet.packetTypeLength);
-  packetTypeBuffer.writeUInt8(packetType, 0);
+  packetTypeBuffer.writeUInt16BE(packetType, 0);
 
   // 2. 버전 길이 (1바이트)
   const versionLengthBuffer = Buffer.alloc(config.packet.versionLengthLength);
@@ -63,11 +63,11 @@ export const payloadParser = (packetType, user, Payload) => {
 
   // 4. 시퀀스 (4바이트, little endian)
   const sequenceBuffer = Buffer.alloc(config.packet.sequenceLength);
-  sequenceBuffer.writeInt32LE(user.sequence);
+  sequenceBuffer.writeInt32BE(user.sequence);
 
   // 5. 페이로드 길이 (4바이트, little endian)
   const payloadLengthBuffer = Buffer.alloc(config.packet.payloadLengthLength);
-  payloadLengthBuffer.writeInt32LE(Payload.length);
+  payloadLengthBuffer.writeInt32BE(Payload.length);
 
   // 6. 페이로드
   // 패러미터터
