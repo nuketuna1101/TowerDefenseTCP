@@ -28,11 +28,9 @@ export const packetParser = (handlerId, rawPayload) => {
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   if (missingFields.length > 0) {
     throw new CustomError(
-      ErrorCodes.MISSING_FIELDS,
-      `필수 필드가 누락되었습니다: ${missingFields.join(', ')}`,
+      ErrorCodes.INVALID_PACKET,
+      '지원하지 않는 패킷 타입입니다.'
     );
-  }
-
   return payload;
 };
 // 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
