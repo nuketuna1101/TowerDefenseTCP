@@ -7,7 +7,9 @@ import { testLog } from '../testLogger.js';
 
 export const packetParser = (handlerId, rawPayload) => {
   const protoMessages = getProtoMessages();
-
+  testLog(0, `[packetParser] rawPayload: (hex): ${rawPayload.toString('hex')} \n
+  rawPayload: ${rawPayload} \n
+  rawPayloadLen: ${rawPayload.length}`, 'green');
   // 핸들러 ID에 따라 적절한 payload 구조를 디코딩
   const protoTypeName = getProtoTypeNameByHandlerId(handlerId);
   if (!protoTypeName) {
@@ -17,22 +19,29 @@ export const packetParser = (handlerId, rawPayload) => {
   const [namespace, typeName] = protoTypeName.split('.');
   const PayloadType = protoMessages[namespace][typeName];
 
-
+  const tmp = PayloadType.verify(rawPayload);
+  testLog(0, `[Verify] tmp: ${tmp}`);
 
   let payload;
   try {
     payload = PayloadType.decode(rawPayload);
+    // payload = PayloadType.verify(rawPayload);
     testLog(0, `Namespace: ${protoMessages['test']['C2SRegisterRequest']} \n 
       protoTypeName: ${protoTypeName} / handlerId: ${handlerId} / namespace: ${namespace} / typeName: ${typeName} / \n
        PayloadType: ${PayloadType} /  ${JSON.stringify(PayloadType)} / rawPayload: ${rawPayload} \n
-       payload: ${payload}`, 'yellow');
+       payload: ${typeof (payload)} / ${JSON.stringify(payload)} / ${Object.keys(payload)}`, 'yellow');
+    const { id, email, password } = payload;
+    testLog(0, `id: ${id} / email: ${email} / password: ${password}`, 'red');
+
   } catch (error) {
     throw new CustomError(ErrorCodes.PACKET_STRUCTURE_MISMATCH, '패킷 구조가 일치하지 않습니다.');
   }
 
   // 필드가 비어 있거나, 필수 필드가 누락된 경우 처리
   const expectedFields = Object.keys(PayloadType.fields);
+  testLog(0, `payloadvalue: ${Object.values(PayloadType.fields)} `);
   const actualFields = Object.keys(payload);
+  testLog(0, `actualFields: ${Object.keys(payload)} `);
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
