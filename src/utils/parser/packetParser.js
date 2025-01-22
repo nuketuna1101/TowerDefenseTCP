@@ -36,7 +36,6 @@ export const packetParser = (handlerId, rawPayload) => {
   console.log(expectedFields);
   const actualFields = Object.keys(Object.values(payload)[0]);
   console.log(actualFields);
-  console.log(Object.values(payload));
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
@@ -45,7 +44,12 @@ export const packetParser = (handlerId, rawPayload) => {
       '지원하지 않는 패킷 타입입니다.'
     );
   }
-  return Object.values(payload)[0];
+  let returnPayload = {};
+  for (const [key, value] of Object.entries(Object.values(payload)[0])) {
+    returnPayload[key] = value;
+  }
+  console.log(returnPayload);
+  return returnPayload;
 };
 // 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
 export const payloadParser = (packetType, user, Payload) => {
