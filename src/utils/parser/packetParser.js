@@ -15,7 +15,8 @@ export const packetParser = (handlerId, rawPayload) => {
   }
 
   const [namespace, typeName] = protoTypeName.split('.');
-  const PayloadType = protoMessages[namespace][typeName];
+  const expectedPayloadType = protoMessages[namespace][typeName];
+  const PayloadType = protoMessages['test']['GamePacket'];
 
 
 
@@ -31,8 +32,11 @@ export const packetParser = (handlerId, rawPayload) => {
   }
 
   // 필드가 비어 있거나, 필수 필드가 누락된 경우 처리
-  const expectedFields = Object.keys(PayloadType.fields);
-  const actualFields = Object.keys(payload);
+  const expectedFields = Object.keys(expectedPayloadType.fields);
+  console.log(expectedFields);
+  const actualFields = Object.keys(Object.values(payload)[0]);
+  console.log(actualFields);
+  console.log(Object.values(payload));
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
@@ -41,7 +45,7 @@ export const packetParser = (handlerId, rawPayload) => {
       '지원하지 않는 패킷 타입입니다.'
     );
   }
-  return payload;
+  return Object.values(payload)[0];
 };
 // 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
 export const payloadParser = (packetType, user, Payload) => {
