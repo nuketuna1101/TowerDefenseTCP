@@ -20,6 +20,9 @@
 //====================================================================================================================
 
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds";
+import { PACKET_TYPE } from "../../constants/header";
+import { getProtoMessages } from "../../init/loadProtos";
+import { getUserById } from "../../session/user.session";
 import TowerManager from "../../tmp/tower.manager";
 import CustomError from "../../utils/error/customError";
 import { ErrorCodes } from "../../utils/error/errorCodes";
@@ -38,23 +41,36 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         // user 금액이 충분한지 validation
         // if ()            throw new CustomError(ErrorCodes.);
         // 배치될 위치 유효한지 validation
+
+        // user validation
+        const user = getUserById(userId);
+        if (!user)
+            throw new Error(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
+        // coordinate validation
         const isCoordinateValid = isCoordinateValid(x, y);
         if (!isCoordinateValid)
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
-
         // 새로운 타워 id 생성
         const towerId = uuidv4();
+        // 1. user 클래스의 타워 배열 추가
+        TowerManager.instance.addTower(userId, towerId, x, y);
+        // 2. towerData로서 패킷 추가
+        const protoMessages = getProtoMessages();
+        const rawTowerData = { towerId, x, y };
+        const towerData = protoMessages.test.TowerData;
+        const message = towerData.create(rawTowerData);
+        const towerDataPacket = towerData.encode(message).finish();
+        user.addTower(towerDataPacket);
 
-        // 데이터 단 타워 추가: user 클래스의 타워 배열 추가, towerData로서 패킷 추가
-        TowerManager.instance.addTower(userId, towerId);
         // 타워 생성 response
         const purchaseTowerResponse = createResponse(
             HANDLER_IDS.PURCHASE_TOWER,
             RESPONSE_SUCCESS_CODE,
-            { towerId, message: 'Tower Purchase completed' },
+            { towerId },
+            userId,
         );
 
-        socket.write(purchaseTowerResponse);
+        socket.write(purchaseTowerResponse, 'Tower Purchase completed');
     } catch (error) {
         handleError(socket, error);
     }

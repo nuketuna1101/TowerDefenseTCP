@@ -21,6 +21,7 @@ export const packetNames = {
     InitialGameState: 'test.InitialGameState',
     GameState: 'test.GameState',
     GamePacket: 'test.GamePacket',            // GamePacket 추가
+    TowerData: 'test.TowerData',
     C2SRegisterRequest: 'test.C2SRegisterRequest',
     S2CRegisterResponse: 'test.S2CRegisterResponse',
     C2SLoginRequest: 'test.C2SLoginRequest',
