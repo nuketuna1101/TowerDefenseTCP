@@ -27,7 +27,8 @@ const loginHandler = async ({ socket, userId, payload }) => {
       throw new CustomError(ErrorCodes.INVALID_PASSWORD, '잘못된 비밀번호입니다.');
     } else {
       //로그인 성공했으니 등록
-      addUser(id, socket);
+      //시퀀스 문제로 연결된 클라이언트로 옮겨야함
+      //addUser(id, socket);
     }
 
     // 마지막 로그인 시간 업데이트
