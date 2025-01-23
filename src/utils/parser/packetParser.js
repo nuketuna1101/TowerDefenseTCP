@@ -64,7 +64,7 @@ export const payloadParser = (packetType, user, Payload) => {
 
   // 2. 버전 길이 (1바이트)
   const versionLengthBuffer = Buffer.alloc(config.packet.versionLengthLength);
-  versionLengthBuffer.writeUInt8(versionBytes.length, 0);
+  versionLengthBuffer.writeUInt8(versionBuffer.length, 0);
 
   // 3. 버전 문자열
   //버전 길이를 위해 위로 올림
