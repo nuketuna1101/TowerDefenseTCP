@@ -72,6 +72,16 @@ export const payloadParser = (packetType, user, Payload) => {
   const payloadLengthBuffer = Buffer.alloc(config.packet.payloadLengthLength);
   payloadLengthBuffer.writeInt32BE(Payload.length);
 
+  const check = Buffer.concat([
+    packetTypeBuffer,
+    versionLengthBuffer,
+    versionBuffer,
+    sequenceBuffer,
+    payloadLengthBuffer,
+  ]);
+
+  console.log('헤더 추가 => ', check);
+
   // 5. 최종 패킷 데이터 생성
   return Buffer.concat([
     packetTypeBuffer,

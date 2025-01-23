@@ -79,10 +79,6 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
   }
 
-  // 매칭 완료 패킷에 담아줄 GameState / InitialGameState를 핸들러에서 만든 후 패킷 만드는 함수에 매개변수 전송
-  //const GameState = protoMessages.test.GameState;
-  //const InitialGameState = protoMessages.test.InitialGameState;
-
   // InitialGameState 생성
   const initialGameState = {
     baseHp: 100,
@@ -94,32 +90,30 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   // PlayerData (GameState) 생성
   const playerData = {
     gold: 30,
-    base: { hp: 100, maxHp: 100 }, // BaseData 객체
+    base: { hp: 100, maxHp: 100 }, 
     highScore: 0,
     towers: [],
     monsters: [],
     monsterLevel: 1,
     score: 0,
-    monsterPath: [{ x: 0, y: 0 }], // Position 객체 배열
-    basePosition: { x: 0, y: 0 }, // Position 객체
-  };
+    monsterPath: [{ x: 0, y: 0 }], 
+    basePosition: { x: 0, y: 0 }, 
+  }
 
   // Payload 생성
   const payload = {
     initialGameState,
     playerData,
-    opponentData: playerData, // opponentData 추가
+    opponentData: playerData, 
   };
-  console.log('[payLoad] => ', payload);
-
+  
   try {
     const message = S2CMatchStartNotification.create(payload);
     const MatchMakePacket = S2CMatchStartNotification.encode(message).finish();
     console.log(`MATCHMAKEPACKET => ${MatchMakePacket.toString('hex')}`);
-    // S2CMatchStartNotification { InitialGameState initialGameState = 1; GameState playerData = 2; GameState opponentData = 3;}
+
     console.log(`PACKETTYPE => ${PACKET_TYPE.MATCH_START_NOTIFICATION}`);
     return payloadParser(PACKET_TYPE.MATCH_START_NOTIFICATION, user, MatchMakePacket);
-    //return createResponse(HANDLER_IDS.MATCH_MAKE_REQUEST, 0, MatchMakePacket, user.id);
   } catch (error) {
     console.error('패킷 생성 중 오류:', error);
     throw error;
