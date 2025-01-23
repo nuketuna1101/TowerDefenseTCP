@@ -38,7 +38,7 @@ const handlers = {
   },
   [HANDLER_IDS.MATCH_MAKE]: {
     handler: matchRequestHandler,
-    protoType: 'matchMakeNotification.S2CMatchStartNotification',
+    protoType: 'test.S2CMatchStartNotification',
   },
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationhandler,

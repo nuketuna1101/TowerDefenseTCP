@@ -17,16 +17,17 @@ export const packetNames = {
     S2CStateSyncNotification: 'gameNotification.S2CStateSyncNotification',
   },
   test: {
+    InitialGameState: 'test.InitialGameState',
+    GameState: 'test.GameState',
     GamePacket: 'test.GamePacket',            // GamePacket 추가
-    RegisterRequest: 'test.C2SRegisterRequest',
-    RegisterResponse: 'test.S2CRegisterResponse',
-    LoginRequest: 'test.C2SLoginRequest',
-    LoginResponse: 'test.S2CLoginResponse'
+    C2SRegisterRequest: 'test.C2SRegisterRequest',
+    S2CRegisterResponse: 'test.S2CRegisterResponse',
+    C2SLoginRequest: 'test.C2SLoginRequest',
+    S2CLoginResponse: 'test.S2CLoginResponse',
+    C2SMatchRequest: 'test.C2SMatchRequest',
+    S2CMatchStartNotification: 'test.S2CMatchStartNotification',
   },
   response: {
     Response: 'response.Response'
-  },
-  matchMakeNotification: {
-    MatchMake: 'matchMakeNotification.S2CMatchStartNotification',
   },
 };

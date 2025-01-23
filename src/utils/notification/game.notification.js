@@ -68,7 +68,29 @@ export const createPingPacket = (timestamp) => {
 // 매개변수로는 아마 게임시작, 매칭 시작한 유저, 매칭 잡힌 상대방 유저
 export const craeteS2CMatchStartNotificationPacket = () => {
   const protoMessages = getProtoMessages();
-  const MatchMake = protoMessages.matchMakeNotification.MatchMake;
+  const MatchMake = protoMessages.test.S2CMatchStartNotification;
+  const GameState = protoMessages.test.GameState;
+  const InitialGameState = protoMessages.test.InitialGameState;
+  /*
+  message InitialGameState {
+  int32 baseHp = 1;
+  int32 towerCost = 2;
+  int32 initialGold = 3;
+  int32 monsterSpawnInterval = 4;
+}
+
+message GameState {
+  int32 gold = 1;
+  BaseData base = 2;
+  int32 highScore = 3;
+  repeated TowerData towers = 4;
+  repeated MonsterData monsters = 5;
+  int32 monsterLevel = 6;
+  int32 score = 7;
+  repeated Position monsterPath = 8;
+  Position basePosition = 9;
+}
+  */
 
   // 아래 페이로드에 무엇을 담아서 보내야 하나
   const payload = {};
