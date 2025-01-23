@@ -12,6 +12,8 @@ class Monster {
     this.atkPerLv = atkPerLv;
     this.alive = true;
   }
+
+
 // packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
 
 
@@ -65,12 +67,21 @@ class Monster {
 export function spawnMonster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv) {
   const monster = new Monster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv);
 
+  // 배열에는 이렇게 넣기
+  // messege MonsterData{
+  //   int32 monsterId = 1;
+  //   int32 monsterNumber = 2;
+  //   int32 level = 3;
+  // }
+
+
   //만든 몬스터는 어디로??
   //S2CSpawnMonsterResponse or S2CSpawnEnemyMonsterNotification 
   const packet = {
     monsterId: monster.id,
     monsterNumber: monsterNum, //일단 대충만든 몬스터번호 회의하며 정하기
   };
+
   monsterNum++;
   return packet;
 }
