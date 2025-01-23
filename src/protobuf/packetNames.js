@@ -1,3 +1,4 @@
+//packetNames.js
 export const packetNames = {
   common: {
     Packet: 'common.Packet',

@@ -1,3 +1,4 @@
+//joinGame.handler.js
 import { getAllGameSessions, getGameSession } from '../../session/game.session.js';
 import { createResponse } from '../../utils/response/createResponse.js';
 import { handleError } from '../../utils/error/errorHandler.js';

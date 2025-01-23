@@ -1,3 +1,4 @@
+//interval.manager.js
 import BaseManager from './base.manager.js';
 
 class IntervalManager extends BaseManager {

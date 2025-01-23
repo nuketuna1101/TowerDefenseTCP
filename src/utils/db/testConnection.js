@@ -1,3 +1,4 @@
+//testConnection.js
 const testDbConnection = async (pool, dbName) => {
   try {
     const [rows] = await pool.query('SELECT 1 + 1 AS solution');

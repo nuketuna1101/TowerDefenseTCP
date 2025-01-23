@@ -1,3 +1,4 @@
+//errorCodes.js
 export const ErrorCodes = {
   CLIENT_VERSION_MISMATCH: 10001,
   UNKNOWN_HANDLER_ID: 10002,
@@ -11,5 +12,6 @@ export const ErrorCodes = {
   EMAIL_ALREADY_EXISTS: 10010,
   NICKNAME_ALREADY_EXISTS: 10011,
   INVALID_CREDENTIALS: 10012,
+  INVALID_PASSWORD: 10013,
   // 추가적인 에러 코드들
 };
