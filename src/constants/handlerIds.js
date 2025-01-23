@@ -18,4 +18,5 @@ export const HANDLER_IDS = {
   MATCH_MAKE: 5,
   JOIN_GAME: 16,
   UPDATE_LOCATION: 13,
+  PURCHASE_TOWER: 20,
 };

@@ -23,19 +23,21 @@ class TowerManager {
     }
 
     // 초기화
-    static initialize(){
+    static initialize() {
         if (!TowerManager.instance)
             new TowerManager();
-        else 
+        else
             TowerManager.instance.towers = [];
         return TowerManager.instance;
     }
 
     // 타워 추가: 우선은 자체적으로 랜덤한 위치 내에서
-    addTower(userId, towerId) {
+    addTower(userId, towerId, x, y) {
         // 저장할 data: 
-        const newTower = new Tower(userId, );
-        this.towers.push(towerData);
+        const tower = new Tower(userId, towerId, x, y);
+        this.towers.push(tower);
+        // const towerData = { towerId, x, y };
+        // this.towers.push({ tower, towerData });
     }
 
     removeTower(towerId) {
@@ -43,7 +45,7 @@ class TowerManager {
     }
 
     // user/client disconnected 시 모든 타워 해제
-    freeAllTowers(userId){
+    freeAllTowers(userId) {
 
     }
 

@@ -11,6 +11,7 @@ import { PACKET_TYPE } from '../constants/header.js';
 import stateSyncNotificationhandler  from './game/stateSyncNotification.handler.js';
 import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
+import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -44,6 +45,10 @@ const handlers = {
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationhandler,
     protoType: 'gameNotification.S2CStateSyncNotification',
+  },
+  [HANDLER_IDS.PURCHASE_TOWER]: {
+    handler: purchaseTowerHandler,
+    protoType: 'test.C2STowerPurchaseRequest',
   },
   // 다른 핸들러들을 추가
 };
