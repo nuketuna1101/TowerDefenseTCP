@@ -73,7 +73,7 @@ export const createPingPacket = (timestamp) => {
 // 매개변수로는 아마 게임시작, 매칭 시작한 유저, 매칭 잡힌 상대방 유저
 export const craeteS2CMatchStartNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
-  const S2CMatchStartNotification = protoMessages.test.S2CMatchStartNotification;
+  const S2CMatchStartNotification = protoMessages.test.GamePacket;
 
   if (!S2CMatchStartNotification) {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
@@ -102,9 +102,11 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
 
   // Payload 생성
   const payload = {
-    initialGameState,
-    playerData,
-    opponentData: playerData, 
+    matchStartNotification: {
+      initialGameState,
+      playerData,
+      opponentData: playerData, // opponentData 추가
+    },
   };
   
   try {
