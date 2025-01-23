@@ -1,11 +1,16 @@
-const updateBaseHpHandler = ({ socket, userId, payload }) => {
-    try {
+import { handleError } from '../../utils/error/errorHandler.js';
+import { findUserGameOpponentByUser } from '../../utils/findUserGameOpponent.js';
 
-      socket.write(packet);
-    } catch (error) {
-      handleError(socket, error);
-    }
-  };
-  
-  export default updateBaseHpHandler;
-  
+const updateBaseHpHandler = ({ socket, payload }) => {
+  try {
+    const damage = payload;
+    const { user } = findUserGameOpponentByUser(socket);
+
+    user.baseHp -= damage;
+  } catch (error) {
+    handleError(socket, error);
+  }
+};
+
+export default updateBaseHpHandler;
+

@@ -24,7 +24,7 @@ message S2CSpawnMonsterResponse {
 
 message S2CSpawnEnemyMonsterNotification {
     int32 monsterId = 1; 놀랍게도 얘가 고유번호
-    int32 monsterNumber = 2;  놀랍게도 얘가 종류
+    int32 monsterNumber = 2;  놀랍게도 얘가 종류 (1~5)5가지
 }
 
 message C2SMonsterAttackBaseRequest {

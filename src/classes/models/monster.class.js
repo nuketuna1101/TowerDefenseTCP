@@ -4,17 +4,10 @@ import CustomError from '../utils/error/customError.js';
 let monsterNum = 0;
 
 class Monster {
-  constructor(id,monsterNum, hp, hpPerLv, def, defPerLv, atk, atkPerLv) {
+  constructor(id,monsterNum,monsterLevel) {
     this.id = id;
     this.num = monsterNum;
-    this.maxHp = hp;
-    this.hp = hp;
-    this.hpPerLv = hpPerLv;
-    this.def = def;
-    this.defPerLv = defPerLv;
-    this.atk = atk;
-    this.atkPerLv = atkPerLv;
-    this.alive = true;
+    this.level= user.monsterLevel;
   }
 // packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
 
@@ -63,15 +56,15 @@ class Monster {
   }
 }
 
-export function spawnMonster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv, user) {
-  const monster = new Monster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv);
+export function spawnMonster(id, monsterNum, user) {
+  const monster = new Monster(id,monsterNum );
 
   // user클래스의 monster 배열에 몬스터 추가
   if (user) {
     user.addMonster({
       monsterId: monster.id,
       monsterNumber: monsterNum,
-      level: 1, // 레벨은 필요에 따라 설정
+      level: user.monsterLevel,
     });
   }
 

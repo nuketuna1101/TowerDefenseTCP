@@ -3,11 +3,11 @@ import { createResponse } from '../../utils/response/createResponse.js';
 import {findUserGameOpponentByUser} from '../../utils/findUserGameOpponent.js'
 
 export const spawnMonsterReqHandler = (socket, monsterData) => {
-  const { id,monsterNum, hp, hpPerLv, def, defPerLv, atk, atkPerLv } = monsterData;
+  const { id,monsterNum} = monsterData;
 
-  const {user,game,opponent}=findUserGameOpponentByUser(socket);
+  const {user,opponent}=findUserGameOpponentByUser(socket);
 
-  const monster = spawnMonster(id,monsterNum, hp, hpPerLv, def, defPerLv, atk, atkPerLv,user);
+  const monster = spawnMonster(id,monsterNum,user);
 
   const response = createResponse(12, 'S2CSpawnMonsterResponse', monster);
   const notification = createResponse(13, 'S2CSpawnEnemyMonsterNotification', monster);
@@ -16,18 +16,9 @@ export const spawnMonsterReqHandler = (socket, monsterData) => {
   opponent.socket.write(notification);
 };
 
-export const monsterAttackBaseReqHandler = (socket, damage) => {
-  const {user,game,opponent}=findUserGameOpponentByUser(socket);
-
-
-  changeBaseHp(damage);
-
-  
-};
-
 export const monsterDeathNotificationHandler = (socket, monsterId) => {
 
-  const {user,game,opponent}=findUserGameOpponentByUser(socket);
+  const {user,opponent}=findUserGameOpponentByUser(socket);
 
   const monster = user.monsters.find((monster) => monster.id === monsterId);
   if (!monster) {
@@ -40,4 +31,13 @@ export const monsterDeathNotificationHandler = (socket, monsterId) => {
   opponent.socket.write(notification);
 };
 
+
+// export const monsterAttackBaseReqHandler = (socket, damage) => {
+//   const {user,game,opponent}=findUserGameOpponentByUser(socket);
+
+
+//   changeBaseHp(damage);
+
+  
+// };
 
