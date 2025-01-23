@@ -1,3 +1,4 @@
+//game.notification.proto
 syntax = "proto3";
 
 package gameNotification;

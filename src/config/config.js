@@ -1,4 +1,10 @@
-import { PACKET_TYPE_LENGTH, TOTAL_LENGTH, SEQUENCE_LENGTH, VERSION_LENGTH_LENGTH, PAYLOAD_LENGTH_LENGTH } from '../constants/header.js';
+import {
+  PACKET_TYPE_LENGTH,
+  TOTAL_LENGTH,
+  SEQUENCE_LENGTH,
+  VERSION_LENGTH_LENGTH,
+  PAYLOAD_LENGTH_LENGTH,
+} from '../constants/header.js';
 import {
   PORT,
   HOST,
@@ -12,9 +18,8 @@ import {
   DB2_USER,
   DB2_PASSWORD,
   DB2_HOST,
-  DB2_PORT
+  DB2_PORT,
 } from '../constants/env.js';
-
 
 export const config = {
   server: {
@@ -22,7 +27,7 @@ export const config = {
     host: HOST,
   },
   client: {
-    version: CLIENT_VERSION,
+    version: '1.0.0', // 클라이언트 버전과 일치
   },
   packet: {
     totalLength: TOTAL_LENGTH,
@@ -45,12 +50,11 @@ export const config = {
       port: parseInt(DB1_PORT) || 3306,
     },
     USER_DB: {
-      name: DB2_NAME || 'user_db',
-      user: DB2_USER || 'root',
-      password: DB2_PASSWORD || '1234',
-      host: DB2_HOST || 'localhost',
-      port: parseInt(DB2_PORT) || 3306,
-    }
-  }
+      name: DB2_NAME,
+      user: DB2_USER,
+      password: DB2_PASSWORD,
+      host: DB2_HOST,
+      port: parseInt(DB2_PORT),
+    },
+  },
 };
-

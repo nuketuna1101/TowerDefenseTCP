@@ -1,3 +1,4 @@
+// packetParser.js
 import { getProtoMessages } from '../../init/loadProtos.js';
 import { getProtoTypeNameByHandlerId } from '../../handlers/index.js';
 import CustomError from '../error/customError.js';
@@ -17,15 +18,17 @@ export const packetParser = (handlerId, rawPayload) => {
   const [namespace, typeName] = protoTypeName.split('.');
   const PayloadType = protoMessages[namespace][typeName];
 
-
-
   let payload;
   try {
     payload = PayloadType.decode(rawPayload);
-    testLog(0, `Namespace: ${protoMessages['test']['C2SRegisterRequest']} \n 
+    testLog(
+      0,
+      `Namespace: ${protoMessages['test']['C2SRegisterRequest']} \n 
       protoTypeName: ${protoTypeName} / handlerId: ${handlerId} / namespace: ${namespace} / typeName: ${typeName} / \n
        PayloadType: ${PayloadType} /  ${JSON.stringify(PayloadType)} / rawPayload: ${rawPayload} \n
-       payload: ${payload}`, 'yellow');
+       payload: ${payload}`,
+      'yellow',
+    );
   } catch (error) {
     throw new CustomError(ErrorCodes.PACKET_STRUCTURE_MISMATCH, '패킷 구조가 일치하지 않습니다.');
   }
@@ -36,16 +39,12 @@ export const packetParser = (handlerId, rawPayload) => {
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
-    throw new CustomError(
-      ErrorCodes.INVALID_PACKET,
-      '지원하지 않는 패킷 타입입니다.'
-    );
+    throw new CustomError(ErrorCodes.INVALID_PACKET, '지원하지 않는 패킷 타입입니다.');
   }
   return payload;
 };
 // 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
 export const payloadParser = (packetType, user, Payload) => {
-
   // 버전 문자열 준비
   const version = config.client.version;
   const versionBuffer = Buffer.from(version, 'utf8');
@@ -73,5 +72,12 @@ export const payloadParser = (packetType, user, Payload) => {
   // 패러미터터
 
   // 길이 정보와 메시지를 함께 전송
-  return Buffer.concat([packetTypeBuffer, versionLengthBuffer, versionBuffer, sequenceBuffer, payloadLengthBuffer, Payload]);
+  return Buffer.concat([
+    packetTypeBuffer,
+    versionLengthBuffer,
+    versionBuffer,
+    sequenceBuffer,
+    payloadLengthBuffer,
+    Payload,
+  ]);
 };

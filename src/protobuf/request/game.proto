@@ -1,3 +1,4 @@
+//game.proto
 syntax = "proto3";
 
 package game;
