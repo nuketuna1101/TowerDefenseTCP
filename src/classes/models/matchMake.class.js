@@ -35,6 +35,13 @@ class MatchMake {
       additionalUsers: [user2.id],
     });
 
+    matchResponseHandler({
+      socket: user2.socket,
+      userId: user2.id,
+      payload: {},
+      additionalUsers: [user1.id],
+    });
+
     console.log(`매치 생성 완료 (참가 플레이어) : ${usersForGame.map((u) => u.id).join(', ')}`);
   }
 }

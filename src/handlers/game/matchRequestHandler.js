@@ -14,7 +14,6 @@ const matchRequestHandler = ({ socket, userId, payload, user }) => {
 
     // 매칭 대기열에 사용자 추가
     matchMaker.enqueueUser(user);
-    //socket.write(PACKET_TYPE.MATCH_REQUEST);
   } catch (e) {
     handleError(socket, e);
   }

@@ -36,7 +36,7 @@ const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [] })
 
     const matchPacket = craeteS2CMatchStartNotificationPacket(user);
 
-    console.log('패킷 제작 성공');
+    console.log(`[MATCHPACKET] => ${matchPacket.toString('hex')}`);
 
     // 클라에게 응답 전송
     socket.write(matchPacket);

@@ -7,7 +7,7 @@ class User {
     this.id = id;
     this.databaseId = null;
     this.socket = socket;
-    this.sequence = 1;
+    this.sequence = 0;
     this.gold = userInit.gold;
     this.baseHp = userInit.baseHp;
     this.monsterLevel = userInit.monsterLevel;
