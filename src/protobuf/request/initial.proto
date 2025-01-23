@@ -1,3 +1,4 @@
+//initial.proto
 syntax = "proto3";
 
 package initial;

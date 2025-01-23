@@ -1,3 +1,4 @@
+//index.js
 // 서버 초기화 작업
 import { loadGameAssets } from './assets.js';
 import { loadProtos } from './loadProtos.js';

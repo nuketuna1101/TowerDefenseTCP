@@ -1,3 +1,4 @@
+//game.session.js
 import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
 

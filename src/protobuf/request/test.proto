@@ -1,6 +1,7 @@
+//test.proto
 syntax = "proto3";
 
-package test;  // 이 부분이 중요합니다!
+package test; //이게 묶음
 
 /* 
   실패 코드

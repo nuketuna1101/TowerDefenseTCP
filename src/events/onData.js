@@ -1,5 +1,4 @@
-import { config } from '../config/config.js';
-import { PACKET_TYPE } from '../constants/header.js';
+// onData.js
 import { packetParser } from '../utils/parser/packetParser.js';
 import { getHandlerById } from '../handlers/index.js';
 import { getGameByUser } from '../session/game.session.js';
@@ -40,7 +39,9 @@ export const onData = (socket) => async (data) => {
       readHeadBuffer += config.packet.packetTypeLength + config.packet.versionLengthLength;
 
       //버전 수신
-      const version = socket.buffer.slice(readHeadBuffer, readHeadBuffer + versionLength).toString('utf-8');
+      const version = socket.buffer
+        .slice(readHeadBuffer, readHeadBuffer + versionLength)
+        .toString('utf-8');
       readHeadBuffer += versionLength;
 
       // clientVersion 검증
@@ -59,8 +60,12 @@ export const onData = (socket) => async (data) => {
       readHeadBuffer += config.packet.payloadLengthLength;
 
       //패이로드
-      testLog(0, `[onData] packetType: ${packetType} / versionLength: ${versionLength} / \n
-        version: ${version} / sequence: ${sequence} / payloadLength: ${payloadLength} /   `, 'green');
+      testLog(
+        0,
+        `[onData] packetType: ${packetType} / versionLength: ${versionLength} / \n
+        version: ${version} / sequence: ${sequence} / payloadLength: ${payloadLength} /   `,
+        'green',
+      );
 
       // 3. 패킷 전체 길이 확인 후 데이터 수신
       if (socket.buffer.length >= payloadLength + readHeadBuffer) {
@@ -92,6 +97,10 @@ export const onData = (socket) => async (data) => {
           handleError(socket, error);
         }
       }
+
+      // 처리된 데이터 제거
+      socket.buffer = socket.buffer.slice(totalLength);
+      console.log('남은 버퍼 크기:', socket.buffer.length);
     }
   } catch (error) {
     console.error('onData 처리 중 오류:', error);

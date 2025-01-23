@@ -1,3 +1,4 @@
+//updateLocation.handler.js
 import { getGameSession } from '../../session/game.session.js';
 import { handleError } from '../../utils/error/errorHandler.js';
 import CustomError from '../../utils/error/customError.js';

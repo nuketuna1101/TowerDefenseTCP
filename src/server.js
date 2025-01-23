@@ -1,11 +1,20 @@
-//server.js
-
+// server.js
 import net from 'net';
 import initServer from './init/index.js';
 import { config } from './config/config.js';
 import { onConnection } from './events/onConnection.js';
 
-const server = net.createServer(onConnection);
+const server = net.createServer((socket) => {
+  try {
+    onConnection(socket);
+  } catch (error) {
+    console.error('Connection handler error:', error);
+  }
+});
+
+server.on('error', (error) => {
+  console.error('Server error:', error);
+});
 
 initServer()
   .then(() => {
@@ -15,6 +24,6 @@ initServer()
     });
   })
   .catch((error) => {
-    console.error(error);
-    process.exit(1); // 오류 발생 시 프로세스 종료
+    console.error('Server initialization error:', error);
+    process.exit(1);
   });
