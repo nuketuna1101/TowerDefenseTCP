@@ -20,6 +20,7 @@
 
 import { testLog } from '../../utils/testLogger.js';
 import { distance } from '../../utils/mathHelper.js';
+import { addEnemyTowerNoitification, enemyTowerAttackNotification } from './../../utils/notification/tower.notification';
 
 class Tower {
     constructor(userId, towerId, x, y) {
@@ -59,10 +60,23 @@ class Tower {
 
         // 몬스터 피격 처리 (임시)
         monster.beAttacked(this.power);
+
+
+        // 다른 유저에게도 공격 notify
+        const enemyTowerAttackPacket = enemyTowerAttackNotification();
+        this.users.forEach((user) => {
+            // 자기 자신에게는 보내지 않음
+            if (user.id == this.userId) return;
+            user.socket.write(enemyTowerAttackPacket);
+        });
     }
 
     stop() {
 
+    }
+
+    isOwnedBy(userId){
+        return this.userId == userId;
     }
 
 

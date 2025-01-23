@@ -45,7 +45,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         // user validation
         const user = getUserById(userId);
         if (!user)
-            throw new Error(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
+            throw new CustomError(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
         // coordinate validation
         const isCoordinateValid = isCoordinateValid(x, y);
         if (!isCoordinateValid)
