@@ -5,6 +5,7 @@ import { getHandlerById } from '../../handlers/index.js';
 class User {
   constructor(id, socket) {
     this.id = id;
+    this.databaseId = null;
     this.socket = socket;
     this.sequence = 0;
     this.gold = userInit.gold;
@@ -41,7 +42,6 @@ class User {
     // console.log(`Received pong from user ${this.id} at ${now} with latency ${this.latency}ms`);
   }
 
-  
   addMonster(monster) {
     this.monster.push(monster);
   }
@@ -50,26 +50,35 @@ class User {
     this.tower.push(tower);
   }
 
-  //웨이브마다 초기화?
+  //몬스터 초기화
   removeMonster() {
     this.monster = [];
   }
 
   //특정 타워를 삭제할 경우가 있을것. 아마도?
-  removeTower() {
+  removeTowerById(towerId) {
     //placeholder
+    const deletingTower = this.tower.findIndex((value) => {
+      return Object.values(value)[0] == towerId;
+    });
+    if (deletingTower < 0) return deletingTower;
+    this.tower.splice(deletingTower, 1);
+    return deletingTower;
+  }
+  //타워 초기화
+  removeTower() {
     this.tower = [];
   }
 
   addGold(gold) {
     this.gold += gold;
-    //싱크?
-    
+
+    //싱크
     const handler = getHandlerById(7);
     handler({
       socket: this.socket,
       userId: user.id,
-      payload:{},
+      payload: {},
       user: this,
     });
 
@@ -81,13 +90,13 @@ class User {
       return -1;
     }
     this.gold -= gold;
-    //싱크?
 
+    //싱크
     const handler = getHandlerById(7);
     handler({
       socket: this.socket,
       userId: this.id,
-      payload:{},
+      payload: {},
       user: this,
     });
 
@@ -105,10 +114,13 @@ class User {
       return -1;
     }
     this.baseHp -= baseHp;
-    
+
     return this.baseHp;
   }
 
+  setDatabaseId(databaseId) {
+    return (this.databaseId = databaseId);
+  }
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
   // calculatePosition(latency) {
