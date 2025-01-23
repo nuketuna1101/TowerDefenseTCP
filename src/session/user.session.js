@@ -5,6 +5,7 @@ import User from '../classes/models/user.class.js';
 export const addUser = (id, socket) => {
   const user = new User(id, socket);
   userSessions.push(user);
+  //console.log('로그인된 유저가 있는데 : ' + id, socket);
   return user;
 };
 
@@ -22,7 +23,6 @@ export const getUserById = (id) => {
 export const getUserBySocket = (socket) => {
   return userSessions.find((user) => user.socket === socket);
 };
-
 
 export const getNextSequence = (id) => {
   const user = getUserById(id);

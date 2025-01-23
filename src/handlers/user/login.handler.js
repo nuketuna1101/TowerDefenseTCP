@@ -5,6 +5,7 @@ import { handleError } from '../../utils/error/errorHandler.js';
 import { findUserByUsername, validatePassword, updateUserLogin } from '../../db/user/user.db.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
+import { addUser } from '../../session/user.session.js';
 
 const loginHandler = async ({ socket, userId, payload }) => {
   console.log('=== 로그인 처리 시작 ===');
@@ -24,6 +25,9 @@ const loginHandler = async ({ socket, userId, payload }) => {
     const isValid = await validatePassword(password, user.password);
     if (!isValid) {
       throw new CustomError(ErrorCodes.INVALID_PASSWORD, '잘못된 비밀번호입니다.');
+    } else {
+      //로그인 성공했으니 등록
+      addUser(id, socket);
     }
 
     // 마지막 로그인 시간 업데이트
