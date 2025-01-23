@@ -10,6 +10,7 @@ import { getProtoMessages } from '../init/loadProtos.js';
 import { CLIENT_VERSION } from '../constants/env.js';
 import { HANDLER_IDS } from '../constants/handlerIds.js';
 import { testLog } from '../utils/testLogger.js';
+import { config } from '../config/config.js';
 
 export const onData = (socket) => async (data) => {
   try {
@@ -97,10 +98,6 @@ export const onData = (socket) => async (data) => {
           handleError(socket, error);
         }
       }
-
-      // 처리된 데이터 제거
-      socket.buffer = socket.buffer.slice(totalLength);
-      console.log('남은 버퍼 크기:', socket.buffer.length);
     }
   } catch (error) {
     console.error('onData 처리 중 오류:', error);
