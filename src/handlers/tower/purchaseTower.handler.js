@@ -19,14 +19,14 @@
 //====================================================================================================================
 //====================================================================================================================
 
-import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds";
-import { PACKET_TYPE } from "../../constants/header";
-import { getProtoMessages } from "../../init/loadProtos";
-import { getUserById } from "../../session/user.session";
-import TowerManager from "../../tmp/tower.manager";
-import CustomError from "../../utils/error/customError";
-import { ErrorCodes } from "../../utils/error/errorCodes";
-import { createResponse } from "../../utils/response/createResponse";
+import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds.js";
+import { PACKET_TYPE } from "../../constants/header.js";
+import { getProtoMessages } from "../../init/loadProtos.js";
+import { getUserById } from "../../session/user.session.js";
+import TowerManager from "../../classes/managers/tower.manager.js";
+import CustomError from "../../utils/error/customError.js";
+import { ErrorCodes } from "../../utils/error/errorCodes.js";
+import { createResponse } from "../../utils/response/createResponse.js";
 
 // 임시로 무조건 true 반환
 const isCoordinateValid = (x, y) => {
