@@ -19,7 +19,7 @@
 //====================================================================================================================
 
 import { testLog } from '../../utils/testLogger.js';
-import { distance } from './../../utils/mathHelper.js';
+import { distance } from '../../utils/mathHelper.js';
 
 class Tower {
     constructor(userId, towerId, x, y) {
