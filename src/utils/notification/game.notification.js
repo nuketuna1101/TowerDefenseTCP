@@ -69,8 +69,6 @@ export const createPingPacket = (timestamp) => {
 export const craeteS2CMatchStartNotificationPacket = () => {
   const protoMessages = getProtoMessages();
   const MatchMake = protoMessages.test.S2CMatchStartNotification;
-  const GameState = protoMessages.test.GameState;
-  const InitialGameState = protoMessages.test.InitialGameState;
   /*
   message InitialGameState {
   int32 baseHp = 1;
