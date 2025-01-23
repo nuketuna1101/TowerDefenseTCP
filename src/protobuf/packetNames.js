@@ -21,13 +21,16 @@ export const packetNames = {
     InitialGameState: 'test.InitialGameState',
     GameState: 'test.GameState',
     GamePacket: 'test.GamePacket',            // GamePacket 추가
+    TowerData: 'test.TowerData',
     C2SRegisterRequest: 'test.C2SRegisterRequest',
     S2CRegisterResponse: 'test.S2CRegisterResponse',
     C2SLoginRequest: 'test.C2SLoginRequest',
     S2CLoginResponse: 'test.S2CLoginResponse',
     C2SMatchRequest: 'test.C2SMatchRequest',
     S2CMatchStartNotification: 'test.S2CMatchStartNotification',
+    C2STowerPurchaseRequest: 'test.C2STowerPurchaseRequest',
   },
+
   response: {
     Response: 'response.Response'
   },

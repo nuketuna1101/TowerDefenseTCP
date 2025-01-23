@@ -58,7 +58,7 @@ export const payloadParser = (packetType, user, Payload) => {
 
   // 1. 패킷 타입 정보를 포함한 버퍼 생성 (2바이트)
   const packetTypeBuffer = Buffer.alloc(config.packet.packetTypeLength);
-  packetTypeBuffer.writeUInt16BE(packetType, 0);
+  packetTypeBuffer.writeUint16BE(packetType, 0);
 
   // 2. 버전 길이 (1바이트)
   const versionLengthBuffer = Buffer.alloc(config.packet.versionLengthLength);

@@ -22,15 +22,15 @@ import { distance } from '../utils/mathHelper.js';
 import { testLog } from './../utils/testLogger.js';
 
 class Tower {
-    constructor(userId, towerTypeId, x, y) {
+    constructor(userId, towerId, x, y) {
         // 식별자 id
-        this.id = id;
+        this.id = towerId;
         // 입력값 기반 초기화
         this.userId = userId;
-        this.towerTypeId = towerTypeId;
         this.x = x;
         this.y = y;
         // 초기화 수치 일단 하드코딩 => 추후 리팩토링
+        this.towerTypeId = towerTypeId;
         this.power = 40;
         this.powerPerLv = 10;
         this.range = 300;
