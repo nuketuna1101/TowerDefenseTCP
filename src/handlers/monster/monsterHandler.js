@@ -1,28 +1,43 @@
 import { spawnMonster } from '../../classes/models/monster.class.js';
-import { getUserById } from '../../session/user.session.js';
 import { createResponse } from '../../utils/response/createResponse.js';
-import { HANDLER_IDS } from '../../constants/handlerIds.js';
+import {findUserGameOpponentByUser} from '../../utils/findUserGameOpponent.js'
 
-const spawnMonsterReqHandler = (userId, monsterData) => {
-  const { id, hp, hpPerLv, def, defPerLv, atk, atkPerLv } = monsterData;
-  const monster = spawnMonster(id, hp, hpPerLv, def, defPerLv, atk, atkPerLv);
+export const spawnMonsterReqHandler = (socket, monsterData) => {
+  const { id,monsterNum, hp, hpPerLv, def, defPerLv, atk, atkPerLv } = monsterData;
 
-  const user = getUserById(userId);
-  if (!user) {
-    throw new Error('유저를 찾을 수 없습니다.');
-  }
+  const {user,game,opponent}=findUserGameOpponentByUser(socket);
 
-  //몬스터를 스폰한게 본인인지 상대방인ㅇ지 어떻게 구분하는가?
-  let packetName;
-  if (user.id === userId) {
-    packetName = 'S2CSpawnMonsterResponse';
-  }
-  if (user.id !== userId) {
-    packetName = 'S2CSpawnEnemyMonsterNotification';
-  }
+  const monster = spawnMonster(id,monsterNum, hp, hpPerLv, def, defPerLv, atk, atkPerLv,user);
 
-  const response = createResponse(HANDLER_IDS.SPAWN_MONSTER, 0, monster, userId);
+  const response = createResponse(12, 'S2CSpawnMonsterResponse', monster);
+  const notification = createResponse(13, 'S2CSpawnEnemyMonsterNotification', monster);
+
   user.socket.write(response);
+  opponent.socket.write(notification);
 };
 
-export default spawnMonsterReqHandler;
+export const monsterAttackBaseReqHandler = (socket, damage) => {
+  const {user,game,opponent}=findUserGameOpponentByUser(socket);
+
+
+  changeBaseHp(damage);
+
+  
+};
+
+export const monsterDeathNotificationHandler = (socket, monsterId) => {
+
+  const {user,game,opponent}=findUserGameOpponentByUser(socket);
+
+  const monster = user.monsters.find((monster) => monster.id === monsterId);
+  if (!monster) {
+    throw new Error(`몬스터를 찾을 수 없습니다. ID: ${monsterId}`);
+  }
+
+  const packet = monster.monsterDead(user.id);
+  const notification = createResponse(21, 'S2CEnemyMonsterDeathNotification', packet);
+
+  opponent.socket.write(notification);
+};
+
+
