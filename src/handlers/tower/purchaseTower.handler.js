@@ -19,18 +19,21 @@
 //====================================================================================================================
 //====================================================================================================================
 
-import { RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds";
+import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds";
 import TowerManager from "../../tmp/tower.manager";
 import CustomError from "../../utils/error/customError";
 import { ErrorCodes } from "../../utils/error/errorCodes";
 import { createResponse } from "../../utils/response/createResponse";
 
+// 임시로 무조건 true 반환
+const isCoordinateValid = (x, y) => {
+    return true;
+};
+
 const purchaseTowerHandler = ({ socket, userId, payload }) => {
     try {
-
         // payload에서 가져오는 monster와 tower id값
-        const { towerId, x, y } = payload;
-
+        const { x, y } = payload;
         // TO DO
         // user 금액이 충분한지 validation
         // if ()            throw new CustomError(ErrorCodes.);
@@ -39,11 +42,14 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         if (!isCoordinateValid)
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
 
-        // 데이터 단 타워 추가
+        // 새로운 타워 id 생성
+        const towerId = uuidv4();
+
+        // 데이터 단 타워 추가: user 클래스의 타워 배열 추가, towerData로서 패킷 추가
         TowerManager.instance.addTower(userId, towerId);
         // 타워 생성 response
         const purchaseTowerResponse = createResponse(
-            /* handlerid가 packettype으로 변경 */
+            HANDLER_IDS.PURCHASE_TOWER,
             RESPONSE_SUCCESS_CODE,
             { towerId, message: 'Tower Purchase completed' },
         );

@@ -27,7 +27,9 @@ export const packetNames = {
     S2CLoginResponse: 'test.S2CLoginResponse',
     C2SMatchRequest: 'test.C2SMatchRequest',
     S2CMatchStartNotification: 'test.S2CMatchStartNotification',
+    C2STowerPurchaseRequest: 'test.C2STowerPurchaseRequest',
   },
+
   response: {
     Response: 'response.Response'
   },
