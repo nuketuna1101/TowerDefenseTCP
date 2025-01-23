@@ -36,9 +36,7 @@ export const packetParser = (handlerId, rawPayload) => {
 
   // 필드가 비어 있거나, 필수 필드가 누락된 경우 처리
   const expectedFields = Object.keys(expectedPayloadType.fields);
-  console.log(expectedFields);
   const actualFields = Object.keys(Object.values(payload)[0]);
-  console.log(actualFields);
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
