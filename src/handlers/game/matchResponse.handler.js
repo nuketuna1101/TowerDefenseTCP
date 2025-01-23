@@ -1,14 +1,13 @@
-//createGame.handler.js
 import { v4 as uuidv4 } from 'uuid';
 import { addGameSession } from '../../session/game.session.js';
-import { createResponse } from '../../utils/response/createResponse.js';
 import { handleError } from '../../utils/error/errorHandler.js';
-import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
 import { getUserById } from '../../session/user.session.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
+import { getProtoMessages } from '../../init/loadProtos.js';
+import { craeteS2CMatchStartNotificationPacket } from '../../utils/notification/game.notification.js';
 
-const createGameHandler = ({ socket, userId, payload, additionalUsers = [] }) => {
+const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [] }) => {
   try {
     // 새로운 게임 ID 생성
     const gameId = uuidv4();
@@ -27,7 +26,7 @@ const createGameHandler = ({ socket, userId, payload, additionalUsers = [] }) =>
     const addedUserIds = [userId];
     additionalUsers.forEach((additionalUserId) => {
       const additionalUser = getUserById(additionalUserId);
-      if(additionalUser) {
+      if (additionalUser) {
         // 매칭 잡힌 사용자 게임 세션에 추가
         gameSession.addUser(additionalUser);
         // 매칭 잡힌 사용자 id 저장
@@ -35,25 +34,15 @@ const createGameHandler = ({ socket, userId, payload, additionalUsers = [] }) =>
       }
     });
 
-    const createGameResponse = createResponse(
-      HANDLER_IDS.CREATE_GAME,
-      RESPONSE_SUCCESS_CODE,
-      { 
-        // 생성 된 게임 id
-        gameId, 
-        // 게임에 참여한 사용자들의 id
-        userIds: addedUserIds,
-        message: '게임이 생성되었습니다.'
-       },
-      // 응답을 보낸 사용자 id
-      userId,
-    );
+    const matchPacket = craeteS2CMatchStartNotificationPacket(user);
+
+    console.log('패킷 제작 성공');
 
     // 클라에게 응답 전송
-    socket.write(createGameResponse);
+    socket.write(matchPacket);
   } catch (error) {
     handleError(socket, error);
   }
 };
 
-export default createGameHandler;
+export default matchResponseHandler;

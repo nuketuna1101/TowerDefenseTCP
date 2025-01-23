@@ -1,5 +1,5 @@
 import { MAX_PLAYERS } from './game.class.js';
-import createGameHandler from '../../handlers/game/createGame.handler.js';
+import matchResponseHandler from '../../handlers/game/matchResponse.handler.js';
 
 class MatchMake {
   constructor() {
@@ -25,7 +25,10 @@ class MatchMake {
     const [user1, user2] = usersForGame;
 
     // 대기열에서 추출된 사용자들에게 createGameHandler 호출
-    createGameHandler({
+
+    console.log(`user1의 소켓 => ${user1.socket} / user2의 소켓 => ${user2.socket}`);
+
+    matchResponseHandler({
       socket: user1.socket,
       userId: user1.id,
       payload: {},

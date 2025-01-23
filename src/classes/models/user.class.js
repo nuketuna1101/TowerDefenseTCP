@@ -1,12 +1,12 @@
 //user.class.js
-import { createPingPacket } from '../../utils/notification/game.notification.js';
+//import { createPingPacket } from '../../utils/notification/game.notification.js';
 import { userInit } from '../../constants/userConstants.js';
 import { getHandlerById } from '../../handlers/index.js';
 class User {
   constructor(id, socket) {
     this.id = id;
     this.socket = socket;
-    this.sequence = 0;
+    this.sequence = 1;
     this.gold = userInit.gold;
     this.baseHp = userInit.baseHp;
     this.monsterLevel = userInit.monsterLevel;
@@ -32,7 +32,7 @@ class User {
     const now = Date.now();
 
     // console.log(`${this.id}: ping`);
-    this.socket.write(createPingPacket(now));
+    //this.socket.write(createPingPacket(now));
   }
 
   handlePong(data) {
