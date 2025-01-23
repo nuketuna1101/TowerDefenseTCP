@@ -24,27 +24,27 @@ const makeNotification = (message, type) => {
 };
 
 //#region NOTIFICATION
-/*
-// TO DO
+
+// addEnemyTowerNoitification
 export const addEnemyTowerNoitification = (towerId, x, y) => {
     const protoMsg = getProtoMessages();
-    const addEnemyTower = protoMsg.gameNotification.//___// ;
+    const addEnemyTower = protoMsg.test.S2CAddEnemyTowerNotification;
 
     const payload = { towerId, x, y };
     const message = addEnemyTower.create(payload);
     const packet = addEnemyTower.encode(message).finish();
-    return makeNotification(packet, PACKET_TYPE.//___//);
+    return makeNotification(packet, PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION);
 };
 
-// TO DO
-export const enemyTowerAttackNotification = () => {
+// enemyTowerAttackNotification
+export const enemyTowerAttackNotification = (towerId, monsterId) => {
     const protoMsg = getProtoMessages();
-    const enemyTowerAttack = protoMsg.gameNotification.//___// ;
+    const enemyTowerAttack = protoMsg.test.S2CEnemyTowerAttackNotification;
 
-    const payload = { towerId, x, y };
+    const payload = { towerId, monsterId };
     const message = enemyTowerAttack.create(payload);
     const packet = enemyTowerAttack.encode(message).finish();
-    return makeNotification(packet, PACKET_TYPE.//___//);
+    return makeNotification(packet, PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION);
 };
-*/
+
 //#endregion
