@@ -16,7 +16,6 @@ import { handleError } from '../utils/error/errorHandler.js';
 import updateBaseHpNotificationHandler from './base/baseHpNotification.handler.js';
 import updategameOverNotificationHandler from './game/gameOverNotification.handler.js';
 import gameEndRequestHandler from './game/gameEndRequest.handler.js';
-import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
