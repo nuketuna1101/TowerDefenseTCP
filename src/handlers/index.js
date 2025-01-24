@@ -14,6 +14,7 @@ import loginHandler from './user/login.handler.js';
 import matchResponseHandler from './game/matchResponse.handler.js';
 import { handleError } from '../utils/error/errorHandler.js';
 //import purchaseTowerHandler from './tower/purchaseTower.handler.js';
+import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -52,14 +53,14 @@ const handlers = {
     handler: purchaseTowerHandler,
     protoType: 'test.C2STowerPurchaseRequest',
   },
-  [HANDLER_IDS.ADD_ENEMY_TOWER]: {
-    handler: purchaseTowerHandler/* NOT IMPLEMENTED YET, TO DO */,
-    protoType: 'test.S2CAddEnemyTowerNotification',
-  },
-  [HANDLER_IDS.ENEMY_TOWER_ATTACK]: {
-    handler: purchaseTowerHandler/* NOT IMPLEMENTED YET, TO DO */,
-    protoType: 'test.S2CEnemyTowerAttackNotification',
-  },
+  // [HANDLER_IDS.ADD_ENEMY_TOWER]: {
+  //   handler: purchaseTowerHandler/* NOT IMPLEMENTED YET, TO DO */,
+  //   protoType: 'test.S2CAddEnemyTowerNotification',
+  // },
+  // [HANDLER_IDS.ENEMY_TOWER_ATTACK]: {
+  //   handler: purchaseTowerHandler/* NOT IMPLEMENTED YET, TO DO */,
+  //   protoType: 'test.S2CEnemyTowerAttackNotification',
+  // },
   // 다른 핸들러들을 추가
 };
 
