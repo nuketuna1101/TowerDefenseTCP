@@ -31,6 +31,11 @@ export const packetNames = {
     C2SMatchRequest: 'test.C2SMatchRequest',
     S2CMatchStartNotification: 'test.S2CMatchStartNotification',
     C2STowerPurchaseRequest: 'test.C2STowerPurchaseRequest',
+    C2SSpawnMonsterRequest: 'test.C2SSpawnMonsterRequest',
+    S2CSpawnMonsterResponse: 'test.S2CSpawnMonsterResponse',
+    S2CSpawnEnemyMonsterNotification: 'test.S2CSpawnEnemyMonsterNotification',
+    C2SMonsterDeathNotification: 'test.C2SMonsterDeathNotification',
+    S2CEnemyMonsterDeathNotification: 'test.S2CEnemyMonsterDeathNotification',
   },
 
   response: {

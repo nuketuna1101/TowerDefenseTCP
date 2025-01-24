@@ -8,7 +8,6 @@ import { testLog } from '../testLogger.js';
 
 export const packetParser = (handlerId, rawPayload) => {
   const protoMessages = getProtoMessages();
-
   // 핸들러 ID에 따라 적절한 payload 구조를 디코딩
   const protoTypeName = getProtoTypeNameByHandlerId(handlerId);
   if (!protoTypeName) {
@@ -18,6 +17,8 @@ export const packetParser = (handlerId, rawPayload) => {
   const [namespace, typeName] = protoTypeName.split('.');
   const expectedPayloadType = protoMessages[namespace][typeName];
   const PayloadType = protoMessages['test']['GamePacket'];
+  testLog(0,`expectedPayloadType: ${expectedPayloadType}`,'green',);
+
 
   let payload;
   try {
