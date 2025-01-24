@@ -20,13 +20,13 @@
 //====================================================================================================================
 
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds.js";
-import { PACKET_TYPE } from "../../constants/header.js";
-import { getProtoMessages } from "../../init/loadProtos.js";
+import { v4 as uuidv4 } from 'uuid';
 import { getUserById } from "../../session/user.session.js";
 import TowerManager from "../../classes/managers/tower.manager.js";
 import CustomError from "../../utils/error/customError.js";
 import { ErrorCodes } from "../../utils/error/errorCodes.js";
 import { createResponse } from "../../utils/response/createResponse.js";
+import { handleError } from "../../utils/error/errorHandler.js";
 
 // 임시로 무조건 true 반환
 const isCoordinateValid = (x, y) => {
@@ -47,8 +47,8 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         if (!user)
             throw new CustomError(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
         // coordinate validation
-        const isCoordinateValid = isCoordinateValid(x, y);
-        if (!isCoordinateValid)
+        const isCoordValid = isCoordinateValid(x, y);
+        if (!isCoordValid)
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
         // 새로운 타워 id 생성
         const towerId = uuidv4();
@@ -77,7 +77,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
             userId,
         );
 
-        socket.write(purchaseTowerResponse, 'Tower Purchase completed');
+        socket.write(purchaseTowerResponse);
     } catch (error) {
         handleError(socket, error);
     }
