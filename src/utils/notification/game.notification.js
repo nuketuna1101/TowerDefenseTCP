@@ -2,6 +2,9 @@
 import { getProtoMessages } from '../../init/loadProtos.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 import { config } from '../../config/config.js';
+import { payloadParser } from '../parser/packetParser.js';
+import { createResponse } from '../response/createResponse.js';
+import { HANDLER_IDS } from '../../constants/handlerIds.js';
 
 const makeNotification = (message, type) => {
   // 패킷 길이 정보를 포함한 버퍼 생성
@@ -21,15 +24,18 @@ const makeNotification = (message, type) => {
 
 export const createS2CStateSyncNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
-  const userStateData = protoMessages.gameNotification.S2CStateSyncNotification;
+  const userStateData = protoMessages.test.GamePacket;
 
-  const payload = { userGold: user.gold,
-    baseHp: user.baseHp,
-    monsterLevel: user.monsterLevel,
-    score: user.score,
-    towers: user.tower,
-    monsters: user.monster,
-   };
+  const payload = {
+    stateSyncNotification: {
+      userGold: user.gold,
+      baseHp: user.baseHp,
+      monsterLevel: user.monsterLevel,
+      score: user.score,
+      towers: user.tower,
+      monsters: user.monster,
+    },
+  };
   const message = userStateData.create(payload);
   const userStateDataPacket = userStateData.encode(message).finish();
   return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
@@ -65,33 +71,15 @@ export const createPingPacket = (timestamp) => {
   return makeNotification(pingPacket, PACKET_TYPE.PING);
 };
 
-// 서버에서 클라로 전송해야 할 매칭완료 notification 
+// 서버에서 클라로 전송해야 할 매칭완료 notification
 // 매개변수로는 아마 게임시작, 매칭 시작한 유저, 매칭 잡힌 상대방 유저
-export const craeteS2CMatchStartNotificationPacket = () => {
+export const craeteS2CMatchStartNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
-  const MatchMake = protoMessages.test.S2CMatchStartNotification;
-  const GameState = protoMessages.test.GameState;
-  const InitialGameState = protoMessages.test.InitialGameState;
-  /*
-  message InitialGameState {
-  int32 baseHp = 1;
-  int32 towerCost = 2;
-  int32 initialGold = 3;
-  int32 monsterSpawnInterval = 4;
-}
+  const S2CMatchStartNotification = protoMessages.test.GamePacket;
 
-message GameState {
-  int32 gold = 1;
-  BaseData base = 2;
-  int32 highScore = 3;
-  repeated TowerData towers = 4;
-  repeated MonsterData monsters = 5;
-  int32 monsterLevel = 6;
-  int32 score = 7;
-  repeated Position monsterPath = 8;
-  Position basePosition = 9;
-}
-  */
+  if (!S2CMatchStartNotification) {
+    throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
+  }
 
   user.path.push({ x: 0, y: 350 });
   user.path.push({ x: 200, y: 350 });
@@ -135,9 +123,12 @@ message GameState {
   try {
     const message = S2CMatchStartNotification.create(payload);
     const MatchMakePacket = S2CMatchStartNotification.encode(message).finish();
+    console.log(`MATCHMAKEPACKET => ${MatchMakePacket.toString('hex')}`);
 
+    console.log(`PACKETTYPE => ${PACKET_TYPE.MATCH_START_NOTIFICATION}`);
     return payloadParser(PACKET_TYPE.MATCH_START_NOTIFICATION, user, MatchMakePacket);
   } catch (error) {
+    console.error('패킷 생성 중 오류:', error);
     throw error;
   }
 };
