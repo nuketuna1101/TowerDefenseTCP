@@ -8,10 +8,8 @@ import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { getProtoMessages } from '../../init/loadProtos.js';
 import { craeteS2CMatchStartNotificationPacket } from '../../utils/notification/game.notification.js';
 
-const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [] }) => {
+const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], gameId }) => {
   try {
-    // 새로운 게임 ID 생성
-    const gameId = uuidv4();
     // 게임 세션 생성
     const gameSession = addGameSession(gameId);
 
@@ -36,8 +34,6 @@ const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [] })
     });
 
     const matchPacket = craeteS2CMatchStartNotificationPacket(user);
-
-    console.log(`[MATCHPACKET] => ${matchPacket.toString('hex')}`);
 
     // 클라에게 응답 전송
     socket.write(matchPacket);

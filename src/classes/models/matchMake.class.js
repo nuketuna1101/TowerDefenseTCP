@@ -1,5 +1,6 @@
 import { MAX_PLAYERS } from './game.class.js';
 import matchResponseHandler from '../../handlers/game/matchResponse.handler.js';
+import { v4 as uuidv4 } from 'uuid';
 
 class MatchMake {
   constructor() {
@@ -24,15 +25,15 @@ class MatchMake {
     const usersForGame = this.queue.splice(0, MAX_PLAYERS);
     const [user1, user2] = usersForGame;
 
-    // 대기열에서 추출된 사용자들에게 createGameHandler 호출
-
-    console.log(`user1의 소켓 => ${user1.socket} / user2의 소켓 => ${user2.socket}`);
+    // 새로운 게임 ID 생성
+    const gameId = uuidv4();
 
     matchResponseHandler({
       socket: user1.socket,
       userId: user1.id,
       payload: {},
       additionalUsers: [user2.id],
+      gameId: gameId
     });
 
     matchResponseHandler({
@@ -40,6 +41,7 @@ class MatchMake {
       userId: user2.id,
       payload: {},
       additionalUsers: [user1.id],
+      gameId: gameId
     });
 
     console.log(`매치 생성 완료 (참가 플레이어) : ${usersForGame.map((u) => u.id).join(', ')}`);
