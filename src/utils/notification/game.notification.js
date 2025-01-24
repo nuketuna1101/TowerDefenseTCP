@@ -3,8 +3,6 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 import { config } from '../../config/config.js';
 import { payloadParser } from '../parser/packetParser.js';
-import { createResponse } from '../response/createResponse.js';
-import { HANDLER_IDS } from '../../constants/handlerIds.js';
 
 const makeNotification = (message, type) => {
   // 패킷 길이 정보를 포함한 버퍼 생성
@@ -123,7 +121,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   try {
     const message = S2CMatchStartNotification.create(payload);
     const MatchMakePacket = S2CMatchStartNotification.encode(message).finish();
-
+    
     return payloadParser(PACKET_TYPE.MATCH_START_NOTIFICATION, user, MatchMakePacket);
   } catch (error) {
     console.error('패킷 생성 중 오류:', error);
