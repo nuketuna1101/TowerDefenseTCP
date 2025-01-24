@@ -3,7 +3,6 @@ import { HANDLER_IDS } from '../constants/handlerIds.js';
 import initialHandler from './user/initial.handler.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
-import createGameHandler from './game/createGame.handler.js';
 import joinGameHandler from './game/joinGame.handler.js';
 import updateLocationHandler from './game/updateLocation.handler.js';
 import matchRequestHandler from './game/matchRequestHandler.js';
@@ -11,7 +10,9 @@ import { PACKET_TYPE } from '../constants/header.js';
 import stateSyncNotificationhandler  from './game/stateSyncNotification.handler.js';
 import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
-import purchaseTowerHandler from './tower/purchaseTower.handler.js';
+import matchResponseHandler from './game/matchResponse.handler.js';
+import { handleError } from '../utils/error/errorHandler.js';
+//import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -26,10 +27,6 @@ const handlers = {
     handler: loginHandler,
     protoType: 'test.C2SLoginRequest',
   },
-  [HANDLER_IDS.CREATE_GAME]: {
-    handler: createGameHandler,
-    protoType: 'game.CreateGamePayload',
-  },
   [HANDLER_IDS.JOIN_GAME]: {
     handler: joinGameHandler,
     protoType: 'game.JoinGamePayload',
@@ -38,9 +35,13 @@ const handlers = {
     handler: updateLocationHandler,
     protoType: 'game.LocationUpdatePayload',
   },
+  [HANDLER_IDS.MATCH_MAKE_REQUEST]: {
+    handler: matchResponseHandler,
+    protoType: 'test.S2CMatchStartNotification',
+  },
   [HANDLER_IDS.MATCH_MAKE]: {
     handler: matchRequestHandler,
-    protoType: 'test.S2CMatchStartNotification',
+    protoType: 'test.C2SMatchRequest',
   },
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationhandler,
