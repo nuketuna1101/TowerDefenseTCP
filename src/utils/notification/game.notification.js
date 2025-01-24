@@ -24,15 +24,16 @@ const makeNotification = (message, type) => {
 
 export const createS2CStateSyncNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
-  const userStateData = protoMessages.gameNotification.S2CStateSyncNotification;
+  const userStateData = protoMessages.test.GamePacket;
 
-  const payload = {
+  const payload = { stateSyncNotification:
+    {
     userGold: user.gold,
     baseHp: user.baseHp,
     monsterLevel: user.monsterLevel,
     score: user.score,
     towers: user.tower,
-    monsters: user.monster,
+    monsters: user.monster,}
   };
   const message = userStateData.create(payload);
   const userStateDataPacket = userStateData.encode(message).finish();
