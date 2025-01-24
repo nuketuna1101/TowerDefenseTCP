@@ -16,6 +16,8 @@ import { handleError } from '../utils/error/errorHandler.js';
 import updateBaseHpNotificationHandler from './base/baseHpNotification.handler.js';
 import updategameOverNotificationHandler from './game/gameOverNotification.handler.js';
 import gameEndRequestHandler from './game/gameEndRequest.handler.js';
+import purchaseTowerHandler from './tower/purchaseTower.handler.js';
+import {spawnMonsterReqHandler} from '../handlers/monster/monsterHandler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -45,6 +47,10 @@ const handlers = {
   [HANDLER_IDS.MATCH_MAKE]: {
     handler: matchRequestHandler,
     protoType: 'test.C2SMatchRequest',
+  },
+  [HANDLER_IDS.SPAWN_MONSTER]: {
+    handler: spawnMonsterReqHandler,
+    protoType: 'test.C2SSpawnMonsterRequest',
   },
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationHandler,

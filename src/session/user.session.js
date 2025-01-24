@@ -1,6 +1,7 @@
 //user.session.js
 import { userSessions } from './sessions.js';
 import User from '../classes/models/user.class.js';
+import { testLog } from '../utils/testLogger.js';
 
 export const addUser = (id, socket) => {
   const user = new User(id, socket);

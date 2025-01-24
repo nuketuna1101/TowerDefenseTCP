@@ -8,7 +8,6 @@ import { testLog } from '../testLogger.js';
 
 export const packetParser = (handlerId, rawPayload) => {
   const protoMessages = getProtoMessages();
-
   // 핸들러 ID에 따라 적절한 payload 구조를 디코딩
   const protoTypeName = getProtoTypeNameByHandlerId(handlerId);
   if (!protoTypeName) {
@@ -18,6 +17,8 @@ export const packetParser = (handlerId, rawPayload) => {
   const [namespace, typeName] = protoTypeName.split('.');
   const expectedPayloadType = protoMessages[namespace][typeName];
   const PayloadType = protoMessages['test']['GamePacket'];
+  testLog(0,`expectedPayloadType: ${expectedPayloadType}`,'green',);
+
 
   let payload;
   try {
@@ -36,7 +37,13 @@ export const packetParser = (handlerId, rawPayload) => {
 
   // 필드가 비어 있거나, 필수 필드가 누락된 경우 처리
   const expectedFields = Object.keys(expectedPayloadType.fields);
+
+  testLog(0,`expectedFields: ${expectedFields}`,'red');
+  testLog(0,`payload: ${JSON.stringify(payload)}`,'blue');
+
   const actualFields = Object.keys(Object.values(payload)[0]);
+  testLog(0,`actualFields: ${actualFields}`,'green');
+
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
