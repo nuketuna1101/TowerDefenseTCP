@@ -11,40 +11,30 @@
 
 import { PACKET_TYPE } from "../../constants/header.js";
 import { getProtoMessages } from "../../init/loadProtos.js";
-
-const makeNotification = (message, type) => {
-    const packetLength = Buffer.alloc(config.packet.totalLength);
-    packetLength.writeUInt32BE(
-        message.length + config.packet.totalLength + config.packet.typeLength,
-        0,
-    );
-    const packetType = Buffer.alloc(config.packet.typeLength);
-    packetType.writeUInt8(type, 0);
-    return Buffer.concat([packetLength, packetType, message]);
-};
+import { payloadParser } from "../parser/packetParser.js";
 
 //#region NOTIFICATION
 
 // addEnemyTowerNoitification
-export const addEnemyTowerNoitification = (towerId, x, y) => {
+export const addEnemyTowerNoitification = (towerId, x, y, user) => {
     const protoMsg = getProtoMessages();
-    const addEnemyTower = protoMsg.test.S2CAddEnemyTowerNotification;
+    const addEnemyTower = protoMsg.test.GamePacket;
 
-    const payload = { towerId, x, y };
+    const payload = { S2CAddEnemyTowerNotification: {towerId, x, y} };
     const message = addEnemyTower.create(payload);
     const packet = addEnemyTower.encode(message).finish();
-    return makeNotification(packet, PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION);
+    return payloadParser(PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION, user, packet);
 };
 
 // enemyTowerAttackNotification
-export const enemyTowerAttackNotification = (towerId, monsterId) => {
+export const enemyTowerAttackNotification = (towerId, monsterId, user) => {
     const protoMsg = getProtoMessages();
-    const enemyTowerAttack = protoMsg.test.S2CEnemyTowerAttackNotification;
+    const enemyTowerAttack = protoMsg.test.GamePacket;
 
-    const payload = { towerId, monsterId };
+    const payload = { S2CEnemyTowerAttackNotification: {towerId, monsterId} };
     const message = enemyTowerAttack.create(payload);
     const packet = enemyTowerAttack.encode(message).finish();
-    return makeNotification(packet, PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION);
+    return payloadParser(PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION, user, packet);
 };
 
 //#endregion

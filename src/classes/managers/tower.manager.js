@@ -49,10 +49,10 @@ class TowerManager {
         const game = getGameByUserId(userId);
         const users = game.getUsers();
         try {
-            const addEnemyTowerPacket = addEnemyTowerNoitification(towerId, x, y);
             users.forEach((user) => {
                 // 자기 자신에게는 보내지 않음
                 if (user.id == userId) return;
+                const addEnemyTowerPacket = addEnemyTowerNoitification(towerId, x, y, user);
                 user.socket.write(addEnemyTowerPacket);
             });
         } catch(error){
