@@ -47,7 +47,7 @@ const loginHandler = async ({ socket, userId, payload, user }) => {
       databaseUser.id,
     );
 
-    console.log('생성된 응답:', response);
+    console.log('생성된 응답:', response.toString('hex', 0, response.length));
 
     socket.write(response);
   } catch (error) {

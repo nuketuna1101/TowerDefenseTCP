@@ -1,5 +1,5 @@
 //user.class.js
-import { createPingPacket } from '../../utils/notification/game.notification.js';
+//import { createPingPacket } from '../../utils/notification/game.notification.js';
 import { userInit } from '../../constants/userConstants.js';
 import { getHandlerById } from '../../handlers/index.js';
 class User {
@@ -33,7 +33,7 @@ class User {
     const now = Date.now();
 
     // console.log(`${this.id}: ping`);
-    this.socket.write(createPingPacket(now));
+    //this.socket.write(createPingPacket(now));
   }
 
   handlePong(data) {
