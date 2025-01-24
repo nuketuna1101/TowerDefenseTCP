@@ -12,8 +12,6 @@ import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
 import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 import matchResponseHandler from './game/matchResponse.handler.js';
-import { handleError } from '../utils/error/errorHandler.js';
-import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 
 
 const handlers = {

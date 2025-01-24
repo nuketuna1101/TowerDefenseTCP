@@ -10,6 +10,7 @@
 import TowerManager from "../../classes/managers/tower.manager";
 import CustomError from "../../utils/error/customError";
 import { ErrorCodes } from "../../utils/error/errorCodes";
+import { handleError } from "../../utils/error/errorHandler";
 
 //====================================================================================================================
 const attackRequestHandler = ({ socket, userId, payload }) => {
