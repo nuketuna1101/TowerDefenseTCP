@@ -7,6 +7,7 @@ import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { addUser } from '../../session/user.session.js';
 
+
 const loginHandler = async ({ socket, userId, payload, user }) => {
   console.log('=== 로그인 처리 시작 ===');
   try {

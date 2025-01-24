@@ -70,6 +70,13 @@ class Game {
   //   });
   //   return createLocationPacket(locationData);
   // }
+
+
+  //#region NOTIFY 위해 Game 내 users 가져오기
+  getUsers(){
+    return this.users;
+  }
+  //#endregion
 }
 
 export default Game;

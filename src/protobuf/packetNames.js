@@ -35,6 +35,8 @@ export const packetNames = {
     S2CUpdateBaseHPNotification: 'test.S2CUpdateBaseHPNotification',
     S2CGameOverNotification: 'test.S2CGameOverNotification',
     C2SGameEndRequest: 'test.C2SGameEndRequest',
+    S2CAddEnemyTowerNotification: 'test.S2CAddEnemyTowerNotification',
+    S2CEnemyTowerAttackNotification: 'test.S2CEnemyTowerAttackNotification',
   },
 
   response: {

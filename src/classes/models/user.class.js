@@ -1,5 +1,5 @@
 //user.class.js
-//import { createPingPacket } from '../../utils/notification/game.notification.js';
+// import { createPingPacket } from '../../utils/notification/game.notification.js';
 import { userInit } from '../../constants/userConstants.js';
 import { getHandlerById } from '../../handlers/index.js';
 class User {
@@ -15,6 +15,7 @@ class User {
     this.score = userInit.score;
     this.monster = [];
     this.tower = [];
+    this.path = [];
     this.lastUpdateTime = Date.now();
   }
 
@@ -46,7 +47,7 @@ class User {
     const now = Date.now();
 
     // console.log(`${this.id}: ping`);
-    //this.socket.write(createPingPacket(now));
+    // this.socket.write(createPingPacket(now));
   }
 
   handlePong(data) {
@@ -96,7 +97,6 @@ class User {
     }
     this.gold -= gold;
     usersync();
-
     return this.gold;
   }
 
@@ -110,6 +110,7 @@ class User {
   addBaseHp(baseHp) {
     this.baseHp = this.baseHp + baseHp > this.baseMaxHp ? this.baseMaxHp : this.baseHp + baseHp;
     updateBaseHp();
+
 
     return this.baseHp;
   }
@@ -125,6 +126,7 @@ class User {
     }
     this.baseHp -= baseHp;
     updateBaseHp();
+
 
     return this.baseHp;
   }
@@ -150,6 +152,7 @@ class User {
       user: this,
     });
   }
+
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
   // calculatePosition(latency) {

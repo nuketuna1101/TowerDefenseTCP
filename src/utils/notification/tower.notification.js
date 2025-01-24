@@ -9,42 +9,32 @@
 //====================================================================================================================
 //====================================================================================================================
 
-import { PACKET_TYPE } from "../../constants/header";
-import { getProtoMessages } from "../../init/loadProtos";
-
-const makeNotification = (message, type) => {
-    const packetLength = Buffer.alloc(config.packet.totalLength);
-    packetLength.writeUInt32BE(
-        message.length + config.packet.totalLength + config.packet.typeLength,
-        0,
-    );
-    const packetType = Buffer.alloc(config.packet.typeLength);
-    packetType.writeUInt8(type, 0);
-    return Buffer.concat([packetLength, packetType, message]);
-};
+import { PACKET_TYPE } from "../../constants/header.js";
+import { getProtoMessages } from "../../init/loadProtos.js";
+import { payloadParser } from "../parser/packetParser.js";
 
 //#region NOTIFICATION
-/*
-// TO DO
-export const addEnemyTowerNoitification = (towerId, x, y) => {
-    const protoMsg = getProtoMessages();
-    const addEnemyTower = protoMsg.gameNotification.//___// ;
 
-    const payload = { towerId, x, y };
+// addEnemyTowerNoitification
+export const addEnemyTowerNoitification = (towerId, x, y, user) => {
+    const protoMsg = getProtoMessages();
+    const addEnemyTower = protoMsg.test.GamePacket;
+
+    const payload = { S2CAddEnemyTowerNotification: {towerId, x, y} };
     const message = addEnemyTower.create(payload);
     const packet = addEnemyTower.encode(message).finish();
-    return makeNotification(packet, PACKET_TYPE.//___//);
+    return payloadParser(PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION, user, packet);
 };
 
-// TO DO
-export const enemyTowerAttackNotification = () => {
+// enemyTowerAttackNotification
+export const enemyTowerAttackNotification = (towerId, monsterId, user) => {
     const protoMsg = getProtoMessages();
-    const enemyTowerAttack = protoMsg.gameNotification.//___// ;
+    const enemyTowerAttack = protoMsg.test.GamePacket;
 
-    const payload = { towerId, x, y };
+    const payload = { S2CEnemyTowerAttackNotification: {towerId, monsterId} };
     const message = enemyTowerAttack.create(payload);
     const packet = enemyTowerAttack.encode(message).finish();
-    return makeNotification(packet, PACKET_TYPE.//___//);
+    return payloadParser(PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION, user, packet);
 };
-*/
+
 //#endregion
