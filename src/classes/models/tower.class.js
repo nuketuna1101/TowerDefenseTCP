@@ -20,7 +20,7 @@
 
 import { testLog } from '../../utils/testLogger.js';
 import { distance } from '../../utils/mathHelper.js';
-import { addEnemyTowerNoitification, enemyTowerAttackNotification } from './../../utils/notification/tower.notification';
+import { addEnemyTowerNoitification, enemyTowerAttackNotification } from './../../utils/notification/tower.notification.js';
 
 class Tower {
     constructor(userId, towerId, x, y) {

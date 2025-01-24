@@ -14,7 +14,6 @@ import { ErrorCodes } from "../../utils/error/errorCodes";
 //====================================================================================================================
 const attackRequestHandler = ({ socket, userId, payload }) => {
     try {
-
         // payload에서 가져오는 monster와 tower id값
         const { monsterId, towerId } = payload;
 

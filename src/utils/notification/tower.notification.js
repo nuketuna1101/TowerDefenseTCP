@@ -9,8 +9,8 @@
 //====================================================================================================================
 //====================================================================================================================
 
-import { PACKET_TYPE } from "../../constants/header";
-import { getProtoMessages } from "../../init/loadProtos";
+import { PACKET_TYPE } from "../../constants/header.js";
+import { getProtoMessages } from "../../init/loadProtos.js";
 
 const makeNotification = (message, type) => {
     const packetLength = Buffer.alloc(config.packet.totalLength);
