@@ -27,14 +27,13 @@ const attackRequestHandler = ({ socket, userId, payload }) => {
         if (!tower.isOwnedBy(userId))
             throw new CustomError(ErrorCodes.NOT_AUTHORIZED_ACCESS, "tower is NOT owned by user");
     
-        // monster 존재여부
-        // const monster = ~~~;
+        // monster 존재여부 << monster session에서 찾아오기
+        const monster = getMonsterByMonsterId(monsterId);
+        if (!monster)
+            throw new CustomError(ErrorCodes.CANNOT_FIND, "Cannot find target monster");
 
         // 타워의 몬스터에 대한 공격 처리
         tower.attack(monster);
-
-        // TO DO
-
     } catch (error) {
         handleError(socket, error);
     }
