@@ -108,16 +108,13 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
       opponentData: playerData, // opponentData 추가
     },
   };
-  
+
   try {
     const message = S2CMatchStartNotification.create(payload);
     const MatchMakePacket = S2CMatchStartNotification.encode(message).finish();
-    console.log(`MATCHMAKEPACKET => ${MatchMakePacket.toString('hex')}`);
 
-    console.log(`PACKETTYPE => ${PACKET_TYPE.MATCH_START_NOTIFICATION}`);
     return payloadParser(PACKET_TYPE.MATCH_START_NOTIFICATION, user, MatchMakePacket);
   } catch (error) {
-    console.error('패킷 생성 중 오류:', error);
     throw error;
   }
 };
