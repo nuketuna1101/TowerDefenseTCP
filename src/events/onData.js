@@ -94,6 +94,7 @@ export const onData = (socket) => async (data) => {
             userId: user !== undefined ? user.id : null,
             payload,
             user,
+            game,
           });
         } catch (error) {
           handleError(socket, error);

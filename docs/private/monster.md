@@ -1,12 +1,10 @@
 패킷타입
 message GamePacket {
     oneof payload {
-
         // 몬스터 생성
         C2SSpawnMonsterRequest spawnMonsterRequest = 11;
         S2CSpawnMonsterResponse spawnMonsterResponse = 12;
         S2CSpawnEnemyMonsterNotification spawnEnemyMonsterNotification = 13;
-
 
         // 몬스터 사망 통지
         C2SMonsterDeathNotification monsterDeathNotification = 20;
@@ -38,6 +36,8 @@ message C2SMonsterDeathNotification {
 message S2CEnemyMonsterDeathNotification {
     int32 monsterId = 1;
 }
+
+
 
 GameManager.cs
 

@@ -4,12 +4,12 @@ import CustomError from '../../utils/error/customError.js';
 let monsterNum = 0;
 
 class Monster {
-  constructor(id,monsterNum,monsterLevel) {
+  constructor(id, monsterNum, monsterLevel) {
     this.id = id;
     this.num = monsterNum;
     this.level= monsterLevel;
   }
-// packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
+  // packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
 
 
   getMonster(monsterId) {
@@ -20,12 +20,10 @@ class Monster {
     //base의 체력을 깎는 함수
     const baseHp = changeBaseHp(damage);
 
-
-
     // // S2CUpdateBaseHPNotification changeBase에서 packet을 생성하면 딱히 필요 없을듯
     // const packet = {
     //   isOpponent: isOpponent,
-    //   baseHp: baseHp,
+    //   baseHp: baseHp
     // };
 
     this.removeMonster(userId, this.num);

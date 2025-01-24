@@ -13,7 +13,7 @@ export const onConnection = (socket) => {
   socket.id = uuidv();
   // 시퀀스 문제 해결 방안
   addUser(socket.id, socket);
-
+  
   socket.on('data', onData(socket));
   socket.on('end', onEnd(socket));
   socket.on('error', onError(socket));

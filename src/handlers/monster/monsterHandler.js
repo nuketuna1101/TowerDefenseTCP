@@ -40,7 +40,6 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
   opponent.socket.write(notification);
 };
 
-
 // export const monsterAttackBaseReqHandler = (socket, damage) => {
 //   const {user,game,opponent}=findUserGameOpponentByUser(socket);
 
@@ -49,4 +48,3 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
 
   
 // };
-

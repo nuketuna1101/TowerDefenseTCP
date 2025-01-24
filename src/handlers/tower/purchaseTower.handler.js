@@ -19,14 +19,14 @@
 //====================================================================================================================
 //====================================================================================================================
 
-import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds";
-import { PACKET_TYPE } from "../../constants/header";
-import { getProtoMessages } from "../../init/loadProtos";
-import { getUserById } from "../../session/user.session";
-import TowerManager from "../../tmp/tower.manager";
-import CustomError from "../../utils/error/customError";
-import { ErrorCodes } from "../../utils/error/errorCodes";
-import { createResponse } from "../../utils/response/createResponse";
+import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds.js";
+import { PACKET_TYPE } from "../../constants/header.js";
+import { getProtoMessages } from "../../init/loadProtos.js";
+import { getUserById } from "../../session/user.session.js";
+import TowerManager from "../../classes/managers/tower.manager.js";
+import CustomError from "../../utils/error/customError.js";
+import { ErrorCodes } from "../../utils/error/errorCodes.js";
+import { createResponse } from "../../utils/response/createResponse.js";
 
 // 임시로 무조건 true 반환
 const isCoordinateValid = (x, y) => {
@@ -45,7 +45,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         // user validation
         const user = getUserById(userId);
         if (!user)
-            throw new Error(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
+            throw new CustomError(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
         // coordinate validation
         const isCoordinateValid = isCoordinateValid(x, y);
         if (!isCoordinateValid)
@@ -55,12 +55,19 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         // 1. user 클래스의 타워 배열 추가
         TowerManager.instance.addTower(userId, towerId, x, y);
         // 2. towerData로서 패킷 추가
+        //#region legacy : convert into packet
+        /*
         const protoMessages = getProtoMessages();
         const rawTowerData = { towerId, x, y };
         const towerData = protoMessages.test.TowerData;
         const message = towerData.create(rawTowerData);
         const towerDataPacket = towerData.encode(message).finish();
         user.addTower(towerDataPacket);
+        */
+        //#endregion
+        const rawTowerData = { towerId, x, y };
+        user.addTower(rawTowerData);
+
 
         // 타워 생성 response
         const purchaseTowerResponse = createResponse(
