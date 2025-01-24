@@ -36,9 +36,7 @@ export const packetParser = (handlerId, rawPayload) => {
 
   // 필드가 비어 있거나, 필수 필드가 누락된 경우 처리
   const expectedFields = Object.keys(expectedPayloadType.fields);
-  console.log(expectedFields);
   const actualFields = Object.keys(Object.values(payload)[0]);
-  console.log(actualFields);
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
@@ -51,7 +49,8 @@ export const packetParser = (handlerId, rawPayload) => {
   console.log(returnPayload);
   return returnPayload;
 };
-// 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환환
+
+// 패이로드에 헤더를 붙여서 클라이언트에 보낼 패킷으로 변환
 export const payloadParser = (packetType, user, Payload) => {
   // 버전 문자열 준비
   const version = config.client.version;
@@ -61,26 +60,29 @@ export const payloadParser = (packetType, user, Payload) => {
   const packetTypeBuffer = Buffer.alloc(config.packet.packetTypeLength);
   packetTypeBuffer.writeUint16LE(packetType, 0);
 
-
   // 2. 버전 길이 (1바이트)
   const versionLengthBuffer = Buffer.alloc(config.packet.versionLengthLength);
-  versionLengthBuffer.writeUInt8(versionBytes.length, 0);
+  versionLengthBuffer.writeUInt8(versionBuffer.length, 0);
 
-  // 3. 버전 문자열
-  //버전 길이를 위해 위로 올림
-
-  // 4. 시퀀스 (4바이트, little endian)
+  // 3. 시퀀스 (4바이트, big endian)
   const sequenceBuffer = Buffer.alloc(config.packet.sequenceLength);
   sequenceBuffer.writeInt32BE(user.sequence);
 
-  // 5. 페이로드 길이 (4바이트, little endian)
+  // 4. 페이로드 길이 (4바이트, big endian)
   const payloadLengthBuffer = Buffer.alloc(config.packet.payloadLengthLength);
   payloadLengthBuffer.writeInt32BE(Payload.length);
 
-  // 6. 페이로드
-  // 패러미터터
+  const check = Buffer.concat([
+    packetTypeBuffer,
+    versionLengthBuffer,
+    versionBuffer,
+    sequenceBuffer,
+    payloadLengthBuffer,
+  ]);
 
-  // 길이 정보와 메시지를 함께 전송
+  console.log('헤더 추가 => ', check);
+
+  // 5. 최종 패킷 데이터 생성
   return Buffer.concat([
     packetTypeBuffer,
     versionLengthBuffer,
