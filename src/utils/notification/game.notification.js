@@ -101,7 +101,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   // PlayerData (GameState) 생성
   const playerData = {
     gold: user.gold,
-    base: { hp: user.baseHp, maxHp: user.baseHp },
+    base: { hp: user.baseHp, maxHp: user.baseMaxHp },
     highScore: user.score === 0 ? 0 : 1, // => 쿼리문으로 하이스코어 조회후 값이있으면 그값 넣기 | 1위치에 추가
     towers: user.tower,
     monsters: user.monster,
@@ -123,9 +123,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   try {
     const message = S2CMatchStartNotification.create(payload);
     const MatchMakePacket = S2CMatchStartNotification.encode(message).finish();
-    console.log(`MATCHMAKEPACKET => ${MatchMakePacket.toString('hex')}`);
 
-    console.log(`PACKETTYPE => ${PACKET_TYPE.MATCH_START_NOTIFICATION}`);
     return payloadParser(PACKET_TYPE.MATCH_START_NOTIFICATION, user, MatchMakePacket);
   } catch (error) {
     console.error('패킷 생성 중 오류:', error);

@@ -1,7 +1,6 @@
 import { handleError } from '../../utils/error/errorHandler.js';
 import MatchMake from '../../classes/models/matchMake.class.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
-import { PACKET_TYPE } from '../../constants/header.js';
 
 const matchMaker = new MatchMake();
 
