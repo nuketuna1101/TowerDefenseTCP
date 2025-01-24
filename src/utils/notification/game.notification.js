@@ -39,6 +39,21 @@ export const createS2CStateSyncNotificationPacket = (user) => {
   return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
 };
 
+export const createS2CUpdateBaseHPNotificationPacket = (user, isOpponent = true) => {
+  const protoMessages = getProtoMessages();
+  const userStateData = protoMessages.test.GamePacket;
+
+  const payload = {
+    updateBaseHpNotification: {
+      isOpponent,
+      baseHp: user.hp,
+    },
+  };
+  const message = userStateData.create(payload);
+  const userStateDataPacket = userStateData.encode(message).finish();
+  return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
+};
+
 export const createLocationPacket = (users) => {
   const protoMessages = getProtoMessages();
   const Location = protoMessages.gameNotification.LocationUpdate;

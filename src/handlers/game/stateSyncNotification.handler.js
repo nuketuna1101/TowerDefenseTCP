@@ -4,7 +4,7 @@ import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { createS2CStateSyncNotificationPacket } from '../../utils/notification/game.notification.js';
 
-const stateSyncNotificationhandler = ({ socket, userId, payload, user }) => {
+const stateSyncNotificationHandler = ({ socket, userId, payload, user }) => {
   try {
     const packet = createS2CStateSyncNotificationPacket(user);
 
@@ -16,4 +16,4 @@ const stateSyncNotificationhandler = ({ socket, userId, payload, user }) => {
 
 
 
-export default stateSyncNotificationhandler;
+export default stateSyncNotificationHandler;
