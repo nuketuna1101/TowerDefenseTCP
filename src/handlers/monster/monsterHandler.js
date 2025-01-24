@@ -2,12 +2,16 @@ import { spawnMonster } from '../../classes/models/monster.class.js';
 import { createResponse } from '../../utils/response/createResponse.js';
 import {findUserGameOpponentByUser} from '../../utils/findUserGameOpponent.js'
 
-export const spawnMonsterReqHandler = (socket, monsterData) => {
-  const { id,monsterNum} = monsterData;
+//테스트용 id,num
+let monsterid = 1; 
+const monsterNum = 1;
+
+export const spawnMonsterReqHandler = (socket) => {
+  // const { id,monsterNum} = monsterData;
 
   const {user,opponent}=findUserGameOpponentByUser(socket);
 
-  const monster = spawnMonster(id,monsterNum,user);
+  const monster = spawnMonster(monsterid,monsterNum,user);
 
   const response = createResponse(12, 'S2CSpawnMonsterResponse', monster);
   const notification = createResponse(13, 'S2CSpawnEnemyMonsterNotification', monster);

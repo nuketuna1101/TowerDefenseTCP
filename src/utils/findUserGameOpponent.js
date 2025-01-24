@@ -1,4 +1,4 @@
-import { getUserBySocket } from '../../session/user.session.js';
+import { getUserBySocket } from '../session/user.session.js';
 import { getGameByUser } from '../session/game.session.js';
 
 

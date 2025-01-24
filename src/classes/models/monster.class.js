@@ -1,5 +1,5 @@
-import { getUserById } from '../session/user.session.js';
-import CustomError from '../utils/error/customError.js';
+import { getUserById } from '../../session/user.session.js';
+import CustomError from '../../utils/error/customError.js';
 
 let monsterNum = 0;
 
