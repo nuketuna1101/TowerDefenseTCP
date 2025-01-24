@@ -18,7 +18,19 @@ class User {
     this.lastUpdateTime = Date.now();
   }
 
+  userInitialize(){
+    this.gold = userInit.gold;
+    this.baseHp = userInit.baseMaxHp;
+    this.baseMaxHp = userInit.baseMaxHp;
+    this.monsterLevel = userInit.monsterLevel;
+    this.score = userInit.score;
+    this.monster = [];
+    this.tower = [];
+    this.lastUpdateTime = Date.now();
+  }
+
   getNextSequence() {
+    this.lastUpdateTime = Date.now();
     return ++this.sequence;
   }
 
@@ -90,25 +102,30 @@ class User {
 
   setBaseHp(baseHp) {
     this.baseHp = baseHp;
-    usersync();
+    updateBaseHp();
 
     return this.baseHp;
   }
 
   addBaseHp(baseHp) {
     this.baseHp = this.baseHp + baseHp > this.baseMaxHp ? this.baseMaxHp : this.baseHp + baseHp;
-    usersync();
+    updateBaseHp();
 
     return this.baseHp;
   }
 
   substractBaseHp(baseHp) {
     if (this.baseHp < baseHp) {
+      const handler = getHandlerById(18);
+      handler({
+        user: this,
+      });
+
       return -1;
     }
     this.baseHp -= baseHp;
-    usersync();
-    
+    updateBaseHp();
+
     return this.baseHp;
   }
 
@@ -123,6 +140,13 @@ class User {
       socket: this.socket,
       userId: this.id,
       payload: {},
+      user: this,
+    });
+  }
+
+  updateBaseHp() {
+    const handler = getHandlerById(17);
+    handler({
       user: this,
     });
   }

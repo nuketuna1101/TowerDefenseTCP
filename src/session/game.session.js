@@ -14,6 +14,8 @@ export const addGameSession = (id) => {
 export const removeGameSession = (id) => {
   const index = gameSessions.findIndex((session) => session.id === id);
   if (index !== -1) {
+    if(gameSessions[index].users[0] != undefined) gameSessions[index].users[0].userInitialize();
+    if(gameSessions[index].users[1] != undefined) gameSessions[index].users[1].userInitialize();
     return gameSessions.splice(index, 1)[0];
   }
 };
