@@ -18,7 +18,7 @@ export const onData = (socket) => async (data) => {
     console.log('=== 새로운 패킷 수신 ===');
     console.log('수신된 데이터:', data);
 
-    // 패킷의 버전 길이까지의의 헤더 길이 (패킷 길이 정보 + 버전 길이 정보)
+    // 패킷의 버전 길이까지의의 헤더 길이 (패킷 길이 정보 + 버전 길이이 정보)
     const leastHeaderLength = config.packet.packetTypeLength + config.packet.versionLengthLength;
     let totalHeaderLength =
       config.packet.packetTypeLength +
@@ -79,7 +79,6 @@ export const onData = (socket) => async (data) => {
           let game;
           // 유저가 접속해 있는 상황에서 시퀀스 검증
           if (user && user.getNextSequence() !== sequence) {
-            console.log(`USER SEQUENCE => ${user.sequence} / SEQUENCE => ${sequence}`);
             throw new CustomError(ErrorCodes.INVALID_SEQUENCE, '잘못된 호출 값입니다. ');
           }
           if(user !== undefined){

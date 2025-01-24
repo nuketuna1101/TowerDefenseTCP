@@ -13,5 +13,10 @@ export const ErrorCodes = {
   NICKNAME_ALREADY_EXISTS: 10011,
   INVALID_CREDENTIALS: 10012,
   INVALID_PASSWORD: 10013,
+  //#region Tower 관련 에러 코드
+  CANNOT_FIND: 20001,
+  INVALID_DATA: 20002,
+  NOT_AUTHORIZED_ACCESS: 20003,
+  //#endregion
   // 추가적인 에러 코드들
 };

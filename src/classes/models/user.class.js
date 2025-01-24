@@ -1,16 +1,14 @@
 //user.class.js
-//import { createPingPacket } from '../../utils/notification/game.notification.js';
+import { createPingPacket } from '../../utils/notification/game.notification.js';
 import { userInit } from '../../constants/userConstants.js';
 import { getHandlerById } from '../../handlers/index.js';
 class User {
   constructor(id, socket) {
     this.id = id;
-    this.databaseId = null;
     this.socket = socket;
     this.sequence = 0;
     this.gold = userInit.gold;
-    this.baseHp = userInit.baseMaxHp;
-    this.baseMaxHp = userInit.baseMaxHp;
+    this.baseHp = userInit.baseHp;
     this.monsterLevel = userInit.monsterLevel;
     this.score = userInit.score;
     this.monster = [];
@@ -34,7 +32,7 @@ class User {
     const now = Date.now();
 
     // console.log(`${this.id}: ping`);
-    //this.socket.write(createPingPacket(now));
+    this.socket.write(createPingPacket(now));
   }
 
   handlePong(data) {
@@ -43,6 +41,7 @@ class User {
     // console.log(`Received pong from user ${this.id} at ${now} with latency ${this.latency}ms`);
   }
 
+  
   addMonster(monster) {
     this.monster.push(monster);
   }
@@ -51,30 +50,29 @@ class User {
     this.tower.push(tower);
   }
 
-  //몬스터 초기화
+  //웨이브마다 초기화?
   removeMonster() {
     this.monster = [];
   }
 
   //특정 타워를 삭제할 경우가 있을것. 아마도?
-  removeTowerById(towerId) {
-    //placeholder
-    const deletingTower = this.tower.findIndex((value) => {
-      return Object.values(value)[0] == towerId;
-    });
-    if (deletingTower < 0) return deletingTower;
-    this.tower.splice(deletingTower, 1);
-    return deletingTower;
-  }
-  //타워 초기화
   removeTower() {
+    //placeholder
     this.tower = [];
   }
 
   addGold(gold) {
     this.gold += gold;
+    //싱크?
+    
+    const handler = getHandlerById(7);
+    handler({
+      socket: this.socket,
+      userId: user.id,
+      payload:{},
+      user: this,
+    });
 
-    usersync();
     return this.gold;
   }
 
@@ -83,23 +81,23 @@ class User {
       return -1;
     }
     this.gold -= gold;
-    usersync();
+    //싱크?
+
+    const handler = getHandlerById(7);
+    handler({
+      socket: this.socket,
+      userId: this.id,
+      payload:{},
+      user: this,
+    });
 
     return this.gold;
   }
 
   setBaseHp(baseHp) {
     this.baseHp = baseHp;
-    usersync();
 
-    return this.baseHp;
-  }
-
-  addBaseHp(baseHp) {
-    this.baseHp = this.baseHp + baseHp > this.baseMaxHp ? this.baseMaxHp : this.baseHp + baseHp;
-    usersync();
-
-    return this.baseHp;
+    return this.gold;
   }
 
   substractBaseHp(baseHp) {
@@ -107,25 +105,10 @@ class User {
       return -1;
     }
     this.baseHp -= baseHp;
-    usersync();
     
     return this.baseHp;
   }
 
-  setDatabaseId(databaseId) {
-    return (this.databaseId = databaseId);
-  }
-
-  //싱크
-  usersync() {
-    const handler = getHandlerById(7);
-    handler({
-      socket: this.socket,
-      userId: this.id,
-      payload: {},
-      user: this,
-    });
-  }
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
   // calculatePosition(latency) {
