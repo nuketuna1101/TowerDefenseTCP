@@ -1,40 +1,12 @@
 패킷타입
 message GamePacket {
     oneof payload {
-        // 회원가입 및 로그인
-        C2SRegisterRequest registerRequest = 1;
-        S2CRegisterResponse registerResponse = 2;
-        C2SLoginRequest loginRequest = 3;
-        S2CLoginResponse loginResponse = 4;
-
-        // 매칭
-        C2SMatchRequest matchRequest = 5;
-        S2CMatchStartNotification matchStartNotification = 6;
-
-        // 상태 동기화
-        S2CStateSyncNotification stateSyncNotification = 7;
-
-        // 타워 구입 및 배치
-        C2STowerPurchaseRequest towerPurchaseRequest = 8;
-        S2CTowerPurchaseResponse towerPurchaseResponse = 9;
-        S2CAddEnemyTowerNotification addEnemyTowerNotification = 10;
 
         // 몬스터 생성
         C2SSpawnMonsterRequest spawnMonsterRequest = 11;
         S2CSpawnMonsterResponse spawnMonsterResponse = 12;
         S2CSpawnEnemyMonsterNotification spawnEnemyMonsterNotification = 13;
 
-        // 전투 액션
-        C2STowerAttackRequest towerAttackRequest = 14;
-        S2CEnemyTowerAttackNotification enemyTowerAttackNotification = 15;
-        C2SMonsterAttackBaseRequest monsterAttackBaseRequest = 16;
-
-        // 기지 HP 업데이트 및 게임 오버
-        S2CUpdateBaseHPNotification updateBaseHpNotification = 17;
-        S2CGameOverNotification gameOverNotification = 18;
-
-        // 게임 종료  
-        C2SGameEndRequest gameEndRequest = 19;
 
         // 몬스터 사망 통지
         C2SMonsterDeathNotification monsterDeathNotification = 20;
@@ -42,9 +14,30 @@ message GamePacket {
     }
 }
 
+message C2SSpawnMonsterRequest {
+}
 
+message S2CSpawnMonsterResponse {
+    int32 monsterId = 1; 
+    int32 monsterNumber = 2;
+}
 
+message S2CSpawnEnemyMonsterNotification {
+    int32 monsterId = 1; 놀랍게도 얘가 고유번호
+    int32 monsterNumber = 2;  놀랍게도 얘가 종류 (1~5)5가지
+}
 
+message C2SMonsterAttackBaseRequest {
+    int32 damage = 1;
+}
+
+message C2SMonsterDeathNotification {
+    int32 monsterId = 1;
+}
+
+message S2CEnemyMonsterDeathNotification {
+    int32 monsterId = 1;
+}
 
 GameManager.cs
 
