@@ -79,26 +79,35 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
   }
 
+  user.path.push({ x: 0, y: 350 });
+  user.path.push({ x: 200, y: 350 });
+  user.path.push({ x: 400, y: 350 });
+  user.path.push({ x: 600, y: 350 });
+  user.path.push({ x: 800, y: 350 });
+  user.path.push({ x: 1000, y: 350 });
+  user.path.push({ x: 1200, y: 350 });
+  user.path.push({ x: 1370, y: 350 });
+
   // InitialGameState 생성
   const initialGameState = {
-    baseHp: 100,
+    baseHp: user.baseHp,
     towerCost: 10,
-    initialGold: 30,
-    monsterSpawnInterval: 5,
+    initialGold: user.gold,
+    monsterSpawnInterval: 2000,
   };
 
   // PlayerData (GameState) 생성
   const playerData = {
-    gold: 30,
-    base: { hp: 100, maxHp: 100 }, 
-    highScore: 0,
-    towers: [],
-    monsters: [],
-    monsterLevel: 1,
-    score: 0,
-    monsterPath: [{ x: 0, y: 0 }], 
-    basePosition: { x: 0, y: 0 }, 
-  }
+    gold: user.gold,
+    base: { hp: user.baseHp, maxHp: user.baseHp },
+    highScore: user.score === 0 ? 0 : 1, // => 쿼리문으로 하이스코어 조회후 값이있으면 그값 넣기 | 1위치에 추가
+    towers: user.tower,
+    monsters: user.monster,
+    monsterLevel: user.monsterLevel,
+    score: user.score,
+    monsterPath: user.path,
+    basePosition: { x: 1370, y: 350 },
+  };
 
   // Payload 생성
   const payload = {
