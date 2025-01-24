@@ -15,6 +15,7 @@ class User {
     this.score = userInit.score;
     this.monster = [];
     this.tower = [];
+    this.path = [];
     this.lastUpdateTime = Date.now();
   }
 
