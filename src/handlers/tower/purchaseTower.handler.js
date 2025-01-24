@@ -55,12 +55,19 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         // 1. user 클래스의 타워 배열 추가
         TowerManager.instance.addTower(userId, towerId, x, y);
         // 2. towerData로서 패킷 추가
+        //#region legacy : convert into packet
+        /*
         const protoMessages = getProtoMessages();
         const rawTowerData = { towerId, x, y };
         const towerData = protoMessages.test.TowerData;
         const message = towerData.create(rawTowerData);
         const towerDataPacket = towerData.encode(message).finish();
         user.addTower(towerDataPacket);
+        */
+        //#endregion
+        const rawTowerData = { towerId, x, y };
+        user.addTower(rawTowerData);
+
 
         // 타워 생성 response
         const purchaseTowerResponse = createResponse(
