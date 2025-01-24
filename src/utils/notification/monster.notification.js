@@ -22,14 +22,33 @@ export const makeNotification = (message, type) => {
   return Buffer.concat([packetLength, packetType, message]);
 };
 
-export const createS2CSpawnMonsterResponse = (monsterId,monsterNum) => {
+export const createS2CSpawnMonsterResponse = (monsterId,monsterNumber,user) => {
   const protoMessages = getProtoMessages();
-  const dataType = protoMessages.test.S2CSpawnMonsterResponse;
+  const dataType = protoMessages.test.GamePacket;
 
-  const payload = {monsterId,monsterNum};
+  if(!dataType) {
+    throw new Error('dataType 메세지 정의 x');
+  }
+
+  testLog(0,`dataType: ${dataType}`,'green');
+
+  const payload = {
+    spawnMonsterResponse: {
+      monsterId,
+      monsterNumber,
+    }
+  };
+
+  testLog(0,`payload:${JSON.stringify(payload)} `,'yellow');
+
   const message = dataType.create(payload);
-  const userStateDataPacket = dataType.encode(message).finish();
-  return makeNotification(userStateDataPacket,PACKET_TYPE.SPAWN_MONSTER_RESPONSE);
+  const monsterSpawnPacket = dataType.encode(message).finish();
+  testLog(0,`message: ${JSON.stringify(message)}`,'red');
+  testLog(0,`monsterSpawnPacket: ${monsterSpawnPacket.toString('hex')}`,'blue');
+
+  // return makeNotification(monsterSpawnPacket,PACKET_TYPE.SPAWN_MONSTER_RESPONSE);
+ return payloadParser(PACKET_TYPE.SPAWN_MONSTER_RESPONSE,user,monsterSpawnPacket);
+
 };
 
 export const createS2CSpawnEnemyMonsterNotification = (monsterId,monsterNum) => {
@@ -38,8 +57,8 @@ export const createS2CSpawnEnemyMonsterNotification = (monsterId,monsterNum) => 
 
   const payload = {monsterId,monsterNum};
   const message = dataType.create(payload);
-  const userStateDataPacket = dataType.encode(message).finish();
-  return makeNotification(userStateDataPacket,PACKET_TYPE.SPAWN_ENEMY_MONSTER_NOTIFICATION);
+  const monsterSpawnPacket = dataType.encode(message).finish();
+  return makeNotification(monsterSpawnPacket,PACKET_TYPE.SPAWN_ENEMY_MONSTER_NOTIFICATION);
 };
 
 

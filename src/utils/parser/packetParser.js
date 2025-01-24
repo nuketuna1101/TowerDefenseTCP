@@ -37,7 +37,13 @@ export const packetParser = (handlerId, rawPayload) => {
 
   // 필드가 비어 있거나, 필수 필드가 누락된 경우 처리
   const expectedFields = Object.keys(expectedPayloadType.fields);
+
+  testLog(0,`expectedFields: ${expectedFields}`,'red');
+  testLog(0,`payload: ${JSON.stringify(payload)}`,'blue');
+
   const actualFields = Object.keys(Object.values(payload)[0]);
+  testLog(0,`actualFields: ${actualFields}`,'green');
+
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
   testLog(0, `missingFields: ${missingFields} / length: ${missingFields.length}`);
   if (missingFields.length > 0) {
@@ -72,16 +78,6 @@ export const payloadParser = (packetType, user, Payload) => {
   // 4. 페이로드 길이 (4바이트, big endian)
   const payloadLengthBuffer = Buffer.alloc(config.packet.payloadLengthLength);
   payloadLengthBuffer.writeInt32BE(Payload.length);
-
-  const check = Buffer.concat([
-    packetTypeBuffer,
-    versionLengthBuffer,
-    versionBuffer,
-    sequenceBuffer,
-    payloadLengthBuffer,
-  ]);
-
-  console.log('헤더 추가 => ', check);
 
   // 5. 최종 패킷 데이터 생성
   return Buffer.concat([
