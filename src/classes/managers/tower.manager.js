@@ -8,6 +8,7 @@
 //====================================================================================================================
 //====================================================================================================================
 
+import { getGameByUserId } from "../../session/game.session.js";
 import { addEnemyTowerNoitification } from "../../utils/notification/tower.notification.js";
 import { testLog } from "../../utils/testLogger.js";
 import Tower from "../models/tower.class.js";
@@ -40,13 +41,16 @@ class TowerManager {
         // this.towers.push({ tower, towerData });
         //#endregion
 
-        // 저장할 data: 
+        // 저장할 data
         const tower = new Tower(userId, towerId, x, y);
         this.towers.push(tower);
-        // 추가함과 동시에 notify 날리기
+
+        // 유저가 자신이 속한 게임 세션 내의 유저들에게 notify
+        const game = getGameByUserId(userId);
+        const users = game.getUsers();
         try {
             const addEnemyTowerPacket = addEnemyTowerNoitification(towerId, x, y);
-            this.users.forEach((user) => {
+            users.forEach((user) => {
                 // 자기 자신에게는 보내지 않음
                 if (user.id == userId) return;
                 user.socket.write(addEnemyTowerPacket);
