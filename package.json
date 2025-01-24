@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "TowerDefense Game Team Project + TCP server",
+  "description": "",
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -24,8 +24,5 @@
   "devDependencies": {
     "nodemon": "^2.0.15",
     "prettier": "^2.3.2"
-  },
-  "directories": {
-    "doc": "docs"
   }
 }
