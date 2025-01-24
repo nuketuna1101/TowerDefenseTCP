@@ -24,15 +24,17 @@ const makeNotification = (message, type) => {
 
 export const createS2CStateSyncNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
-  const userStateData = protoMessages.gameNotification.S2CStateSyncNotification;
+  const userStateData = protoMessages.test.GamePacket;
 
   const payload = {
-    userGold: user.gold,
-    baseHp: user.baseHp,
-    monsterLevel: user.monsterLevel,
-    score: user.score,
-    towers: user.tower,
-    monsters: user.monster,
+    stateSyncNotification: {
+      userGold: user.gold,
+      baseHp: user.baseHp,
+      monsterLevel: user.monsterLevel,
+      score: user.score,
+      towers: user.tower,
+      monsters: user.monster,
+    },
   };
   const message = userStateData.create(payload);
   const userStateDataPacket = userStateData.encode(message).finish();
@@ -90,15 +92,15 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   // PlayerData (GameState) 생성
   const playerData = {
     gold: 30,
-    base: { hp: 100, maxHp: 100 }, 
+    base: { hp: 100, maxHp: 100 },
     highScore: 0,
     towers: [],
     monsters: [],
     monsterLevel: 1,
     score: 0,
-    monsterPath: [{ x: 0, y: 0 }], 
-    basePosition: { x: 0, y: 0 }, 
-  }
+    monsterPath: [{ x: 0, y: 0 }],
+    basePosition: { x: 0, y: 0 },
+  };
 
   // Payload 생성
   const payload = {
@@ -108,7 +110,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
       opponentData: playerData, // opponentData 추가
     },
   };
-  
+
   try {
     const message = S2CMatchStartNotification.create(payload);
     const MatchMakePacket = S2CMatchStartNotification.encode(message).finish();
