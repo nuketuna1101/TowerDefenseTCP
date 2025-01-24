@@ -7,6 +7,7 @@ const updateBaseHpHandler = ({ socket, payload }) => {
     const { user } = findUserGameOpponentByUser(socket);
 
     user.baseHp -= damage;
+    console.log(`user base HP: ${baseHp}`);
   } catch (error) {
     handleError(socket, error);
   }
