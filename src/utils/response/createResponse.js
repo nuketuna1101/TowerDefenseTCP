@@ -32,6 +32,17 @@ export const createResponse = (handlerId, responseCode, data = null, userId) => 
       };
       responseType = 4; // LOGIN_RESPONSE (여기에 적절한 타입을 설정)
       break;
+    // #region
+    case HANDLER_IDS.PURCHASE_TOWER: // LOGIN
+      responseData = {
+        towerPurchaseResponse: {
+          towerId: data.towerId,
+        },
+      };
+      // purchasetowerresponse type: 9
+      responseType = 9;
+      break;
+    // #endregion
     // ... 기타 케이스들
   }
 

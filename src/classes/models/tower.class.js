@@ -21,9 +21,12 @@
 import { testLog } from '../../utils/testLogger.js';
 import { distance } from '../../utils/mathHelper.js';
 import { enemyTowerAttackNotification } from './../../utils/notification/tower.notification.js';
+import CustomError from '../../utils/error/customError.js';
+import { ErrorCodes } from '../../utils/error/errorCodes.js';
+import { towerAssets } from './../../constants/tower.assets.js';
 
 class Tower {
-    constructor(userId, towerId, x, y) {
+    constructor(userId, towerId, x, y, towerTypeCode = 'TOW00001') {
         // 식별자 id
         this.id = towerId;
         // 입력값 기반 초기화
@@ -31,15 +34,20 @@ class Tower {
         this.x = x;
         this.y = y;
         // 초기화 수치 일단 하드코딩 => 추후 리팩토링
-        this.towerTypeId = towerTypeId;
-        this.power = 40;
-        this.powerPerLv = 10;
-        this.range = 300;
-        this.cooldown = 180;
-        this.duration = 30;
-        this.cost = 3000;
-        this.extra = 1;
-        this.extraPerLv = 0.5;
+        this.towerTypeCode = towerTypeCode;
+        // 타입별 속성 가져오기
+        const towerTypeData = towerAssets[towerTypeCode];
+        if (!towerTypeData) 
+            throw new CustomError(ErrorCodes.INVALID_DATA, `Invalid tower type: ${towerTypeCode}`);
+        
+        this.power = towerTypeData.power;
+        this.powerPerLv = towerTypeData.powerPerLv;
+        this.range = towerTypeData.range;
+        this.cooldown = towerTypeData.cooldown;
+        this.duration = towerTypeData.duration;
+        this.cost = towerTypeData.cost;
+        this.extra = towerTypeData.extra;
+        this.extraPerLv = towerTypeData.extraPerLv;
         //
         this.isStop = false;
         this.isAttackDelay = false;

@@ -135,6 +135,15 @@ class User {
     return (this.databaseId = databaseId);
   }
 
+  addScore(points) {
+    this.score += points;
+    this.usersync();
+  }
+
+  getScore() {
+    return this.score;
+  }
+
   //싱크
   usersync() {
     const handler = getHandlerById(7);

@@ -5,4 +5,8 @@ export const SQL_QUERIES = {
   CREATE_USER: 'INSERT INTO userTable (username, email, password) VALUES (?, ?, ?)',
   UPDATE_USER_LOGIN: 'UPDATE userTable SET lastLoginTime = CURRENT_TIMESTAMP WHERE username = ?',
   UPDATE_USER_PASSWORD: 'UPDATE userTable SET password = ? WHERE username = ?',
+  UPDATE_HIGH_SCORE:
+    'INSERT INTO userScore (userId, highScore) VALUES (?, ?) ON DUPLICATE KEY UPDATE highScore = GREATEST(highScore, ?)',
+  CREATE_MATCH_HISTORY:
+    'INSERT INTO MatchHistoryTable (player1, player2, winPlayer, player1Score, player2Score) VALUES (?, ?, ?, ?, ?)',
 };

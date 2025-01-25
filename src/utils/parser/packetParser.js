@@ -26,10 +26,16 @@ export const packetParser = (handlerId, rawPayload) => {
     testLog(
       0,
       `Namespace: ${protoMessages['test']['C2SRegisterRequest']} \n 
-      protoTypeName: ${protoTypeName} / handlerId: ${handlerId} / namespace: ${namespace} / typeName: ${typeName} / \n
-       PayloadType: ${PayloadType} /  ${JSON.stringify(PayloadType)} / rawPayload: ${rawPayload} \n
-       payload: ${payload}`,
-      'yellow',
+      protoTypeName: ${protoTypeName}\n
+      handlerId: ${handlerId}\n
+      namespace: ${namespace} / typeName: ${typeName}\n`,
+      'yellow'
+    );
+    testLog(
+      0,
+      `PayloadType: ${PayloadType} /  ${JSON.stringify(PayloadType)} / rawPayload: ${rawPayload}\n`,
+      'yellow', 
+      false
     );
   } catch (error) {
     throw new CustomError(ErrorCodes.PACKET_STRUCTURE_MISMATCH, '패킷 구조가 일치하지 않습니다.');
