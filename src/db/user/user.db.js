@@ -53,3 +53,42 @@ export const createInitialUser = async (deviceId) => {
     deviceId,
   };
 };
+
+// 최대점수 추가
+
+export const updateHighScore = async (userId, score) => {
+  try {
+    const [result] = await pools.USER_DB.query(SQL_QUERIES.UPDATE_HIGH_SCORE, [
+      userId,
+      score,
+      score,
+    ]);
+    return result;
+  } catch (error) {
+    console.error('Error updating high score:', error);
+    throw error;
+  }
+};
+
+//매치 기록 추가
+export const createMatchHistory = async (
+  player1Id,
+  player2Id,
+  winnerId,
+  player1Score,
+  player2Score,
+) => {
+  try {
+    const [result] = await pools.USER_DB.query(SQL_QUERIES.CREATE_MATCH_HISTORY, [
+      player1Id,
+      player2Id,
+      winnerId,
+      player1Score,
+      player2Score,
+    ]);
+    return result;
+  } catch (error) {
+    console.error('Error creating match history:', error);
+    throw error;
+  }
+};
