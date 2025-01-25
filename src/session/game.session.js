@@ -54,6 +54,9 @@ export const removeGameSession = (id) => {
     }
 
     return Promise.resolve(gameSessions.splice(index, 1)[0]);
+//     if(gameSessions[index].users[0] != undefined) gameSessions[index].users[0].userInitialize();
+//     if(gameSessions[index].users[1] != undefined) gameSessions[index].users[1].userInitialize();
+//     return gameSessions.splice(index, 1)[0];
   }
   return Promise.resolve(null);
 };

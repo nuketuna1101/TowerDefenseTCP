@@ -1,5 +1,5 @@
-import { getUserById } from '../session/user.session.js';
-import CustomError from '../utils/error/customError.js';
+import { getUserById } from '../../session/user.session.js';
+import CustomError from '../../utils/error/customError.js';
 
 let monsterNum = 0;
 
@@ -7,7 +7,7 @@ class Monster {
   constructor(id, monsterNum, monsterLevel) {
     this.id = id;
     this.num = monsterNum;
-    this.level = user.monsterLevel;
+    this.level= monsterLevel;
   }
   // packet을 return만 하고 호출부에서 game.Notification안의 함수들로 패킷과 패킷타입을 감싸 버퍼객체로 보낸다
 
