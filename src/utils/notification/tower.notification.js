@@ -20,7 +20,7 @@ export const addEnemyTowerNoitification = (towerId, x, y, user) => {
     const protoMsg = getProtoMessages();
     const addEnemyTower = protoMsg.test.GamePacket;
 
-    const payload = { S2CAddEnemyTowerNotification: {towerId, x, y} };
+    const payload = { AddEnemyTowerNotification: {towerId, x, y} };
     const message = addEnemyTower.create(payload);
     const packet = addEnemyTower.encode(message).finish();
     return payloadParser(PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION, user, packet);
@@ -31,7 +31,7 @@ export const enemyTowerAttackNotification = (towerId, monsterId, user) => {
     const protoMsg = getProtoMessages();
     const enemyTowerAttack = protoMsg.test.GamePacket;
 
-    const payload = { S2CEnemyTowerAttackNotification: {towerId, monsterId} };
+    const payload = { EnemyTowerAttackNotification: {towerId, monsterId} };
     const message = enemyTowerAttack.create(payload);
     const packet = enemyTowerAttack.encode(message).finish();
     return payloadParser(PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION, user, packet);
