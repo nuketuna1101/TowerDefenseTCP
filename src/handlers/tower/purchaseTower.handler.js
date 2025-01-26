@@ -32,6 +32,7 @@ import { handleError } from "../../utils/error/errorHandler.js";
 const isCoordinateValid = (x, y) => {
     return true;
 };
+let towerIdCnt = 0;
 
 const purchaseTowerHandler = ({ socket, userId, payload }) => {
     try {
@@ -51,7 +52,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         if (!isCoordValid)
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
         // 새로운 타워 id 생성
-        const towerId = uuidv4();
+        const towerId = ++towerIdCnt;//uuidv4();
         // 1. user 클래스의 타워 배열 추가
         TowerManager.instance.addTower(userId, towerId, x, y);
         // 2. towerData로서 패킷 추가
@@ -73,7 +74,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         const purchaseTowerResponse = createResponse(
             HANDLER_IDS.PURCHASE_TOWER,
             RESPONSE_SUCCESS_CODE,
-            { towerId },
+            { towerId: towerId },
             userId,
         );
 

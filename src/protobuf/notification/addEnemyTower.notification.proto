@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package addEnemyTowerNotification;
+
+message S2CAddEnemyTowerNotification {
+    int32 towerId = 1;
+    float x = 2;
+    float y = 3;
+}

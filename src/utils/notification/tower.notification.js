@@ -12,17 +12,28 @@
 import { PACKET_TYPE } from "../../constants/header.js";
 import { getProtoMessages } from "../../init/loadProtos.js";
 import { payloadParser } from "../parser/packetParser.js";
+import { testLog } from "../testLogger.js";
 
 //#region NOTIFICATION
 
 // addEnemyTowerNoitification
 export const addEnemyTowerNoitification = (towerId, x, y, user) => {
     const protoMsg = getProtoMessages();
-    const addEnemyTower = protoMsg.test.GamePacket;
+    const S2CAddEnemyTowerNotification = protoMsg.test.GamePacket;
 
-    const payload = { AddEnemyTowerNotification: {towerId, x, y} };
-    const message = addEnemyTower.create(payload);
-    const packet = addEnemyTower.encode(message).finish();
+    if (!S2CAddEnemyTowerNotification) 
+      throw new Error('S2CAddEnemyTowerNotification undefined.');
+    
+
+    const payload = { addEnemyTowerNotification: { towerId, x, y } };
+
+    const message = S2CAddEnemyTowerNotification.create(payload);
+    const packet = S2CAddEnemyTowerNotification.encode(message).finish();
+
+    testLog(0, `[addEnemyTowerNoitification]
+        payload: ${JSON.stringify(payload, null, 2)}
+        message: ${JSON.stringify(message, null, 2)}
+        packet: ${Array.from(packet).join(', ')}`, 'yellow');
     return payloadParser(PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION, user, packet);
 };
 
@@ -31,7 +42,7 @@ export const enemyTowerAttackNotification = (towerId, monsterId, user) => {
     const protoMsg = getProtoMessages();
     const enemyTowerAttack = protoMsg.test.GamePacket;
 
-    const payload = { EnemyTowerAttackNotification: {towerId, monsterId} };
+    const payload = { EnemyTowerAttackNotification: { towerId, monsterId } };
     const message = enemyTowerAttack.create(payload);
     const packet = enemyTowerAttack.encode(message).finish();
     return payloadParser(PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION, user, packet);

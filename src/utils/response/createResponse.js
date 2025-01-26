@@ -1,5 +1,6 @@
 import { HANDLER_IDS } from '../../constants/handlerIds.js';
 import { getProtoMessages } from '../../init/loadProtos.js';
+import { testLog } from '../testLogger.js';
 
 export const createResponse = (handlerId, responseCode, data = null, userId) => {
   console.log('=== 응답 생성 시작 ===');
@@ -34,12 +35,12 @@ export const createResponse = (handlerId, responseCode, data = null, userId) => 
       break;
     // #region
     case HANDLER_IDS.PURCHASE_TOWER: // LOGIN
+      testLog(0, `[data check] data.towerId: ${data.towerId} / is data null? ${(data == null)}`, 'red');
       responseData = {
         towerPurchaseResponse: {
           towerId: data.towerId,
         },
       };
-      // purchasetowerresponse type: 9
       responseType = 9;
       break;
     // #endregion
