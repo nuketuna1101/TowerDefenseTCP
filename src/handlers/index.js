@@ -14,7 +14,7 @@ import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 import matchResponseHandler from './game/matchResponse.handler.js';
 import monsterAttackBaseRequestHandler from './base/monsterAttackBaseRequest.handler.js';
 import updategameOverNotificationHandler from './game/gameOverNotification.handler.js'
-import spawnMonsterReqHandler from './game/gameOverNotification.handler.js'
+import {spawnMonsterReqHandler} from './monster/monsterHandler.js'
 import updateBaseHpNotificationHandler from './base/updateBaseHpNotification.handlers.js'
 import gameEndRequestHandler from './game/gameEndRequest.handler.js'
 const handlers = {
