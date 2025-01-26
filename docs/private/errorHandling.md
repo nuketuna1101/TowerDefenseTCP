@@ -37,3 +37,28 @@ message와 packet 로깅 부분에서
 로 비어있음을 확인
 
 => ProtoBuf 정의를 다시 확인하고, 필드명 대소문자를 점검하여 포맷 일치시키기
+=> 속성명 대소문자 일치시키기 중요
+
+즉, 변경된 코드 스니펫
+
+```js
+// addEnemyTowerNoitification
+export const addEnemyTowerNoitification = (towerId, x, y, user) => {
+    const protoMsg = getProtoMessages();
+    const S2CAddEnemyTowerNotification = protoMsg.test.GamePacket;
+
+    if (!S2CAddEnemyTowerNotification) 
+      throw new Error('S2CAddEnemyTowerNotification undefined.');
+    
+    const payload = { addEnemyTowerNotification: { towerId, x, y } };
+
+    const message = S2CAddEnemyTowerNotification.create(payload);
+    const packet = S2CAddEnemyTowerNotification.encode(message).finish();
+
+    testLog(0, `[addEnemyTowerNoitification]
+        payload: ${JSON.stringify(payload, null, 2)}
+        message: ${JSON.stringify(message, null, 2)}
+        packet: ${Array.from(packet).join(', ')}`, 'yellow');
+    return payloadParser(PACKET_TYPE.ADD_ENEMY_TOWER_NOTIFICATION, user, packet);
+};
+```
