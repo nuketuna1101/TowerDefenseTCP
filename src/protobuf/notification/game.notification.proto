@@ -1,0 +1,30 @@
+//game.notification.proto
+syntax = "proto3";
+
+package gameNotification;
+
+// 위치 정보 메시지 구조
+message LocationUpdate {
+  repeated UserLocation users = 1;
+
+  message UserLocation {
+    string id = 1;
+    float x = 2;
+    float y = 3;
+  }
+}
+
+// 게임 시작 알림
+message Start {
+  string gameId = 1;
+  int64 timestamp = 2;
+}
+
+message S2CStateSyncNotification {
+  int32 userGold = 1;
+  int32 baseHp = 2;
+  int32 monsterLevel = 3;
+  int32 score = 4;
+  repeated TowerData towers = 5;
+  repeated MonsterData monsters = 6;
+}
