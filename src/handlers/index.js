@@ -13,7 +13,6 @@ import loginHandler from './user/login.handler.js';
 import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 import matchResponseHandler from './game/matchResponse.handler.js';
 
-
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
     handler: initialHandler,
@@ -43,9 +42,25 @@ const handlers = {
     handler: matchRequestHandler,
     protoType: 'test.C2SMatchRequest',
   },
+  [HANDLER_IDS.SPAWN_MONSTER]: {
+    handler: spawnMonsterReqHandler,
+    protoType: 'test.C2SSpawnMonsterRequest',
+  },
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationHandler,
-    protoType: 'gameNotification.S2CStateSyncNotification',
+    protoType: 'test.S2CStateSyncNotification',
+  },
+  [PACKET_TYPE.UPDATE_BASE_HP_NOTIFICATION]: {
+    handler: updateBaseHpNotificationHandler,
+    protoType: 'test.S2CUpdateBaseHPNotification',
+  },
+  [PACKET_TYPE.GAME_OVER_NOTIFICATION]: {
+    handler: updategameOverNotificationHandler,
+    protoType: 'test.S2CGameOverNotification',
+  },
+  [PACKET_TYPE.GAME_END_REQUEST]: {
+    handler: gameEndRequestHandler,
+    protoType: 'test.C2SGameEndRequest',
   },
   [HANDLER_IDS.PURCHASE_TOWER]: {
     handler: purchaseTowerHandler,

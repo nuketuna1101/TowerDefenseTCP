@@ -4,7 +4,7 @@ import { PACKET_TYPE } from '../../constants/header.js';
 import { config } from '../../config/config.js';
 import { payloadParser } from '../parser/packetParser.js';
 
-const makeNotification = (message, type) => {
+export const makeNotification = (message, type) => {
   // 패킷 길이 정보를 포함한 버퍼 생성
   const packetLength = Buffer.alloc(config.packet.totalLength);
   packetLength.writeUInt32BE(
@@ -13,7 +13,7 @@ const makeNotification = (message, type) => {
   );
 
   // 패킷 타입 정보를 포함한 버퍼 생성
-  const packetType = Buffer.alloc(config.packet.typeLength);
+  const packetType = Buffer.alloc(config.packet.packetTypeLength);
   packetType.writeUInt8(type, 0);
 
   // 길이 정보와 메시지를 함께 전송
@@ -38,10 +38,24 @@ export const createS2CStateSyncNotificationPacket = (user) => {
   const userStateDataPacket = userStateData.encode(message).finish();
   return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
 };
+//게임종료 패킷 (패배한 유저쪽에서 호출?)
+export const createS2CGameOverNotificationPacket = (user, isWin) => {
+  const protoMessages = getProtoMessages();
+  const gameOverData = protoMessages.test.GamePacket;
+
+  const payload = {
+    gameOverNotification: {
+      isWin ,
+    },
+  };
+  const message = gameOverData.create(payload);
+  const gameOverDataPacket = gameOverData.encode(message).finish();
+  return payloadParser(PACKET_TYPE.GAME_OVER_NOTIFICATION, user, gameOverDataPacket);
+};
 
 export const createS2CUpdateBaseHPNotificationPacket = (user, isOpponent = true) => {
   const protoMessages = getProtoMessages();
-  const userStateData = protoMessages.test.GamePacket;
+  const baseHpData = protoMessages.test.GamePacket;
 
   const payload = {
     updateBaseHpNotification: {
@@ -49,9 +63,9 @@ export const createS2CUpdateBaseHPNotificationPacket = (user, isOpponent = true)
       baseHp: user.hp,
     },
   };
-  const message = userStateData.create(payload);
-  const userStateDataPacket = userStateData.encode(message).finish();
-  return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
+  const message = baseHpData.create(payload);
+  const baseHpDataPacket = baseHpData.encode(message).finish();
+  return payloadParser(PACKET_TYPE.UPDATE_BASE_HP_NOTIFICATION, user, baseHpDataPacket);
 };
 
 export const createLocationPacket = (users) => {
