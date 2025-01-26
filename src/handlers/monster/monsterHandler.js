@@ -4,7 +4,7 @@ import {findUserGameOpponentBySocket} from '../../utils/findUserGameOpponent.js'
 import {addMonster,removemonster,getMonsterById} from '../../session/monster.session.js'
 import { testLog } from '../../utils/testLogger.js';
 
-//테스트용 id,num
+//테스트용 id,num 만약 클라에서 이걸 알아서 바꾸면 냅두기 안바꾸면 바꾸기
 let monsterid = 1; 
 const monsterNum = 1;
 
