@@ -2,6 +2,7 @@
 // import { createPingPacket } from '../../utils/notification/game.notification.js';
 import { userInit } from '../../constants/userConstants.js';
 import { getHandlerById } from '../../handlers/index.js';
+import { testLog } from '../../utils/testLogger.js';
 class User {
   constructor(id, socket) {
     this.id = id;
@@ -19,7 +20,7 @@ class User {
     this.lastUpdateTime = Date.now();
   }
 
-  userInitialize(){
+  userInitialize() {
     this.gold = userInit.gold;
     this.baseHp = userInit.baseMaxHp;
     this.baseMaxHp = userInit.baseMaxHp;
@@ -87,7 +88,7 @@ class User {
   addGold(gold) {
     this.gold += gold;
 
-    usersync();
+    usersync(this);
     return this.gold;
   }
 
@@ -96,21 +97,20 @@ class User {
       return -1;
     }
     this.gold -= gold;
-    usersync();
+    usersync(this);
     return this.gold;
   }
 
   setBaseHp(baseHp) {
     this.baseHp = baseHp;
-    updateBaseHp();
+    updateBaseHp(this);
 
     return this.baseHp;
   }
 
   addBaseHp(baseHp) {
     this.baseHp = this.baseHp + baseHp > this.baseMaxHp ? this.baseMaxHp : this.baseHp + baseHp;
-    updateBaseHp();
-
+    updateBaseHp(this);
 
     return this.baseHp;
   }
@@ -125,8 +125,7 @@ class User {
       return -1;
     }
     this.baseHp -= baseHp;
-    updateBaseHp();
-
+    updateBaseHp(this);
 
     return this.baseHp;
   }
@@ -137,31 +136,12 @@ class User {
 
   addScore(points) {
     this.score += points;
-    this.usersync();
+    this.usersync(this);
   }
 
   getScore() {
     return this.score;
   }
-
-  //싱크
-  usersync() {
-    const handler = getHandlerById(7);
-    handler({
-      socket: this.socket,
-      userId: this.id,
-      payload: {},
-      user: this,
-    });
-  }
-
-  updateBaseHp() {
-    const handler = getHandlerById(17);
-    handler({
-      user: this,
-    });
-  }
-
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
   // calculatePosition(latency) {
@@ -177,4 +157,21 @@ class User {
   // }
 }
 
+//싱크
+const usersync = (user) => {
+  const handler = getHandlerById(7);
+  handler({
+    socket: user.socket,
+    userId: user.id,
+    payload: {},
+    user: user,
+  });
+};
+
+const updateBaseHp = (user) => {
+  const handler = getHandlerById(17);
+  handler({
+    user: user,
+  });
+};
 export default User;
