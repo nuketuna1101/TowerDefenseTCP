@@ -12,6 +12,10 @@ import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
 import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 import matchResponseHandler from './game/matchResponse.handler.js';
+import { spawnMonsterReqHandler } from './monster/monsterHandler.js';
+import updateBaseHpNotificationHandler from './base/baseHpNotification.handler.js';
+import updategameOverNotificationHandler from './game/gameOverNotification.handler.js';
+import gameEndRequestHandler from './game/gameEndRequest.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
