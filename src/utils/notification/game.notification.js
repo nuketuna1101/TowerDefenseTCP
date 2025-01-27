@@ -25,6 +25,8 @@ export const makeNotification = (message, type) => {
 export const createS2CStateSyncNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
   const userStateData = protoMessages.test.GamePacket;
+  const userTowers = user.towers.map(value => {return {towerId: value.id, x: value.x, y: value.y}});
+  const userMonsters = user.monsters.map(value => {return {monsterId: value.id, monsterNumber: value.num, level: value.level}});
 
   const payload = {
     stateSyncNotification: {
@@ -32,14 +34,15 @@ export const createS2CStateSyncNotificationPacket = (user) => {
       baseHp: user.baseHp,
       monsterLevel: user.monsterLevel,
       score: user.score,
-      towers: user.tower,
-      monsters: user.monster,
+      towers: userTowers,
+      monsters: userMonsters,
     },
   };
   const message = userStateData.create(payload);
   const userStateDataPacket = userStateData.encode(message).finish();
   return payloadParser(PACKET_TYPE.STATE_SYNC_NOTIFICATION, user, userStateDataPacket);
 };
+
 //게임종료 패킷 (패배한 유저쪽에서 호출?)
 export const createS2CGameOverNotificationPacket = (user, isWin) => {
   const protoMessages = getProtoMessages();
