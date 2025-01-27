@@ -6,13 +6,20 @@ import { testLog } from '../../utils/testLogger.js';
 
 //테스트용 id,num 만약 클라에서 이걸 알아서 바꾸면 냅두기 안바꾸면 바꾸기
 let monsterid = 1; 
-const monsterNum = 1;
+
 
 export const spawnMonsterReqHandler = ({socket}) => {
 
   const {user,opponent}=findUserGameOpponentBySocket(socket);
   testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${user}`,'blue');
   testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${user.socket}`,'red');
+
+  const monsterNum = 1;
+
+  if(user.score >=10000) monsterNum = 5;
+  else if(user.socre>=8000) monsterNum = 4;
+  else if(user.socre>=5000) monsterNum = 3;
+  else if(user.socre>=3000) monsterNum = 2;
   const monster = spawnMonster(monsterid++,monsterNum,user);
   addMonster(monster);
 
