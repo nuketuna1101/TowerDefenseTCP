@@ -80,7 +80,7 @@ const handlers = {
     handler: attackRequestHandler,
     protoType: 'test.C2STowerAttackRequest',
   },
-  [HANDLER_IDS.TOWER_ATTACK]: {
+  [HANDLER_IDS.MONSTER_DEATH]: {
     handler: monsterDeathNotificationHandler,
     protoType: 'test.S2CEnemyMonsterDeathNotification',
   },
