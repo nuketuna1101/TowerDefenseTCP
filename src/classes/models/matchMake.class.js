@@ -1,6 +1,7 @@
 import { MAX_PLAYERS } from './game.class.js';
 import matchResponseHandler from '../../handlers/game/matchResponse.handler.js';
 import { v4 as uuidv4 } from 'uuid';
+import { addGameSession } from '../../session/game.session.js';
 
 class MatchMake {
   constructor() {
