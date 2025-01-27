@@ -11,6 +11,7 @@ import TowerManager from "../../classes/managers/tower.manager";
 import CustomError from "../../utils/error/customError";
 import { ErrorCodes } from "../../utils/error/errorCodes";
 import { handleError } from "../../utils/error/errorHandler";
+import { getMonsterById } from './../../session/monster.session';
 
 //====================================================================================================================
 const attackRequestHandler = ({ socket, userId, payload }) => {
@@ -22,14 +23,18 @@ const attackRequestHandler = ({ socket, userId, payload }) => {
         const user = getUserById(userId);
         if (!user)
             throw new CustomError(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
-        const tower = TowerManager.instance.getTower(towerId);
+        // const tower = TowerManager.instance.getTower(towerId);
+        const tower = user.getTowerById(towerId);
         if (!tower)
             throw new CustomError(ErrorCodes.CANNOT_FIND, "Cannot find target Tower");
         if (!tower.isOwnedBy(userId))
             throw new CustomError(ErrorCodes.NOT_AUTHORIZED_ACCESS, "tower is NOT owned by user");
     
         // monster 존재여부 << monster session에서 찾아오기
-        const monster = getMonsterByMonsterId(monsterId);
+
+
+        // Monster class instance 를 가져와야 하는데
+        const monster = user.getMonsterById(monsterId);//getMonsterByMonsterId(monsterId);//
         if (!monster)
             throw new CustomError(ErrorCodes.CANNOT_FIND, "Cannot find target monster");
 

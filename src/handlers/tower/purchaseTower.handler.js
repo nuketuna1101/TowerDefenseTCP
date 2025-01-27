@@ -53,8 +53,11 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
         // 새로운 타워 id 생성
         const towerId = ++towerIdCnt;//uuidv4();
-        // 1. user 클래스의 타워 배열 추가
+
+        // // 1. user 클래스의 타워 배열 추가
         TowerManager.instance.addTower(userId, towerId, x, y);
+
+
         // 2. towerData로서 패킷 추가
         //#region legacy : convert into packet
         /*
@@ -66,8 +69,10 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         user.addTower(towerDataPacket);
         */
         //#endregion
-        const rawTowerData = { towerId, x, y };
-        user.addTower(rawTowerData);
+        //#region Legacy
+        // const rawTowerData = { towerId, x, y };
+        // user.addTower(rawTowerData);
+        //#endregion
 
 
         // 타워 생성 response

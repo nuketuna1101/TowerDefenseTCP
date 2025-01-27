@@ -14,6 +14,4 @@ const stateSyncNotificationHandler = ({ socket, userId, payload, user }) => {
   }
 };
 
-
-
 export default stateSyncNotificationHandler;

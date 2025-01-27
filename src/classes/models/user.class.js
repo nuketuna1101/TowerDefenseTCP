@@ -14,8 +14,8 @@ class User {
     this.baseMaxHp = userInit.baseMaxHp;
     this.monsterLevel = userInit.monsterLevel;
     this.score = userInit.score;
-    this.monster = [];
-    this.tower = [];
+    this.monsters = [];
+    this.towers = [];
     this.path = [];
     this.lastUpdateTime = Date.now();
   }
@@ -26,8 +26,8 @@ class User {
     this.baseMaxHp = userInit.baseMaxHp;
     this.monsterLevel = userInit.monsterLevel;
     this.score = userInit.score;
-    this.monster = [];
-    this.tower = [];
+    this.monsters = [];
+    this.towers = [];
     this.lastUpdateTime = Date.now();
   }
 
@@ -58,23 +58,35 @@ class User {
   }
 
   addMonster(monster) {
-    this.monster.push(monster);
+    this.monsters.push(monster);
   }
 
   addTower(tower) {
-    this.tower.push(tower);
+    this.towers.push(tower);
   }
 
   //몬스터 초기화
   removeMonster() {
-    this.monster = [];
+    this.monsters = [];
   }
+
+  //#region getter monster
+  getMonsterById(monsterId){
+    return this.monsters.filter((monster) => monster.id == monsterId);
+  }
+  //#endregion
+
+  //#region getter tower
+  getTowerById(towerId){
+    return this.towers.filter((tower) => tower.id == towerId);
+  }
+  //#endregion
 
   //특정 타워를 삭제할 경우가 있을것. 아마도?
   removeTowerById(towerId) {
     //placeholder
-    const deletingTower = this.tower.findIndex((value) => {
-      return Object.values(value)[0] == towerId;
+    const deletingTower = this.towers.findIndex((value) => {
+      return value.id == towerId;
     });
     if (deletingTower < 0) return deletingTower;
     this.tower.splice(deletingTower, 1);
@@ -82,7 +94,7 @@ class User {
   }
   //타워 초기화
   removeTower() {
-    this.tower = [];
+    this.towers = [];
   }
 
   addGold(gold) {

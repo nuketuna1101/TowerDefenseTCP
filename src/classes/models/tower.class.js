@@ -67,14 +67,14 @@ class Tower {
         }
 
         // 몬스터 피격 처리 (임시)
-        monster.beAttacked(this.power);
+        // monster.beAttacked(this.power);
 
         // 유저가 자신이 속한 게임 세션 내의 유저들에게 notify
         const game = getGameByUserId(this.userId);
         const users = game.getUsers();
         users.forEach((user) => {
             // 자기 자신에게는 보내지 않음
-            if (user.id == this.userId) return;
+            // if (user.id == this.userId) return;
             const enemyTowerAttackPacket = enemyTowerAttackNotification(this.id, monster.id, user);
             user.socket.write(enemyTowerAttackPacket);
         });
