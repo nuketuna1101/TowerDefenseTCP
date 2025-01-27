@@ -17,6 +17,8 @@ export const packetParser = (handlerId, rawPayload) => {
   const [namespace, typeName] = protoTypeName.split('.');
   const expectedPayloadType = protoMessages[namespace][typeName];
   const PayloadType = protoMessages['test']['GamePacket'];
+  testLog(0, `protoTypeName: ${protoTypeName}`, 'yellow');
+  testLog(0, `namespace: ${namespace}, typeName: ${typeName}`, 'green');
   testLog(0,`expectedPayloadType: ${expectedPayloadType}`,'green',);
 
 

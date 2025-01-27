@@ -7,11 +7,11 @@
 // ```
 //====================================================================================================================
 
-import TowerManager from "../../classes/managers/tower.manager";
-import CustomError from "../../utils/error/customError";
-import { ErrorCodes } from "../../utils/error/errorCodes";
-import { handleError } from "../../utils/error/errorHandler";
-import { getMonsterById } from './../../session/monster.session';
+import TowerManager from "../../classes/managers/tower.manager.js";
+import CustomError from "../../utils/error/customError.js";
+import { ErrorCodes } from "../../utils/error/errorCodes.js";
+import { handleError } from "../../utils/error/errorHandler.js";
+import { getMonsterById } from './../../session/monster.session.js';
 
 //====================================================================================================================
 const attackRequestHandler = ({ socket, userId, payload }) => {
