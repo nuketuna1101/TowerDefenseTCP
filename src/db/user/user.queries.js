@@ -9,4 +9,5 @@ export const SQL_QUERIES = {
     'INSERT INTO userScore (userId, highScore) VALUES (?, ?) ON DUPLICATE KEY UPDATE highScore = GREATEST(highScore, ?)',
   CREATE_MATCH_HISTORY:
     'INSERT INTO MatchHistoryTable (player1, player2, winPlayer, player1Score, player2Score) VALUES (?, ?, ?, ?, ?)',
+  FIND_USER_HIGH_SCORE: 'SELECT highScore FROM userScore WHERE userId = ?',
 };

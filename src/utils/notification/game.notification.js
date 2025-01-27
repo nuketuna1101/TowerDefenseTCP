@@ -3,6 +3,7 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 import { config } from '../../config/config.js';
 import { payloadParser } from '../parser/packetParser.js';
+import { findUserHighScore } from '../../db/user/user.db.js';
 import { testLog } from '../testLogger.js';
 
 export const makeNotification = (message, type) => {
@@ -102,10 +103,10 @@ export const createPingPacket = (timestamp) => {
 };
 
 // 서버에서 클라로 전송해야 할 매칭완료 notification
-// 매개변수로는 아마 게임시작, 매칭 시작한 유저, 매칭 잡힌 상대방 유저
 export const craeteS2CMatchStartNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
   const S2CMatchStartNotification = protoMessages.test.GamePacket;
+  const userHighScore = findUserHighScore(user.id);
 
   if (!S2CMatchStartNotification) {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
@@ -132,7 +133,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   const playerData = {
     gold: user.gold,
     base: { hp: user.baseHp, maxHp: user.baseMaxHp },
-    highScore: user.score === 0 ? 0 : 1, // => 쿼리문으로 하이스코어 조회후 값이있으면 그값 넣기 | 1위치에 추가
+    highScore: userHighScore,
     towers: user.tower,
     monsters: user.monster,
     monsterLevel: user.monsterLevel,
