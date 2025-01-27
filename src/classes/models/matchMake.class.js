@@ -35,7 +35,7 @@ class MatchMake {
       socket: user1.socket,
       userId: user1.id,
       payload: {},
-      additionalUsers: [user2.id],
+      //additionalUsers: [user2.id],
       gameSession: gameSession,
     });
 
@@ -43,7 +43,7 @@ class MatchMake {
       socket: user2.socket,
       userId: user2.id,
       payload: {},
-      additionalUsers: [user1.id],
+      //additionalUsers: [user1.id],
       gameSession: gameSession,
     });
 

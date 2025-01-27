@@ -15,11 +15,6 @@ class Game {
     this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
-  // 내가 사용할 패킷
-  // C2SMatchRequest {}
-  // S2CMatchStartNotification { InitialGameState initialGameState = 1; GameState playerData = 2; GameState opponentData = 3;}
-
-  // addUser를 할때 MatchMake를 사용해야 할듯?
   addUser(user) {
     if (this.users.length >= MAX_PLAYERS) {
       throw new Error('Game session is full');

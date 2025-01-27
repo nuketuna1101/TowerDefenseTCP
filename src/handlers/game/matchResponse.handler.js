@@ -5,7 +5,7 @@ import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { craeteS2CMatchStartNotificationPacket } from '../../utils/notification/game.notification.js';
 
-const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], gameSession }) => {
+const matchResponseHandler = ({ socket, userId, payload, gameSession }) => {
   try {
     // 현재 사용자 정보 가져오기
     const user = getUserById(userId);
@@ -14,18 +14,6 @@ const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], g
     }
     // 게임 세션에 사용자 추가
     gameSession.addUser(user);
-
-    // 현재 사용자 id 저장
-    const addedUserIds = [userId];
-    additionalUsers.forEach((additionalUserId) => {
-      const additionalUser = getUserById(additionalUserId);
-      if (additionalUser) {
-        // 매칭 잡힌 사용자 게임 세션에 추가
-        gameSession.addUser(additionalUser);
-        // 매칭 잡힌 사용자 id 저장
-        addedUserIds.push(additionalUserId);
-      }
-    });
 
     const matchPacket = craeteS2CMatchStartNotificationPacket(user);
 
