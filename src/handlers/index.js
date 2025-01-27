@@ -12,10 +12,11 @@ import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
 import purchaseTowerHandler from './tower/purchaseTower.handler.js';
 import matchResponseHandler from './game/matchResponse.handler.js';
-import { spawnMonsterReqHandler } from './monster/monsterHandler.js';
-import updateBaseHpNotificationHandler from './base/baseHpNotification.handler.js';
-import updategameOverNotificationHandler from './game/gameOverNotification.handler.js';
-import gameEndRequestHandler from './game/gameEndRequest.handler.js';
+import monsterAttackBaseRequestHandler from './base/monsterAttackBaseRequest.handler.js';
+import updategameOverNotificationHandler from './game/gameOverNotification.handler.js'
+import { spawnMonsterReqHandler } from './monster/monsterHandler.js'
+import updateBaseHpNotificationHandler from './base/updateBaseHpNotification.handlers.js'
+import gameEndRequestHandler from './game/gameEndRequest.handler.js'
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -53,6 +54,10 @@ const handlers = {
   [PACKET_TYPE.STATE_SYNC_NOTIFICATION]: {
     handler: stateSyncNotificationHandler,
     protoType: 'test.S2CStateSyncNotification',
+  },
+  [PACKET_TYPE.MONSTER_ATTACK_BASE_REQUEST]: {
+    handler: monsterAttackBaseRequestHandler,
+    protoType: 'test.C2SMonsterAttackBaseRequest',
   },
   [PACKET_TYPE.UPDATE_BASE_HP_NOTIFICATION]: {
     handler: updateBaseHpNotificationHandler,

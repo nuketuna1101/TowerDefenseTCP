@@ -13,7 +13,7 @@ export const findUserGameOpponentBySocket = (socket) => {
   if (!user) {
     throw new Error('유저를 찾을 수 없습니다.');
   }
-
+  testLog(0,`userid ${user.id}`)
   const game = getGameByUser(user);
   // testLog(0, `findUserGameOpponentByUser에 game 있을까?${game}`, 'green');
 
