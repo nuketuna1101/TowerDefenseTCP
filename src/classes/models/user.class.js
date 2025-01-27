@@ -128,7 +128,7 @@ class User {
   }
 
   substractBaseHp(baseHp) {
-    if (this.baseHp < baseHp) {
+    if (this.baseHp <= baseHp) {
       const handler = getHandlerById(18);
       handler({
         user: this,
