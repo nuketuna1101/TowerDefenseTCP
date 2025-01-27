@@ -143,7 +143,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     monsterLevel: user.monsterLevel,
     score: user.score,
     monsterPath: user.path,
-    basePosition: { x: 1370, y: 350 },
+    basePosition: { x: 1400, y: 350 },
   };
 
   // Payload 생성
