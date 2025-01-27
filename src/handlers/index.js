@@ -84,6 +84,7 @@ const handlers = {
     handler: monsterDeathNotificationHandler,
     protoType: 'test.S2CEnemyMonsterDeathNotification',
   },
+
   // 다른 핸들러들을 추가
 };
 

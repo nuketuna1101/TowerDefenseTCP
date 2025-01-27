@@ -136,14 +136,13 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   const playerData = {
     gold: user.gold,
     base: { hp: user.baseHp, maxHp: user.baseMaxHp },
-    // [TO BE MODIFIED] 하이스코어 임시 하드코딩
     highScore: userHighScore,
     towers: user.tower,
     monsters: user.monster,
     monsterLevel: user.monsterLevel,
     score: user.score,
     monsterPath: user.path,
-    basePosition: { x: 1370, y: 350 },
+    basePosition: { x: 1400, y: 350 },
   };
 
   // Payload 생성
