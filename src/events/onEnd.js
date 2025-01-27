@@ -8,6 +8,7 @@ export const onEnd = (socket) => () => {
   const user = getUserBySocket(socket);
   const gameSession = getGameByUser(user);
   if (gameSession) {
+    console.log('게임 세션이 종료되었습니다.');
     const handler = getHandlerById(18);
     handler({
       user: user,
