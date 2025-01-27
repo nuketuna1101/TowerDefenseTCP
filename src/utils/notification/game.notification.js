@@ -126,7 +126,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     baseHp: user.baseHp,
     towerCost: 10,
     initialGold: user.gold,
-    monsterSpawnInterval: 2000,
+    monsterSpawnInterval: 2,//2000,
   };
 
   // PlayerData (GameState) 생성
