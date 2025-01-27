@@ -58,7 +58,7 @@ export const createS2CSpawnEnemyMonsterNotification = (monsterId, monsterNumber,
   }
 
   const payload = {
-    spawnMonsterResponse: {
+    spawnEnemyMonsterNotification: {
       monsterId,
       monsterNumber,
     },
