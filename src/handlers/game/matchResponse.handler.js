@@ -1,18 +1,12 @@
 //createGame.handler.js
-import { v4 as uuidv4 } from 'uuid';
-import { addGameSession } from '../../session/game.session.js';
 import { handleError } from '../../utils/error/errorHandler.js';
 import { getUserById } from '../../session/user.session.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
-import { getProtoMessages } from '../../init/loadProtos.js';
 import { craeteS2CMatchStartNotificationPacket } from '../../utils/notification/game.notification.js';
 
-const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], gameId }) => {
+const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], gameSession }) => {
   try {
-    // 게임 세션 생성
-    const gameSession = addGameSession(gameId);
-
     // 현재 사용자 정보 가져오기
     const user = getUserById(userId);
     if (!user) {

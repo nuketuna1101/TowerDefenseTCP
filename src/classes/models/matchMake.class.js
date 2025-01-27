@@ -1,6 +1,7 @@
 import { MAX_PLAYERS } from './game.class.js';
 import matchResponseHandler from '../../handlers/game/matchResponse.handler.js';
 import { v4 as uuidv4 } from 'uuid';
+import { addGameSession } from '../../session/game.session.js';
 
 class MatchMake {
   constructor() {
@@ -27,13 +28,15 @@ class MatchMake {
 
     // 새로운 게임 ID 생성
     const gameId = uuidv4();
+    // 게임 세션 생성
+    const gameSession = addGameSession(gameId);
 
     matchResponseHandler({
       socket: user1.socket,
       userId: user1.id,
       payload: {},
       additionalUsers: [user2.id],
-      gameId: gameId
+      gameSession: gameSession,
     });
 
     matchResponseHandler({
@@ -41,7 +44,7 @@ class MatchMake {
       userId: user2.id,
       payload: {},
       additionalUsers: [user1.id],
-      gameId: gameId
+      gameSession: gameSession,
     });
 
     console.log(`매치 생성 완료 (참가 플레이어) : ${usersForGame.map((u) => u.id).join(', ')}`);
