@@ -8,9 +8,11 @@
 //====================================================================================================================
 
 import TowerManager from "../../classes/managers/tower.manager.js";
+import { getUserById } from "../../session/user.session.js";
 import CustomError from "../../utils/error/customError.js";
 import { ErrorCodes } from "../../utils/error/errorCodes.js";
 import { handleError } from "../../utils/error/errorHandler.js";
+import { testLog } from "../../utils/testLogger.js";
 import { getMonsterById } from './../../session/monster.session.js';
 
 //====================================================================================================================
@@ -25,6 +27,7 @@ const attackRequestHandler = ({ socket, userId, payload }) => {
             throw new CustomError(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
         // const tower = TowerManager.instance.getTower(towerId);
         const tower = user.getTowerById(towerId);
+        testLog(0, `Tower: ${tower} / (stringified): ${JSON.stringify(tower, null, 2)}`);
         if (!tower)
             throw new CustomError(ErrorCodes.CANNOT_FIND, "Cannot find target Tower");
         if (!tower.isOwnedBy(userId))

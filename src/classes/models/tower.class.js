@@ -19,11 +19,12 @@
 //====================================================================================================================
 
 import { testLog } from '../../utils/testLogger.js';
-import { distance } from '../../utils/mathHelper.js';
+import { getDistance } from '../../utils/mathHelper.js';
 import { enemyTowerAttackNotification } from './../../utils/notification/tower.notification.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { towerAssets } from './../../constants/tower.assets.js';
+import { getGameByUserId } from '../../session/game.session.js';
 
 class Tower {
     constructor(userId, towerId, x, y, towerTypeCode = 'TOW00001') {
@@ -60,7 +61,7 @@ class Tower {
             return;
         }
         // 거리 유효 계산
-        const distance = distance(this.x, this.y, monster.x, monster.y);
+        const distance = getDistance(this.x, this.y, monster.x, monster.y);
         if (this.range < distance) {
             testLog(0, "[Tower] cannot attack :: OUT OF RANGE", 'blue');
             return;
@@ -89,6 +90,11 @@ class Tower {
     }
 
 
+    //#region getter
+    getCost(){
+        return this.cost;
+    }
+    //#endregion
 
 }
 
