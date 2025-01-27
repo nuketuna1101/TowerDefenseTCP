@@ -2,6 +2,7 @@
 import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
 import { createMatchHistory, updateHighScore } from '../db/user/user.db.js';
+import { testLog } from '../utils/testLogger.js';
 
 // gameId로 만들어짐
 export const addGameSession = (id) => {
@@ -14,8 +15,10 @@ export const addGameSession = (id) => {
 };
 
 export const removeGameSession = (id) => {
+  testLog(0,`gameSession: ${id}`);
   const index = gameSessions.findIndex((session) => session.id === id);
   if (index !== -1) {
+    testLog(0,`gameIndex: ${index} gameSessionLength ${gameSessions.length}`);
     const game = gameSessions[index];
     const user1 = game.users[0];
     const user2 = game.users[1];
@@ -26,6 +29,7 @@ export const removeGameSession = (id) => {
         updateHighScore(user2.databaseId, user2.score),
       ])
         .then(() => {
+          testLog(0,`gameScoreUpdate is done`);
           const winnerId =
             user1.baseHp === user2.baseHp
               ? user1.score > user2.score
