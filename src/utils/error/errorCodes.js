@@ -17,6 +17,8 @@ export const ErrorCodes = {
   CANNOT_FIND: 20001,
   INVALID_DATA: 20002,
   NOT_AUTHORIZED_ACCESS: 20003,
+  FAILED_TO_CREATE: 20004,
+  NOT_ENOUGH_GOLD: 20005,
   //#endregion
   // 추가적인 에러 코드들
 };

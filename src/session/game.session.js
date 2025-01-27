@@ -2,6 +2,7 @@
 import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
 import { createMatchHistory, updateHighScore } from '../db/user/user.db.js';
+import { testLog } from '../utils/testLogger.js';
 
 // gameId로 만들어짐
 export const addGameSession = (id) => {
@@ -13,39 +14,47 @@ export const addGameSession = (id) => {
   return session;
 };
 
-export const removeGameSession = async (id) => {
+export const removeGameSession = (id) => {
+  testLog(0,`gameSession: ${id}`);
   const index = gameSessions.findIndex((session) => session.id === id);
   if (index !== -1) {
+    testLog(0,`gameIndex: ${index} gameSessionLength ${gameSessions.length}`);
     const game = gameSessions[index];
     const user1 = game.users[0];
     const user2 = game.users[1];
 
     if (user1 && user2) {
-      try {
-        await Promise.all([
-          updateHighScore(user1.databaseId, user1.score),
-          updateHighScore(user2.databaseId, user2.score),
-        ]);
-        const winnerId = user1.baseHp === user2.baseHp
-          ? user1.score > user2.score
-            ? user1.databaseId
-            : user2.databaseId
-          : user1.baseHp > user2.baseHp
-            ? user1.databaseId
-            : user2.databaseId;
-        await createMatchHistory(
-          user1.databaseId,
-          user2.databaseId,
-          winnerId,
-          user1.score,
-          user2.score);
-        if (user1) user1.userInitialize();
-        if (user2) user2.userInitialize();
-        return gameSessions.splice(index, 1)[0];
-      } catch (error) {
-        console.error('Game session cleanup failed:', error);
-        return gameSessions.splice(index, 1)[0];
-      }
+      return Promise.all([
+        updateHighScore(user1.databaseId, user1.score),
+        updateHighScore(user2.databaseId, user2.score),
+      ])
+        .then(() => {
+          testLog(0,`gameScoreUpdate is done`);
+          const winnerId =
+            user1.baseHp === user2.baseHp
+              ? user1.score > user2.score
+                ? user1.databaseId
+                : user2.databaseId
+              : user1.baseHp > user2.baseHp
+              ? user1.databaseId
+              : user2.databaseId;
+          return createMatchHistory(
+            user1.databaseId,
+            user2.databaseId,
+            winnerId,
+            user1.score,
+            user2.score,
+          );
+        })
+        .then(() => {
+          if (user1) user1.userInitialize();
+          if (user2) user2.userInitialize();
+          return gameSessions.splice(index, 1)[0];
+        })
+        .catch((error) => {
+          console.error('Game session cleanup failed:', error);
+          return gameSessions.splice(index, 1)[0];
+        });
     }
 
     return Promise.resolve(gameSessions.splice(index, 1)[0]);
