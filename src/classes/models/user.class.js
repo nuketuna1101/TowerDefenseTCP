@@ -72,13 +72,13 @@ class User {
 
   //#region getter monster
   getMonsterById(monsterId){
-    return this.monsters.filter((monster) => monster.id == monsterId);
+    return this.monsters.filter((monster) => monster.id == monsterId)[0];
   }
   //#endregion
 
   //#region getter tower
   getTowerById(towerId){
-    return this.towers.filter((tower) => tower.id == towerId);
+    return this.towers.filter((tower) => tower.id == towerId)[0];
   }
   //#endregion
 

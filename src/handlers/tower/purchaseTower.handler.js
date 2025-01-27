@@ -20,13 +20,13 @@
 //====================================================================================================================
 
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds.js";
-import { v4 as uuidv4 } from 'uuid';
 import { getUserById } from "../../session/user.session.js";
 import TowerManager from "../../classes/managers/tower.manager.js";
 import CustomError from "../../utils/error/customError.js";
 import { ErrorCodes } from "../../utils/error/errorCodes.js";
 import { createResponse } from "../../utils/response/createResponse.js";
 import { handleError } from "../../utils/error/errorHandler.js";
+import Tower from "../../classes/models/tower.class.js";
 
 // 임시로 무조건 true 반환
 const isCoordinateValid = (x, y) => {
@@ -38,42 +38,31 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
     try {
         // payload에서 가져오는 monster와 tower id값
         const { x, y } = payload;
-        // TO DO
-        // user 금액이 충분한지 validation
-        // if ()            throw new CustomError(ErrorCodes.);
-        // 배치될 위치 유효한지 validation
-
         // user validation
         const user = getUserById(userId);
         if (!user)
             throw new CustomError(ErrorCodes.USER_NOT_FOUND, "Cannot find user");
-        // coordinate validation
+
+        // coordinate validation 배치될 위치 유효한지
         const isCoordValid = isCoordinateValid(x, y);
         if (!isCoordValid)
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
         // 새로운 타워 id 생성
-        const towerId = ++towerIdCnt;//uuidv4();
+        const towerId = ++towerIdCnt;
+
+        // 새 타워 생성
+        const tower = new Tower(userId, towerId, x, y);
+        if (!tower)
+            throw new CustomError(ErrorCodes.FAILED_TO_CREATE, "Failed to create tower");
+        // user 금액이 충분한지 validation
+        if (user.substractGold(tower.getCost()) < 0)
+            throw new CustomError(ErrorCodes.NOT_ENOUGH_GOLD, "Not enough gold");
 
         // // 1. user 클래스의 타워 배열 추가
-        TowerManager.instance.addTower(userId, towerId, x, y);
-
-
-        // 2. towerData로서 패킷 추가
-        //#region legacy : convert into packet
-        /*
-        const protoMessages = getProtoMessages();
-        const rawTowerData = { towerId, x, y };
-        const towerData = protoMessages.test.TowerData;
-        const message = towerData.create(rawTowerData);
-        const towerDataPacket = towerData.encode(message).finish();
-        user.addTower(towerDataPacket);
-        */
-        //#endregion
-        //#region Legacy
-        // const rawTowerData = { towerId, x, y };
-        // user.addTower(rawTowerData);
-        //#endregion
-
+        // TowerManager.instance.addTower(userId, towerId, x, y);
+        user.addTower(tower);
+        // 유저가 자신이 속한 게임 세션 내의 유저들에게 notify
+        TowerManager.instance.notifyEnemyTower(userId, towerId, x, y);
 
         // 타워 생성 response
         const purchaseTowerResponse = createResponse(
