@@ -2,6 +2,7 @@ import { spawnMonster } from '../../classes/models/monster.class.js';
 import { createS2CSpawnMonsterResponse,createS2CSpawnEnemyMonsterNotification,createS2CEnemyMonsterDeathNotification } from '../../utils/notification/monster.notification.js';
 import {findUserGameOpponentBySocket} from '../../utils/findUserGameOpponent.js';
 import {addMonster,removemonster,getMonsterById} from '../../session/monster.session.js'
+import { monsterSessions } from '../../session/sessions.js';
 import { testLog } from '../../utils/testLogger.js';
 
 //테스트용 id,num 만약 클라에서 이걸 알아서 바꾸면 냅두기 안바꾸면 바꾸기
@@ -11,20 +12,19 @@ let monsterid = 1;
 export const spawnMonsterReqHandler = ({socket}) => {
 
   const {user,opponent}=findUserGameOpponentBySocket(socket);
-  testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${user}`,'blue');
-  testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${user.socket}`,'red');
+  // testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${JSON.stringify(user)}`,'blue');
+  // testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${JSON.stringify(user.socket)}`,'red');
 
   const monsterNum = 1;
 
   if(user.score >=10000) monsterNum = 5;
-  else if(user.socre>=8000) monsterNum = 4;
-  else if(user.socre>=5000) monsterNum = 3;
-  else if(user.socre>=3000) monsterNum = 2;
+  else if(user.score>=8000) monsterNum = 4;
+  else if(user.score>=5000) monsterNum = 3;
+  else if(user.score>=3000) monsterNum = 2;
   const monster = spawnMonster(monsterid++,monsterNum,user);
   addMonster(monster);
-
-  const response = createS2CSpawnMonsterResponse(monster.monsterId,monster.monsterNumber,user);
-  const notification = createS2CSpawnEnemyMonsterNotification(monster.monsterId,monster.monsterNumber,user);
+  const response = createS2CSpawnMonsterResponse(monster.id,monster.num,user);
+  const notification = createS2CSpawnEnemyMonsterNotification(monster.id,monster.num,user);
 
   testLog(0,`response: ${response.toString('hex')}, notification: ${notification}`,'red');
   user.socket.write(response);
@@ -36,7 +36,7 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
   const {user,opponent}=findUserGameOpponentBySocket(socket);
   const{monsterId} = payload;
   const monster = getMonsterById(monsterId);
-  
+
   if (!monster) {
     throw new Error(`몬스터를 찾을 수 없습니다. ID: ${monsterId}`);
   }
