@@ -75,9 +75,10 @@ class Tower {
         const users = game.getUsers();
         users.forEach((user) => {
             // 자기 자신에게는 보내지 않음
-            // if (user.id == this.userId) return;
-            const enemyTowerAttackPacket = enemyTowerAttackNotification(this.id, monster.id, user);
-            user.socket.write(enemyTowerAttackPacket);
+            if (user.id !== this.userId) {
+                const enemyTowerAttackPacket = enemyTowerAttackNotification(this.id, monster.id, user);
+                user.socket.write(enemyTowerAttackPacket);
+            }
         });
     }
 
