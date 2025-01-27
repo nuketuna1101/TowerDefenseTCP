@@ -66,7 +66,7 @@ export const getGameSession = (id) => {
 };
 
 export const getGameByUser = (user) => {
-  return gameSessions.find((user) => user.users[0].id === user.id || user.users[1].id === user.id);
+  return gameSessions.find((users) => users.users[0].id === user.id || users.users[1].id === user.id);
 };
 
 export const getAllGameSessions = () => {

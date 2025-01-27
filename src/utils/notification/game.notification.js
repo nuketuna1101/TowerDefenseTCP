@@ -3,6 +3,7 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 import { config } from '../../config/config.js';
 import { payloadParser } from '../parser/packetParser.js';
+import { testLog } from '../testLogger.js';
 
 export const makeNotification = (message, type) => {
   // 패킷 길이 정보를 포함한 버퍼 생성
@@ -57,14 +58,16 @@ export const createS2CUpdateBaseHPNotificationPacket = (user, isOpponent = true)
   const protoMessages = getProtoMessages();
   const baseHpData = protoMessages.test.GamePacket;
 
+  testLog(0,`userid ${user.id} userhp ${user.baseHp} isOpponent ${isOpponent}`);
   const payload = {
     updateBaseHpNotification: {
       isOpponent,
-      baseHp: user.hp,
+      baseHp: user.baseHp,
     },
   };
   const message = baseHpData.create(payload);
   const baseHpDataPacket = baseHpData.encode(message).finish();
+  testLog(0,`baseHpDataPacket ${baseHpDataPacket.toString('hex')}`);
   return payloadParser(PACKET_TYPE.UPDATE_BASE_HP_NOTIFICATION, user, baseHpDataPacket);
 };
 
