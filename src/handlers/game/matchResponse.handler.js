@@ -8,11 +8,8 @@ import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { getProtoMessages } from '../../init/loadProtos.js';
 import { craeteS2CMatchStartNotificationPacket } from '../../utils/notification/game.notification.js';
 
-const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], gameId }) => {
+const matchResponseHandler = ({ socket, userId, payload, additionalUsers = [], gameSession }) => {
   try {
-    // 게임 세션 생성
-    const gameSession = addGameSession(gameId);
-
     // 현재 사용자 정보 가져오기
     const user = getUserById(userId);
     if (!user) {
