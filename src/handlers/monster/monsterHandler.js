@@ -13,7 +13,7 @@ export const spawnMonsterReqHandler = ({socket}) => {
   const {user,opponent}=findUserGameOpponentBySocket(socket);
   testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${user}`,'blue');
   testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${user.socket}`,'red');
-  const monster = spawnMonster(monsterid,monsterNum,user);
+  const monster = spawnMonster(monsterid++,monsterNum,user);
   addMonster(monster);
 
   const response = createS2CSpawnMonsterResponse(monster.monsterId,monster.monsterNumber,user);

@@ -109,7 +109,7 @@ export const createPingPacket = (timestamp) => {
 export const craeteS2CMatchStartNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
   const S2CMatchStartNotification = protoMessages.test.GamePacket;
-  const userHighScore = findUserHighScore(user.id);
+  // const userHighScore = findUserHighScore(user.id);
 
   if (!S2CMatchStartNotification) {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
@@ -129,14 +129,15 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     baseHp: user.baseHp,
     towerCost: 10,
     initialGold: user.gold,
-    monsterSpawnInterval: 2000,
+    monsterSpawnInterval: 2,//2000,
   };
 
   // PlayerData (GameState) 생성
   const playerData = {
     gold: user.gold,
     base: { hp: user.baseHp, maxHp: user.baseMaxHp },
-    highScore: userHighScore,
+    // [TO BE MODIFIED] 하이스코어 임시 하드코딩
+    highScore: 0,//userHighScore,
     towers: user.tower,
     monsters: user.monster,
     monsterLevel: user.monsterLevel,

@@ -20,6 +20,16 @@ export const createUser = async ({ username, email, password }) => {
     hashedPassword,
   ]);
 
+  //#region 유저 생성 시 유저 점수 테이블도 생성
+
+  // 유저 id 찾기 위해
+  const user = pools.USER_DB.query(SQL_QUERIES.FIND_USER_BY_USERNAME, [username]);
+  // 테이블 생성
+  await pools.USER_DB.query(SQL_QUERIES.CREATE_USER_SCORE, [user.id, 0 /* default 점수값 */]);
+
+  //#endregion
+
+
   return {
     id: result.insertId,
     username,

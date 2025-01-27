@@ -20,10 +20,8 @@ import { testLog } from "../testLogger.js";
 export const addEnemyTowerNoitification = (towerId, x, y, user) => {
     const protoMsg = getProtoMessages();
     const S2CAddEnemyTowerNotification = protoMsg.test.GamePacket;
-
     if (!S2CAddEnemyTowerNotification) 
       throw new Error('S2CAddEnemyTowerNotification undefined.');
-    
 
     const payload = { addEnemyTowerNotification: { towerId, x, y } };
 
@@ -40,11 +38,17 @@ export const addEnemyTowerNoitification = (towerId, x, y, user) => {
 // enemyTowerAttackNotification
 export const enemyTowerAttackNotification = (towerId, monsterId, user) => {
     const protoMsg = getProtoMessages();
-    const enemyTowerAttack = protoMsg.test.GamePacket;
+    const S2CEnemyTowerAttackNotification = protoMsg.test.GamePacket;
+    if (!S2CEnemyTowerAttackNotification) 
+        throw new Error('S2CEnemyTowerAttackNotification undefined.');
 
-    const payload = { EnemyTowerAttackNotification: { towerId, monsterId } };
-    const message = enemyTowerAttack.create(payload);
-    const packet = enemyTowerAttack.encode(message).finish();
+    const payload = { enemyTowerAttackNotification: { towerId, monsterId } };
+    const message = S2CEnemyTowerAttackNotification.create(payload);
+    const packet = S2CEnemyTowerAttackNotification.encode(message).finish();
+    testLog(0, `[addEnemyTowerNoitification]
+        payload: ${JSON.stringify(payload, null, 2)}
+        message: ${JSON.stringify(message, null, 2)}
+        packet: ${Array.from(packet).join(', ')}`, 'yellow');
     return payloadParser(PACKET_TYPE.ENEMY_TOWER_ATTACK_NOTIFICATION, user, packet);
 };
 
