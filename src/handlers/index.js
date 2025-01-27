@@ -17,7 +17,7 @@ import updategameOverNotificationHandler from './game/gameOverNotification.handl
 import { monsterDeathNotificationHandler, spawnMonsterReqHandler } from './monster/monsterHandler.js'
 import updateBaseHpNotificationHandler from './base/updateBaseHpNotification.handlers.js'
 import gameEndRequestHandler from './game/gameEndRequest.handler.js'
-import { addEnemyTowerNoitification, enemyTowerAttackNotification } from '../utils/notification/tower.notification.js';
+import attackRequestHandler from './tower/attackRequest.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -76,19 +76,14 @@ const handlers = {
     handler: purchaseTowerHandler,
     protoType: 'test.C2STowerPurchaseRequest',
   },
-  [HANDLER_IDS.ENEMY_TOWER_ATTACK]: {
-    handler: enemyTowerAttackNotification,
-    protoType: 'test.S2CEnemyTowerAttackNotification',
+  [HANDLER_IDS.TOWER_ATTACK]: {
+    handler: attackRequestHandler,
+    protoType: 'test.C2STowerAttackRequest',
   },
-  [HANDLER_IDS.ADD_ENEMY_TOWER]: {
-    handler: addEnemyTowerNoitification,
-    protoType: 'test.S2CAddEnemyTowerNotification',
-  },
-  [HANDLER_IDS.ADD_ENEMY_TOWER]: {
+  [HANDLER_IDS.TOWER_ATTACK]: {
     handler: monsterDeathNotificationHandler,
-    protoType: 'test.C2SMonsterDeathNotification',
+    protoType: 'test.S2CEnemyMonsterDeathNotification',
   },
-
   // 다른 핸들러들을 추가
 };
 
