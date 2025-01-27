@@ -3,6 +3,7 @@
 import { userInit } from '../../constants/userConstants.js';
 import { getHandlerById } from '../../handlers/index.js';
 import { testLog } from '../../utils/testLogger.js';
+
 class User {
   constructor(id, socket) {
     this.id = id;
@@ -58,7 +59,9 @@ class User {
   }
 
   addMonster(monster) {
+    testLog(0, `[User Class] addMonster called`, 'green');
     this.monsters.push(monster);
+    testLog(0, `[User Class]  user.monsters: ${this.monsters}`, 'green');
   }
 
   addTower(tower) {
@@ -71,14 +74,21 @@ class User {
   }
 
   //#region getter monster
-  getMonsterById(monsterId){
-    return this.monsters.filter((monster) => monster.id == monsterId)[0];
+  getMonsterById(monsterId) {
+    testLog(0, `[User Class] this.monsters.length: ${this.monsters.length}`, 'green');
+    return this.monsters.find((monster) => {
+      testLog(0, `[User Class] monsterId: ${monsterId}\n
+        monster.id: ${monster.id}`, 'green');
+      return (monster.id == monsterId);
+    });
+
+    // return this.monsters.find((monster) => monster.id == monsterId);
   }
   //#endregion
 
   //#region getter tower
-  getTowerById(towerId){
-    return this.towers.filter((tower) => tower.id == towerId)[0];
+  getTowerById(towerId) {
+    return this.towers.find((tower) => tower.id == towerId);
   }
   //#endregion
 
