@@ -39,15 +39,19 @@ class Monster {
 }
 
 export function spawnMonster(id, monsterNum, user) {
-  const monster = new Monster(id,monsterNum );
+  const monster = new Monster(id,monsterNum,user);
 
   // user클래스의 monster 배열에 몬스터 추가
   if (user) {
+    /*
+    // Legacy
     user.addMonster({
       monsterId: monster.id,
       monsterNumber: monsterNum,
       level: user.monsterLevel,
     });
+    */
+    user.addMonster(monster);
   }
 
   //만든 몬스터는 어디로??

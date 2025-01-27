@@ -70,6 +70,18 @@ class User {
     this.monsters = [];
   }
 
+  //#region getter monster
+  getMonsterById(monsterId){
+    return this.monsters.filter((monster) => monster.id == monsterId);
+  }
+  //#endregion
+
+  //#region getter tower
+  getTowerById(towerId){
+    return this.towers.filter((tower) => tower.id == towerId);
+  }
+  //#endregion
+
   //특정 타워를 삭제할 경우가 있을것. 아마도?
   removeTowerById(towerId) {
     //placeholder

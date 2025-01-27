@@ -5,10 +5,14 @@
 // 1. 서버 구동 시 초기화. => 서버 구동시 싱글턴으로 유지
 // 2. 유저/클라이언트 disconnect 시 해당 유저/클라이언트의 모든 towers 내 저장 타워 해제
 // - 타워 데이터 저장형태: {userId, data: ...} 원소로 갖는 배열
+
+
+// TO DO: TowerManager에서 towers 저장 관리하지 않고 작업 처리만 하기 때문에 관련 코드 리팩토링해야함 / 다른 메서드 towers 사용하는 거 전부 폐기
 //====================================================================================================================
 //====================================================================================================================
 
 import { getGameByUserId } from "../../session/game.session.js";
+import { getUserById } from "../../session/user.session.js";
 import { addEnemyTowerNoitification } from "../../utils/notification/tower.notification.js";
 import { testLog } from "../../utils/testLogger.js";
 import Tower from "../models/tower.class.js";
@@ -43,7 +47,9 @@ class TowerManager {
 
         // 저장할 data
         const tower = new Tower(userId, towerId, x, y);
-        this.towers.push(tower);
+        // this.towers.push(tower);
+        const user = getUserById(userId);
+        user.addTower(tower);
 
         // 유저가 자신이 속한 게임 세션 내의 유저들에게 notify
         const game = getGameByUserId(userId);

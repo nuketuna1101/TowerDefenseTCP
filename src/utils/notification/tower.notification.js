@@ -45,7 +45,7 @@ export const enemyTowerAttackNotification = (towerId, monsterId, user) => {
     const payload = { enemyTowerAttackNotification: { towerId, monsterId } };
     const message = S2CEnemyTowerAttackNotification.create(payload);
     const packet = S2CEnemyTowerAttackNotification.encode(message).finish();
-    testLog(0, `[addEnemyTowerNoitification]
+    testLog(0, `[enemyTowerAttackNotification]
         payload: ${JSON.stringify(payload, null, 2)}
         message: ${JSON.stringify(message, null, 2)}
         packet: ${Array.from(packet).join(', ')}`, 'yellow');

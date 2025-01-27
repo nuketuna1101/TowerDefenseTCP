@@ -7,7 +7,7 @@ import joinGameHandler from './game/joinGame.handler.js';
 import updateLocationHandler from './game/updateLocation.handler.js';
 import matchRequestHandler from './game/matchRequestHandler.js';
 import { PACKET_TYPE } from '../constants/header.js';
-import stateSyncNotificationHandler  from './game/stateSyncNotification.handler.js';
+import stateSyncNotificationHandler from './game/stateSyncNotification.handler.js';
 import registerHandler from './user/register.handler.js';
 import loginHandler from './user/login.handler.js';
 import purchaseTowerHandler from './tower/purchaseTower.handler.js';
@@ -17,6 +17,7 @@ import updategameOverNotificationHandler from './game/gameOverNotification.handl
 import { spawnMonsterReqHandler } from './monster/monsterHandler.js'
 import updateBaseHpNotificationHandler from './base/updateBaseHpNotification.handlers.js'
 import gameEndRequestHandler from './game/gameEndRequest.handler.js'
+import { addEnemyTowerNoitification, enemyTowerAttackNotification } from '../utils/notification/tower.notification.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -75,14 +76,15 @@ const handlers = {
     handler: purchaseTowerHandler,
     protoType: 'test.C2STowerPurchaseRequest',
   },
-  // [HANDLER_IDS.ADD_ENEMY_TOWER]: {
-  //   handler: purchaseTowerHandler/* NOT IMPLEMENTED YET, TO DO */,
-  //   protoType: 'test.S2CAddEnemyTowerNotification',
-  // },
-  // [HANDLER_IDS.ENEMY_TOWER_ATTACK]: {
-  //   handler: purchaseTowerHandler/* NOT IMPLEMENTED YET, TO DO */,
-  //   protoType: 'test.S2CEnemyTowerAttackNotification',
-  // },
+  [HANDLER_IDS.ENEMY_TOWER_ATTACK]: {
+    handler: enemyTowerAttackNotification,
+    protoType: 'test.S2CEnemyTowerAttackNotification',
+  },
+  [HANDLER_IDS.ADD_ENEMY_TOWER]: {
+    handler: addEnemyTowerNoitification,
+    protoType: 'test.S2CAddEnemyTowerNotification',
+  },
+
   // 다른 핸들러들을 추가
 };
 
