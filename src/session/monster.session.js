@@ -15,5 +15,3 @@ export const removemonster = (monsterId) => {
 export const getMonsterById = (monsterId) => {
   return monsterSessions.find((monster) => monster.id  === monsterId);
 };
-
-
