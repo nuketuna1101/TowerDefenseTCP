@@ -70,6 +70,16 @@ export const updateHighScore = async (userId, score) => {
   }
 };
 
+export const findUserHighScore = async (userId) => {
+  try {
+    const [rows] = await pools.USER_DB.query(SQL_QUERIES.FIND_USER_HIGH_SCORE, [userId]);
+    return rows[0].highScore;
+  } catch (error) {
+    console.error('Error finding user high score:', error);
+    throw error;
+  }
+}
+
 //매치 기록 추가
 export const createMatchHistory = async (
   player1Id,
