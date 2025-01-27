@@ -15,24 +15,8 @@ class Monster {
   getMonster(monsterId) {
   }
 
-  //이 메서드 자체가 쓸모 없을지도
-  attackBase(userId, damage) {
-    //base의 체력을 깎는 함수
-    const baseHp = changeBaseHp(damage);
-
-    // // S2CUpdateBaseHPNotification changeBase에서 packet을 생성하면 딱히 필요 없을듯
-    // const packet = {
-    //   isOpponent: isOpponent,
-    //   baseHp: baseHp
-    // };
-
-    this.removeMonster(userId, this.num);
-
-    return [userId,baseHp];
-  }
 
   monsterDead(userId) {
-    this.alive = false;
 
     //S2CEnemyMonsterDeathNotification or C2SMonsterDeathNotification
     const packet = {
