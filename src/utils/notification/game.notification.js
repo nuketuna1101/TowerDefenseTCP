@@ -115,13 +115,15 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
   }
 
+  // 매판 랜덤으로 생성
+  // 첫좌표와 끝좌표만 결정해놓고 그 사이의 좌표는 랜덤 설정?
   user.path.push({ x: 0, y: 350 });
-  user.path.push({ x: 200, y: 350 });
-  user.path.push({ x: 400, y: 350 });
-  user.path.push({ x: 600, y: 350 });
-  user.path.push({ x: 800, y: 350 });
-  user.path.push({ x: 1000, y: 350 });
-  user.path.push({ x: 1200, y: 350 });
+  user.path.push({ x: 200, y: 250 });
+  user.path.push({ x: 400, y: 250 });
+  user.path.push({ x: 600, y: 450 });
+  user.path.push({ x: 800, y: 450 });
+  user.path.push({ x: 1000, y: 250 });
+  user.path.push({ x: 1200, y: 250 });
   user.path.push({ x: 1370, y: 350 });
 
   // InitialGameState 생성
