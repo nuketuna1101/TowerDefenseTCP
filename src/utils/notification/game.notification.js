@@ -5,6 +5,7 @@ import { config } from '../../config/config.js';
 import { payloadParser } from '../parser/packetParser.js';
 import { findUserHighScore } from '../../db/user/user.db.js';
 import { testLog } from '../testLogger.js';
+import { removeGameSession } from '../../session/game.session.js';
 
 export const makeNotification = (message, type) => {
   // 패킷 길이 정보를 포함한 버퍼 생성
@@ -118,8 +119,6 @@ export const craeteS2CMatchStartNotificationPacket = (gameSession, user) => {
   if (!S2CMatchStartNotification) {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
   }
-
-  console.log(`유저 최고 점수 : ${userHighScore}`);
 
   // InitialGameState 생성
   const initialGameState = {
