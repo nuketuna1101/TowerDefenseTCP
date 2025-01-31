@@ -44,6 +44,8 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
   const packet = monster.monsterDead(user.id); //user의 monster 배열에서 삭제
   const notification = createS2CEnemyMonsterDeathNotification(monsterId,user);
 
+  user.addGold(500 + monster.id*100);
+
   opponent.socket.write(notification);
   removemonster(monsterId); //session의 monster배열에서 삭제
 };
