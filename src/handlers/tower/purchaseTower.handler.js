@@ -27,6 +27,7 @@ import { ErrorCodes } from "../../utils/error/errorCodes.js";
 import { createResponse } from "../../utils/response/createResponse.js";
 import { handleError } from "../../utils/error/errorHandler.js";
 import Tower from "../../classes/models/tower.class.js";
+import { testLog } from "../../utils/testLogger.js";
 
 // 임시로 무조건 true 반환
 const isCoordinateValid = (x, y) => {
@@ -47,16 +48,24 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         const isCoordValid = isCoordinateValid(x, y);
         if (!isCoordValid)
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
+
         // 새로운 타워 id 생성
         const towerId = ++towerIdCnt;
-
         // 새 타워 생성
         const tower = new Tower(userId, towerId, x, y);
         if (!tower)
             throw new CustomError(ErrorCodes.FAILED_TO_CREATE, "Failed to create tower");
+
         // user 금액이 충분한지 validation
-        if (user.substractGold(tower.getCost()) < 0)
-            throw new CustomError(ErrorCodes.NOT_ENOUGH_GOLD, "Not enough gold");
+        if (!user.hasEnoughGold(tower.getCost())) {
+            // throw new CustomError(ErrorCodes.NOT_ENOUGH_GOLD, "Not enough gold");
+            testLog(0, `[Error] Not enough gold`);
+            // 타워 id 롤백
+            towerIdCnt--;
+            return;
+        }
+        user.substractGold(tower.getCost());
+
 
         // // 1. user 클래스의 타워 배열 추가
         // TowerManager.instance.addTower(userId, towerId, x, y);
