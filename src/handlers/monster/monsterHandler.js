@@ -15,12 +15,22 @@ export const spawnMonsterReqHandler = ({socket}) => {
   // testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${JSON.stringify(user)}`,'blue');
   // testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${JSON.stringify(user.socket)}`,'red');
 
+
   let monsterNum = 1;
 
-  if(user.score >=500) monsterNum = 5;
-  else if(user.score>=300) monsterNum = 4;
-  else if(user.score>=200) monsterNum = 3;
-  else if(user.score>=100) monsterNum = 2;
+  if (user.score >= 500) {
+    monsterNum = 5;
+    user.monsterLevel = 5;
+  } else if (user.score >= 300) {
+    monsterNum = 4;
+    user.monsterLevel = 4;
+  } else if (user.score >= 200) {
+    monsterNum = 3;
+    user.monsterLevel = 3;
+  } else if (user.score >= 100) {
+    monsterNum = 2;
+    user.monsterLevel = 2;
+  }
   const monster = spawnMonster(monsterid++,monsterNum,user);
   addMonster(monster);
   const response = createS2CSpawnMonsterResponse(monster.id,monster.num,user);
