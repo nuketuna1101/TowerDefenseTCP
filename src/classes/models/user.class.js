@@ -165,7 +165,7 @@ class User {
 
   addScore(points) {
     this.score += points;
-    this.usersync(this);
+    usersync(this);
   }
 
   getScore() {

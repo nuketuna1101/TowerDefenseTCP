@@ -33,7 +33,11 @@ import { testLog } from "../../utils/testLogger.js";
 const isCoordinateValid = (x, y) => {
     return true;
 };
-let towerIdCnt = 0;
+let tower1IdCnt = 0;
+let tower2IdCnt = 0;
+let tower3IdCnt = 0;
+let tower4IdCnt = 0;
+let towerIdCounter = [-1, tower1IdCnt, tower2IdCnt, tower3IdCnt, tower4IdCnt];
 
 const purchaseTowerHandler = ({ socket, userId, payload }) => {
     try {
@@ -50,7 +54,14 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
             throw new CustomError(ErrorCodes.MISSING_FIELDS, 'Invalid x, y coordinate');
 
         // 새로운 타워 id 생성
-        const towerId = ++towerIdCnt;
+        let towerType = Math.floor(Math.random() * 4) + 1;
+
+        // 임시 막아놓기
+        if (towerType == 3 || towerType == 4)
+            towerType = 1;
+
+        towerIdCounter[towerType] += 1;
+        const towerId = towerType * 10000 + towerIdCounter[towerType];
         // 새 타워 생성
         const tower = new Tower(userId, towerId, x, y);
         if (!tower)
@@ -61,7 +72,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
             // throw new CustomError(ErrorCodes.NOT_ENOUGH_GOLD, "Not enough gold");
             testLog(0, `[Error] Not enough gold`);
             // 타워 id 롤백
-            towerIdCnt--;
+            towerIdCounter[towerType] -= 1;
             return;
         }
         user.substractGold(tower.getCost());

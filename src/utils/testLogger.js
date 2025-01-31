@@ -7,7 +7,7 @@
 import chalk from 'chalk';
 
 // 테스트 로그 보일지 말지 결정할 플래그 부울
-const flag = true;
+const flag = false;
 
 // param: 전체 visibility용 index, 컨텐츠 msg, 개별 visibility용 manualFlag, 로그 색상용 color
 export const testLog = (index = 0, msg, color = 'default', manualFlag = true) => {

@@ -15,12 +15,22 @@ export const spawnMonsterReqHandler = ({socket}) => {
   // testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${JSON.stringify(user)}`,'blue');
   // testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${JSON.stringify(user.socket)}`,'red');
 
-  const monsterNum = 1;
 
-  if(user.score >=10000) monsterNum = 5;
-  else if(user.score>=8000) monsterNum = 4;
-  else if(user.score>=5000) monsterNum = 3;
-  else if(user.score>=3000) monsterNum = 2;
+  let monsterNum = 1;
+
+  if (user.score >= 500) {
+    monsterNum = 5;
+    user.monsterLevel = 5;
+  } else if (user.score >= 300) {
+    monsterNum = 4;
+    user.monsterLevel = 4;
+  } else if (user.score >= 200) {
+    monsterNum = 3;
+    user.monsterLevel = 3;
+  } else if (user.score >= 100) {
+    monsterNum = 2;
+    user.monsterLevel = 2;
+  }
   const monster = spawnMonster(monsterid++,monsterNum,user);
   addMonster(monster);
   const response = createS2CSpawnMonsterResponse(monster.id,monster.num,user);
@@ -43,6 +53,9 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
   
   const packet = monster.monsterDead(user.id); //user의 monster 배열에서 삭제
   const notification = createS2CEnemyMonsterDeathNotification(monsterId,user);
+
+  user.addGold(500 + monster.num*100);
+  user.addScore(7 + monster.num*1);
 
   opponent.socket.write(notification);
   removemonster(monsterId); //session의 monster배열에서 삭제
