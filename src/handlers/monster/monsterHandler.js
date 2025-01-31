@@ -15,7 +15,7 @@ export const spawnMonsterReqHandler = ({socket}) => {
   // testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${JSON.stringify(user)}`,'blue');
   // testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${JSON.stringify(user.socket)}`,'red');
 
-  const monsterNum = 1;
+  let monsterNum = 1;
 
   if(user.score >=500) monsterNum = 5;
   else if(user.score>=300) monsterNum = 4;
