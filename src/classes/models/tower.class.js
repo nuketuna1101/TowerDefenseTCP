@@ -38,9 +38,9 @@ class Tower {
         this.towerTypeCode = towerTypeCode;
         // 타입별 속성 가져오기
         const towerTypeData = towerAssets[towerTypeCode];
-        if (!towerTypeData) 
+        if (!towerTypeData)
             throw new CustomError(ErrorCodes.INVALID_DATA, `Invalid tower type: ${towerTypeCode}`);
-        
+
         this.power = towerTypeData.power;
         this.powerPerLv = towerTypeData.powerPerLv;
         this.range = towerTypeData.range;
@@ -55,6 +55,10 @@ class Tower {
     }
 
     attack(monster) {
+        testLog(0, `[Tower clasee] attack called`);
+        // 몬스터 피격 처리 (임시)
+        // monster.beAttacked(this.power);
+        /*
         // 공격 가능한지
         if (this.isStop || this.isAttackDelay) {
             testLog(0, "[Tower] cannot attack :: isAttackDelay or isStop", 'blue');
@@ -75,11 +79,11 @@ class Tower {
         const users = game.getUsers();
         users.forEach((user) => {
             // 자기 자신에게는 보내지 않음
-            if (user.id !== this.userId){
-                const enemyTowerAttackPacket = enemyTowerAttackNotification(this.id, monster.id, user);
-                user.socket.write(enemyTowerAttackPacket);
-            }
+            if (user.id == this.userId) return;
+            const enemyTowerAttackPacket = enemyTowerAttackNotification(this.id, monster.id, user);
+            user.socket.write(enemyTowerAttackPacket);
         });
+        */
     }
 
     stop() {
@@ -92,7 +96,7 @@ class Tower {
 
 
     //#region getter
-    getCost(){
+    getCost() {
         return this.cost;
     }
     //#endregion

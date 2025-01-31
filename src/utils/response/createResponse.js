@@ -36,6 +36,10 @@ export const createResponse = (handlerId, responseCode, data = null, userId) => 
     // #region
     case HANDLER_IDS.PURCHASE_TOWER: // LOGIN
       testLog(0, `[data check] data.towerId: ${data.towerId} / is data null? ${(data == null)}`, 'red');
+      if (responseCode !== 0){
+        testLog(0, `[Error] purchase tower response not success`, 'red');
+        return;
+      }
       responseData = {
         towerPurchaseResponse: {
           towerId: data.towerId,

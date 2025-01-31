@@ -41,9 +41,8 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
     throw new Error(`몬스터를 찾을 수 없습니다. ID: ${monsterId}`);
   }
   
-  //const packet = monster.monsterDead(user.id); //user의 monster 배열에서 삭제
-  monster.monsterDead(user.id); //user의 monster 배열에서 삭제
-  const notification = createS2CEnemyMonsterDeathNotification(monster.monsterId,user);
+  const packet = monster.monsterDead(user.id); //user의 monster 배열에서 삭제
+  const notification = createS2CEnemyMonsterDeathNotification(monsterId,user);
 
   opponent.socket.write(notification);
   removemonster(monsterId); //session의 monster배열에서 삭제

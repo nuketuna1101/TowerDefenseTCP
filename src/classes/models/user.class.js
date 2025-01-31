@@ -115,12 +115,20 @@ class User {
   }
 
   substractGold(gold) {
+    this.gold -= gold;
+    usersync(this);
+    /*
     if (this.gold < gold) {
       return -1;
     }
     this.gold -= gold;
     usersync(this);
     return this.gold;
+    */
+  }
+
+  hasEnoughGold(gold){
+    return this.gold >= gold;
   }
 
   setBaseHp(baseHp) {
