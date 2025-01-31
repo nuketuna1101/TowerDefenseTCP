@@ -4,6 +4,7 @@ import {
   createLocationPacket,
   gameStartNotification,
 } from '../../utils/notification/game.notification.js';
+import { generateSeededPath } from '../../utils/helper/generateRandomMap.js';
 
 export const MAX_PLAYERS = 2;
 
@@ -13,15 +14,25 @@ class Game {
     this.users = [];
     this.intervalManager = new IntervalManager();
     this.state = 'waiting'; // 'waiting', 'inProgress'
+    this.path = [];
   }
 
   addUser(user) {
     if (this.users.length >= MAX_PLAYERS) {
       throw new Error('Game session is full');
     }
-    
+
     this.users.push(user);
     this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
+  }
+
+  createPath() {
+    // 세션에 경로 추가
+    if(this.path.length === 0) {
+      const seed = Date.now() % 10000;
+      this.path = generateSeededPath(seed, 0, 350, 1370, 350);
+      console.log(`createPath : ${this.path}`);
+    }
   }
 
   getUser(userId) {
@@ -66,9 +77,8 @@ class Game {
   //   return createLocationPacket(locationData);
   // }
 
-
   //#region NOTIFY 위해 Game 내 users 가져오기
-  getUsers(){
+  getUsers() {
     return this.users;
   }
   //#endregion

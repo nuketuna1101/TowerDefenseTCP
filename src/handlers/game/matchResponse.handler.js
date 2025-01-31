@@ -12,10 +12,12 @@ const matchResponseHandler = ({ socket, userId, payload, gameSession }) => {
     if (!user) {
       throw new CustomError(ErrorCodes.USER_NOT_FOUND, '유저를 찾을 수 없습니다.');
     }
+
     // 게임 세션에 사용자 추가
     gameSession.addUser(user);
+    gameSession.createPath();
 
-    const matchPacket = craeteS2CMatchStartNotificationPacket(user);
+    const matchPacket = craeteS2CMatchStartNotificationPacket(gameSession, user);
 
     // 클라에게 응답 전송
     socket.write(matchPacket);

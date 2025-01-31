@@ -25,8 +25,12 @@ export const makeNotification = (message, type) => {
 export const createS2CStateSyncNotificationPacket = (user) => {
   const protoMessages = getProtoMessages();
   const userStateData = protoMessages.test.GamePacket;
-  const userTowers = user.towers.map(value => {return {towerId: value.id, x: value.x, y: value.y}});
-  const userMonsters = user.monsters.map(value => {return {monsterId: value.id, monsterNumber: value.num, level: value.level}});
+  const userTowers = user.towers.map((value) => {
+    return { towerId: value.id, x: value.x, y: value.y };
+  });
+  const userMonsters = user.monsters.map((value) => {
+    return { monsterId: value.id, monsterNumber: value.num, level: value.level };
+  });
 
   const payload = {
     stateSyncNotification: {
@@ -50,7 +54,7 @@ export const createS2CGameOverNotificationPacket = (user, isWin) => {
 
   const payload = {
     gameOverNotification: {
-      isWin ,
+      isWin,
     },
   };
   const message = gameOverData.create(payload);
@@ -62,7 +66,7 @@ export const createS2CUpdateBaseHPNotificationPacket = (user, isOpponent = true)
   const protoMessages = getProtoMessages();
   const baseHpData = protoMessages.test.GamePacket;
 
-  testLog(0,`userid ${user.id} userhp ${user.baseHp} isOpponent ${isOpponent}`);
+  testLog(0, `userid ${user.id} userhp ${user.baseHp} isOpponent ${isOpponent}`);
   const payload = {
     updateBaseHpNotification: {
       isOpponent,
@@ -71,7 +75,7 @@ export const createS2CUpdateBaseHPNotificationPacket = (user, isOpponent = true)
   };
   const message = baseHpData.create(payload);
   const baseHpDataPacket = baseHpData.encode(message).finish();
-  testLog(0,`baseHpDataPacket ${baseHpDataPacket.toString('hex')}`);
+  testLog(0, `baseHpDataPacket ${baseHpDataPacket.toString('hex')}`);
   return payloadParser(PACKET_TYPE.UPDATE_BASE_HP_NOTIFICATION, user, baseHpDataPacket);
 };
 
@@ -106,7 +110,7 @@ export const createPingPacket = (timestamp) => {
 };
 
 // 서버에서 클라로 전송해야 할 매칭완료 notification
-export const craeteS2CMatchStartNotificationPacket = (user) => {
+export const craeteS2CMatchStartNotificationPacket = (gameSession, user) => {
   const protoMessages = getProtoMessages();
   const S2CMatchStartNotification = protoMessages.test.GamePacket;
   const userHighScore = findUserHighScore(user.id);
@@ -114,15 +118,6 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
   if (!S2CMatchStartNotification) {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
   }
-
-  user.path.push({ x: 0, y: 350 });
-  user.path.push({ x: 200, y: 350 });
-  user.path.push({ x: 400, y: 350 });
-  user.path.push({ x: 600, y: 350 });
-  user.path.push({ x: 800, y: 350 });
-  user.path.push({ x: 1000, y: 350 });
-  user.path.push({ x: 1200, y: 350 });
-  user.path.push({ x: 1370, y: 350 });
 
   // InitialGameState 생성
   const initialGameState = {
@@ -141,7 +136,7 @@ export const craeteS2CMatchStartNotificationPacket = (user) => {
     monsters: user.monsters,
     monsterLevel: user.monsterLevel,
     score: user.score,
-    monsterPath: user.path,
+    monsterPath: gameSession.path,
     basePosition: { x: 1400, y: 350 },
   };
 
