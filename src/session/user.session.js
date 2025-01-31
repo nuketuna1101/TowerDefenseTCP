@@ -1,5 +1,5 @@
 //user.session.js
-import { userSessions } from './sessions.js';
+import { removeUserSessions, userSessions } from './sessions.js';
 import User from '../classes/models/user.class.js';
 import { testLog } from '../utils/testLogger.js';
 
@@ -13,6 +13,7 @@ export const addUser = (id, socket) => {
 export const removeUser = (socket) => {
   const index = userSessions.findIndex((user) => user.socket === socket);
   if (index !== -1) {
+    removeUserSessions.push(userSessions[index]);
     return userSessions.splice(index, 1)[0];
   }
 };

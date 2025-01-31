@@ -1,6 +1,7 @@
 import { getUserBySocket } from '../session/user.session.js';
 import { getGameByUser } from '../session/game.session.js';
 import { testLog } from './testLogger.js';
+import { getHandlerById } from '../handlers/index.js';
 
 export const findUserGameOpponentBySocket = (socket) => {
   const user = getUserBySocket(socket);
