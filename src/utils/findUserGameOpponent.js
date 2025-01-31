@@ -15,16 +15,10 @@ export const findUserGameOpponentBySocket = (socket) => {
   if (!user) {
     throw new Error('유저를 찾을 수 없습니다.');
   }
-<<<<<<< Updated upstream
-
-  const game = getGameByUser(user);
-  // testLog(0, `findUserGameOpponentByUser에 game 있을까?${game}`, 'green');
-=======
   testLog(0, `userid ${user.id}`);
   if (user !== undefined) {
     game = getGameByUser(user);
     // testLog(0, `findUserGameOpponentByUser에 game 있을까?${game}`, 'green');
->>>>>>> Stashed changes
 
     if (!game) {
       throw new Error('게임을 찾을 수 없습니다.');

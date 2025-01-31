@@ -1,9 +1,6 @@
 export const userInit = {
-<<<<<<< Updated upstream
-    gold: 1000,
-=======
-    gold: 30000,
->>>>>>> Stashed changes
+    gold: 10000,
+
     baseMaxHp: 100,
     score: 0,
     monsterLevel: 1,

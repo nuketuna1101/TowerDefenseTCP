@@ -149,7 +149,6 @@ class User {
   addScore(points) {
     this.score += points;
     usersync(this);
->>>>>>> Stashed changes
   }
 
   updateBaseHp() {
