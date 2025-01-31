@@ -113,11 +113,13 @@ export const createPingPacket = (timestamp) => {
 export const craeteS2CMatchStartNotificationPacket = (gameSession, user) => {
   const protoMessages = getProtoMessages();
   const S2CMatchStartNotification = protoMessages.test.GamePacket;
-  const userHighScore = findUserHighScore(user.id);
+  let userHighScore = findUserHighScore(user.id);
 
   if (!S2CMatchStartNotification) {
     throw new Error('S2CMatchStartNotification 메시지가 정의되지 않았습니다.');
   }
+
+  console.log(`유저 최고 점수 : ${userHighScore}`);
 
   // InitialGameState 생성
   const initialGameState = {

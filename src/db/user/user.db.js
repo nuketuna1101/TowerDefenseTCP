@@ -82,7 +82,7 @@ export const updateHighScore = async (userId, score) => {
 
 export const findUserHighScore = async (userId) => {
   try {
-    const [highScore] = await pools.USER_DB.query(SQL_QUERIES.FIND_USER_HIGH_SCORE, [userId]);
+    const highScore = await pools.USER_DB.query(SQL_QUERIES.FIND_USER_HIGH_SCORE, [userId]);
     return highScore;
   } catch (error) {
     console.error('Error finding user high score:', error);

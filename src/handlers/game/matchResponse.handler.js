@@ -4,6 +4,7 @@ import { getUserById } from '../../session/user.session.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { craeteS2CMatchStartNotificationPacket } from '../../utils/notification/game.notification.js';
+import { testLog } from '../../utils/testLogger.js';
 
 const matchResponseHandler = ({ socket, userId, payload, gameSession }) => {
   try {
@@ -16,6 +17,7 @@ const matchResponseHandler = ({ socket, userId, payload, gameSession }) => {
     // 게임 세션에 사용자 추가
     gameSession.addUser(user);
     gameSession.createPath();
+    testLog(0, `게임 세션 패스 생성: ${gameSession.path}`, 'blue');
 
     const matchPacket = craeteS2CMatchStartNotificationPacket(gameSession, user);
 
