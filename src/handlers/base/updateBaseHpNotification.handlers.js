@@ -9,10 +9,10 @@ const updateBaseHpNotificationHandler = ({ user }) => {
     if (gameSession) {
       const users = gameSession.users;
       users[0].socket.write(
-        createS2CUpdateBaseHPNotificationPacket(users[0], users[1].id === user.id),
+        createS2CUpdateBaseHPNotificationPacket(user, users[1].id === user.id),
       );
       users[1].socket.write(
-        createS2CUpdateBaseHPNotificationPacket(users[1], users[0].id === user.id),
+        createS2CUpdateBaseHPNotificationPacket(user, users[0].id === user.id),
       );
     }
   } catch (error) {
