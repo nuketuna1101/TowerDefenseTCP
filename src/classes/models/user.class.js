@@ -135,6 +135,7 @@ class User {
     return (this.databaseId = databaseId);
   }
 
+<<<<<<< Updated upstream
   //싱크
   usersync() {
     const handler = getHandlerById(7);
@@ -144,6 +145,11 @@ class User {
       payload: {},
       user: this,
     });
+=======
+  addScore(points) {
+    this.score += points;
+    usersync(this);
+>>>>>>> Stashed changes
   }
 
   updateBaseHp() {
