@@ -17,7 +17,6 @@ class User {
     this.score = userInit.score;
     this.monsters = [];
     this.towers = [];
-    this.path = [];
     this.lastUpdateTime = Date.now();
   }
 

@@ -13,7 +13,7 @@ class MatchMake {
   enqueueUser(user) {
     this.queue.push(user);
     console.log(`${user.id}님이 대기열에 등록되었습니다.`);
-
+    
     // 매치 조건 충족 시 매칭 실행
     if (this.queue.length >= MAX_PLAYERS) {
       this.startMatch();
@@ -35,7 +35,6 @@ class MatchMake {
       socket: user1.socket,
       userId: user1.id,
       payload: {},
-      //additionalUsers: [user2.id],
       gameSession: gameSession,
     });
 
@@ -43,7 +42,6 @@ class MatchMake {
       socket: user2.socket,
       userId: user2.id,
       payload: {},
-      //additionalUsers: [user1.id],
       gameSession: gameSession,
     });
 

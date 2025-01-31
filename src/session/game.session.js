@@ -15,10 +15,10 @@ export const addGameSession = (id) => {
 };
 
 export const removeGameSession = (id) => {
-  testLog(0,`gameSession: ${id}`);
+  testLog(0, `gameSession: ${id}`);
   const index = gameSessions.findIndex((session) => session.id === id);
   if (index !== -1) {
-    testLog(0,`gameIndex: ${index} gameSessionLength ${gameSessions.length}`);
+    testLog(0, `gameIndex: ${index} gameSessionLength ${gameSessions.length}`);
     const game = gameSessions[index];
     const user1 = game.users[0];
     const user2 = game.users[1];
@@ -29,7 +29,7 @@ export const removeGameSession = (id) => {
         updateHighScore(user2.databaseId, user2.score),
       ])
         .then(() => {
-          testLog(0,`gameScoreUpdate is done`);
+          testLog(0, `gameScoreUpdate is done`);
           const winnerId =
             user1.baseHp === user2.baseHp
               ? user1.score > user2.score
@@ -58,9 +58,9 @@ export const removeGameSession = (id) => {
     }
 
     return Promise.resolve(gameSessions.splice(index, 1)[0]);
-//     if(gameSessions[index].users[0] != undefined) gameSessions[index].users[0].userInitialize();
-//     if(gameSessions[index].users[1] != undefined) gameSessions[index].users[1].userInitialize();
-//     return gameSessions.splice(index, 1)[0];
+    //     if(gameSessions[index].users[0] != undefined) gameSessions[index].users[0].userInitialize();
+    //     if(gameSessions[index].users[1] != undefined) gameSessions[index].users[1].userInitialize();
+    //     return gameSessions.splice(index, 1)[0];
   }
   return Promise.resolve(null);
 };
@@ -70,7 +70,9 @@ export const getGameSession = (id) => {
 };
 
 export const getGameByUser = (user) => {
-  return gameSessions.find((users) => users.users[0].id === user.id || users.users[1].id === user.id);
+  return gameSessions.find(
+    (users) => users.users[0].id === user.id || users.users[1].id === user.id,
+  );
 };
 
 export const getAllGameSessions = () => {
