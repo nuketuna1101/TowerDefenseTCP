@@ -14,21 +14,15 @@ export const createUser = async ({ username, email, password }) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+  // 1. 사용자 생성
   const [result] = await pools.USER_DB.query(SQL_QUERIES.CREATE_USER, [
     username,
     email,
     hashedPassword,
   ]);
 
-  //#region 유저 생성 시 유저 점수 테이블도 생성
-
-  // 유저 id 찾기 위해
-  const user = pools.USER_DB.query(SQL_QUERIES.FIND_USER_BY_USERNAME, [username]);
-  // 테이블 생성
-  await pools.USER_DB.query(SQL_QUERIES.CREATE_USER_SCORE, [user.id, 0 /* default 점수값 */]);
-
-  //#endregion
-
+  // 2. 생성된 사용자의 ID 사용
+  await pools.USER_DB.query(SQL_QUERIES.CREATE_USER_SCORE, [result.insertId, 0]);
 
   return {
     id: result.insertId,
@@ -88,7 +82,7 @@ export const findUserHighScore = async (userId) => {
     console.error('Error finding user high score:', error);
     throw error;
   }
-}
+};
 
 //매치 기록 추가
 export const createMatchHistory = async (
