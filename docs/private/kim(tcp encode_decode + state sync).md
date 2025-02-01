@@ -1,6 +1,16 @@
  # 패킷 분해/헤더 및 상태 동기화 
 
 ## 패킷 분해/헤더
+
+| **필드 명** | **타입** | **설명** |
+| --- | --- | --- |
+| packetType | ushort | 패킷 타입 (2바이트) |
+| versionLength | ubyte | 버전 길이 (1바이트) |
+| version | string | 버전 (문자열) |
+| sequence | uint32 | 패킷 번호 (4바이트) |
+| payloadLength | uint32 | 데이터 길이 (4바이트) |
+| payload | bytes | 실제 데이터 |
+
 ### 받는 경우 
 - on data 이벤트에서 변환하는 내용을 만들었다.
 
