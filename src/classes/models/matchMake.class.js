@@ -14,7 +14,7 @@ class MatchMake {
   enqueueUser(user) {
     this.queue.push(user);
     console.log(`${user.id}님이 대기열에 등록되었습니다.`);
-
+    
     // 매치 조건 충족 시 매칭 실행
     if (this.queue.length >= MAX_PLAYERS) {
       this.startMatch();

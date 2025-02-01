@@ -63,7 +63,7 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
         towerIdCounter[towerType] += 1;
         const towerId = towerType * 10000 + towerIdCounter[towerType];
         // 새 타워 생성
-        const tower = new Tower(userId, towerId, x, y);
+        const tower = TowerManager.instance.createTower(userId, towerId, x, y);//new Tower(userId, towerId, x, y);
         if (!tower)
             throw new CustomError(ErrorCodes.FAILED_TO_CREATE, "Failed to create tower");
 
@@ -80,7 +80,9 @@ const purchaseTowerHandler = ({ socket, userId, payload }) => {
 
         // // 1. user 클래스의 타워 배열 추가
         // TowerManager.instance.addTower(userId, towerId, x, y);
-        user.addTower(tower);
+        //user.addTower(tower);
+        TowerManager.instance.addTowerToUser(user, tower);
+
         // 유저가 자신이 속한 게임 세션 내의 유저들에게 notify
         TowerManager.instance.notifyEnemyTower(userId, towerId, x, y);
 

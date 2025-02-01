@@ -2,18 +2,14 @@ import { spawnMonster } from '../../classes/models/monster.class.js';
 import { createS2CSpawnMonsterResponse,createS2CSpawnEnemyMonsterNotification,createS2CEnemyMonsterDeathNotification } from '../../utils/notification/monster.notification.js';
 import {findUserGameOpponentBySocket} from '../../utils/findUserGameOpponent.js';
 import {addMonster,removemonster,getMonsterById} from '../../session/monster.session.js'
-import { monsterSessions } from '../../session/sessions.js';
 import { testLog } from '../../utils/testLogger.js';
 
-//테스트용 id,num 만약 클라에서 이걸 알아서 바꾸면 냅두기 안바꾸면 바꾸기
 let monsterid = 1; 
 
 
 export const spawnMonsterReqHandler = ({socket}) => {
 
   const {user,opponent}=findUserGameOpponentBySocket(socket);
-  // testLog(0,`spawnMonsterReqHandler에 user가 있을까? ${JSON.stringify(user)}`,'blue');
-  // testLog(0,`spawnMonsterReqHandler에 user.socket이 있을까? ${JSON.stringify(user.socket)}`,'red');
 
 
   let monsterNum = 1;
@@ -61,11 +57,3 @@ export const monsterDeathNotificationHandler = ({socket, payload}) => {
   removemonster(monsterId); //session의 monster배열에서 삭제
 };
 
-// export const monsterAttackBaseReqHandler = (socket, damage) => {
-//   const {user,game,opponent}=findUserGameOpponentByUser(socket);
-
-
-//   changeBaseHp(damage);
-
-  
-// };
