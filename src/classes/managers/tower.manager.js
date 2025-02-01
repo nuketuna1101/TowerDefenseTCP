@@ -38,32 +38,22 @@ class TowerManager {
         return TowerManager.instance;
     }
 
-    // 타워 추가: 우선은 자체적으로 랜덤한 위치 내에서
-    /*
-    addTower(userId, towerId, x, y) {
-        // 저장할 data
+    // 팩토리 역할로 타워 생성
+    createTower(userId, towerId, x, y) {
         const tower = new Tower(userId, towerId, x, y);
-        // this.towers.push(tower);
-        const user = getUserById(userId);
-        user.addTower(tower);
-
-        // 유저가 자신이 속한 게임 세션 내의 유저들에게 notify
-        const game = getGameByUserId(userId);
-        const users = game.getUsers();
-        try {
-            users.forEach((user) => {
-                // 자기 자신에게는 보내지 않음
-                if (user.id == userId) return;
-                const addEnemyTowerPacket = addEnemyTowerNoitification(towerId, x, y, user);
-                user.socket.write(addEnemyTowerPacket);
-            });
-        } catch(error){
-            testLog(0, `[Error] addEnemyTowerNoitification packet failed`, 'red');
-            throw error;
-        }
+        return tower;
     }
-    */
 
+    addTowerToUser(user, tower) {
+        user.addTower(tower);
+    }
+
+    removeTowerFromUser(user, tower){
+        //
+    }
+
+
+    //#region Legacy : tower manager가 관리하는 towers에 대한 관리
     removeTower(towerId) {
         this.towers = this.towers.filter(tower => tower.id !== towerId);
     }
@@ -72,7 +62,7 @@ class TowerManager {
     freeAllTowers(userId) {
         this.towers = this.towers.filter(tower => tower.userId !== userId);
     }
-
+    //#endregion
 
     //#region GETTER 메서드
     getTower(towerId) {
@@ -101,14 +91,6 @@ class TowerManager {
             testLog(0, `[Error] addEnemyTowerNoitification packet failed`, 'red');
             throw error;
         }
-    }
-
-    handleTowerAttack() {
-        // request: C2STowerAttackRequest
-    }
-
-    handleEnemyAttackNotification() {
-        // S2CEnemyAttackNotification
     }
 }
 
